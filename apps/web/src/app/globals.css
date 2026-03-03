@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 28 28 28;
+    --primary: 88 204 2;
+    --primary-dark: 74 176 0;
+    --danger: 255 75 75;
+    --warning: 255 150 0;
+    --heart: 255 75 75;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#58CC02] hover:bg-[#4AB800] active:bg-[#3d9900] text-white font-bold py-4 px-8 rounded-2xl transition-all duration-150 shadow-[0_4px_0_#3d9900] active:shadow-none active:translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 border-2 border-gray-200 text-gray-700 font-bold py-4 px-8 rounded-2xl transition-all duration-150;
+  }
+
+  .btn-danger {
+    @apply bg-[#FF4B4B] hover:bg-red-600 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-150 shadow-[0_4px_0_#cc3333] active:shadow-none active:translate-y-1;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl border-2 border-gray-100 shadow-sm;
+  }
+
+  .choice-btn {
+    @apply w-full text-left p-4 rounded-2xl border-2 border-b-4 border-gray-200 font-semibold text-gray-700 hover:bg-blue-50 hover:border-blue-300 transition-all duration-100 cursor-pointer;
+  }
+
+  .choice-btn.selected {
+    @apply bg-blue-50 border-blue-400 text-blue-800;
+  }
+
+  .choice-btn.correct {
+    @apply bg-green-50 border-green-400 text-green-800;
+  }
+
+  .choice-btn.incorrect {
+    @apply bg-red-50 border-red-400 text-red-800;
+  }
+}
+
+/* Bengali script font support */
+.bangla {
+  font-family: "Noto Sans Bengali", "Shonar Bangla", "Siyam Rupali", Arial, sans-serif;
+  line-height: 1.6;
+}
