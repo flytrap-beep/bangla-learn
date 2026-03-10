@@ -35,7 +35,8 @@ android/
 ios/
 
 # Prisma
-prisma/migrations/dev.db
+prisma/dev.db
+*.db
 
 # IDE
 .vscode/
