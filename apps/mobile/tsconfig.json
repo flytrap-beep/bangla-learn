@@ -3,10 +3,22 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@bangla-learn/types": ["../../packages/types/src/index.ts"],
-      "@bangla-learn/content": ["../../packages/content/src/index.ts"]
+      "@/*": [
+        "./*"
+      ],
+      "@bangla-learn/types": [
+        "../../packages/types/src/index.ts"
+      ],
+      "@bangla-learn/content": [
+        "../../packages/content/src/index.ts"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.d.ts", "expo-env.d.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.d.ts",
+    "expo-env.d.ts",
+    ".expo/types/**/*.ts"
+  ]
 }

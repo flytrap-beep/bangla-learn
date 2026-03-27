@@ -34,8 +34,10 @@ export const DIALECTS: Record<Dialect, { label: string; nativeLabel: string; reg
 export type MultipleChoiceExercise = {
   type: "multiple_choice";
   id: string;
-  prompt: string;
-  promptBangla?: string;
+  prompt: string;           // The question text
+  promptBangla?: string;    // Bengali word/phrase to show
+  romanization?: string;    // Pronunciation guide
+  imageKey?: string;        // Key for WordPicture illustration
   options: string[];
   correct: number; // index into options
   audio?: string;
@@ -68,6 +70,16 @@ export type MatchPairsExercise = {
   xp: number;
 };
 
+export type LetterTraceExercise = {
+  type: "letter_trace";
+  id: string;
+  character: string;      // Bengali script: অ, আ, ক…
+  romanization: string;   // pronunciation: "o/a", "k"…
+  exampleWord?: string;   // e.g. "আম (mango)"
+  strokeHint?: string;    // e.g. "Start at the top, curve right"
+  xp: number;
+};
+
 export type FillBlankExercise = {
   type: "fill_blank";
   id: string;
@@ -83,7 +95,8 @@ export type Exercise =
   | TranslateToEnglishExercise
   | TranslateToBanglaExercise
   | MatchPairsExercise
-  | FillBlankExercise;
+  | FillBlankExercise
+  | LetterTraceExercise;
 
 // ─── Lessons ─────────────────────────────────────────────────────────────────
 
@@ -95,6 +108,39 @@ export type Lesson = {
   order: number; // position within unit
   xpReward: number; // total XP for completing
   exercises: Exercise[];
+  isQuiz?: boolean;   // if true, romanization is hidden (test real knowledge)
+  isTrace?: boolean;  // if true, this is a letter-tracing lesson
+};
+
+// ─── Unit Prep (Characters, Grammar, Flashcards) ─────────────────────────────
+
+export type Character = {
+  symbol: string;       // Bengali script: অ
+  romanization: string; // how to pronounce: "o/a"
+  type: "vowel" | "consonant";
+  exampleWord?: string;       // Bengali word using it
+  exampleMeaning?: string;    // English meaning
+};
+
+export type GrammarPoint = {
+  title: string;
+  explanation: string;
+  examples: { bangla: string; romanization: string; english: string }[];
+};
+
+export type Flashcard = {
+  id: string;
+  bangla: string;
+  romanization: string;
+  english: string;
+  emoji?: string;       // visual picture substitute (optional)
+  category?: string;
+};
+
+export type UnitPrep = {
+  characters: Character[];
+  grammar: GrammarPoint[];
+  flashcards: Flashcard[];
 };
 
 export type Unit = {
@@ -104,6 +150,7 @@ export type Unit = {
   order: number;
   color: string; // hex color for unit theming
   lessons: Lesson[];
+  prep?: UnitPrep;
 };
 
 export type DialectCurriculum = {

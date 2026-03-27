@@ -80,6 +80,23 @@ export default async function LoginPage() {
         </form>
       </div>
 
+      {process.env.NODE_ENV === "development" && (
+        <form
+          action={async () => {
+            "use server";
+            await signIn("dev-login", { redirectTo: "/learn" });
+          }}
+          className="mt-4"
+        >
+          <button
+            type="submit"
+            className="w-full max-w-sm border-2 border-dashed border-gray-300 rounded-2xl py-3 px-6 text-sm text-gray-400 hover:bg-gray-50 transition-colors"
+          >
+            Dev Login (local only)
+          </button>
+        </form>
+      )}
+
       <p className="text-xs text-gray-400 mt-6 text-center max-w-xs">
         By signing in, you agree to our Terms of Service and Privacy Policy.
         Your data is only used to save your learning progress.
