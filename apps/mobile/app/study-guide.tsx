@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View, Text, TouchableOpacity, StyleSheet, SafeAreaView,
   ScrollView, Animated,
@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import SpeakButton from "@/components/SpeakButton";
 import { T } from "@/lib/theme";
+import { trackScreenView } from "@/lib/analytics";
 
 const BD_GREEN = T.green;
 
@@ -261,6 +262,8 @@ type TabId = typeof TABS[number]["id"];
 export default function StudyGuideScreen() {
   const router = useRouter();
   const [tab, setTab] = useState<TabId>("alphabet");
+
+  useEffect(() => { trackScreenView("study_guide"); }, []);
 
   return (
     <SafeAreaView style={styles.root}>

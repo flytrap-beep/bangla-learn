@@ -2,11 +2,15 @@ export { standardCurriculum } from "./dialects/standard";
 export { sylhetiCurriculum } from "./dialects/sylheti";
 export { barisaliCurriculum } from "./dialects/barisali";
 export { chittagonianCurriculum } from "./dialects/chittagonian";
+export { rajshahiCurriculum } from "./dialects/rajshahi";
+export { khulnaCurriculum } from "./dialects/khulna";
 
 import { standardCurriculum } from "./dialects/standard";
 import { sylhetiCurriculum } from "./dialects/sylheti";
 import { barisaliCurriculum } from "./dialects/barisali";
 import { chittagonianCurriculum } from "./dialects/chittagonian";
+import { rajshahiCurriculum } from "./dialects/rajshahi";
+import { khulnaCurriculum } from "./dialects/khulna";
 import type { Dialect, DialectCurriculum, Lesson } from "@bangla-learn/types";
 
 export const allCurricula: Record<Dialect, DialectCurriculum> = {
@@ -14,6 +18,8 @@ export const allCurricula: Record<Dialect, DialectCurriculum> = {
   sylheti: sylhetiCurriculum,
   barisali: barisaliCurriculum,
   chittagonian: chittagonianCurriculum,
+  rajshahi: rajshahiCurriculum,
+  khulna: khulnaCurriculum,
 };
 
 export function getCurriculum(dialect: Dialect): DialectCurriculum {

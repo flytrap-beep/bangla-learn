@@ -16,6 +16,9 @@ import {
   recordLessonAttempt,
 } from "@/lib/storage";
 import { pushProgressToFirestore } from "@/lib/sync";
+import {
+  trackLessonStart, trackLessonComplete, trackLessonAbandon,
+} from "@/lib/analytics";
 import * as Haptics from "expo-haptics";
 import LetterTrace from "@/components/LetterTrace";
 import GreetingScene from "@/components/GreetingScene";
@@ -630,6 +633,8 @@ export default function LessonScreen() {
   const [exState, setExState]           = useState<ExerciseState>("answering");
   const [totalXp, setTotalXp]           = useState(0);
   const [heartsLost, setHeartsLost]     = useState(0);
+  const [startingHearts, setStartingHearts] = useState(5);
+  const [gameOver, setGameOver]         = useState(false);
   const [correct, setCorrect]           = useState(0);
   const [finished, setFinished]         = useState(false);
   const [dailyInfo, setDailyInfo]       = useState<{ xpToday: number; goal: number; done: boolean } | null>(null);
@@ -637,11 +642,13 @@ export default function LessonScreen() {
   const trophyScale = useRef(new Animated.Value(0)).current;
   const [selected, setSelected]         = useState<number | null>(null);
 
-  const slideAnim = useRef(new Animated.Value(30)).current;
-  const fadeAnim  = useRef(new Animated.Value(0)).current;
+  const slideAnim      = useRef(new Animated.Value(30)).current;
+  const fadeAnim       = useRef(new Animated.Value(0)).current;
+  const lessonStartRef = useRef<number | null>(null);
 
-  // Check for saved resume state on mount
+  // Load starting hearts + check for saved resume state on mount
   useEffect(() => {
+    getStats().then((s) => setStartingHearts(s.hearts));
     if (!lesson || phase !== "quiz") return;
     getLessonResume(lesson.id).then((saved) => {
       if (saved && saved.exerciseIndex > 0 && saved.exerciseIndex < lesson.exercises.length) {
@@ -664,6 +671,11 @@ export default function LessonScreen() {
 
   useEffect(() => {
     if (phase !== "quiz") return;
+    // Track lesson start once (when quiz phase first activates)
+    if (lessonStartRef.current === null && lesson) {
+      lessonStartRef.current = Date.now();
+      trackLessonStart(lesson.id, (dialect ?? "standard") as Dialect);
+    }
     slideAnim.setValue(30); fadeAnim.setValue(0);
     Animated.parallel([
       Animated.timing(fadeAnim,  { toValue: 1, duration: 220, useNativeDriver: true }),
@@ -701,14 +713,19 @@ export default function LessonScreen() {
       setCorrect((p) => p + 1);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     } else {
-      setHeartsLost((p) => p + 1);
+      const newLost = heartsLost + 1;
+      setHeartsLost(newLost);
       await loseHeart();
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => {});
+      if (newLost >= startingHearts) {
+        trackLessonAbandon(lesson!.id, (dialect ?? "standard") as Dialect, progress);
+        setGameOver(true);
+      }
     }
   }
 
   async function finishLesson(finalXp: number, finalCorrect: number) {
-    await completeLesson((dialect ?? "standard") as Dialect, lesson!.id, finalXp);
+    await completeLesson((dialect ?? "standard") as Dialect, lesson!.id, finalXp, finalCorrect, lesson!.exercises.length);
     await clearLessonResume(lesson!.id);
     await recordLessonAttempt({
       lessonId:    lesson!.id,
@@ -722,6 +739,19 @@ export default function LessonScreen() {
     });
     pushProgressToFirestore().catch(() => {});
     getDailyProgress().then(setDailyInfo).catch(() => {});
+    const durationSec = lessonStartRef.current
+      ? Math.round((Date.now() - lessonStartRef.current) / 1000)
+      : 0;
+    const score = lesson!.exercises.length > 0
+      ? Math.round((finalCorrect / lesson!.exercises.length) * 100)
+      : 100;
+    trackLessonComplete(
+      lesson!.id,
+      (dialect ?? "standard") as Dialect,
+      finalXp,
+      score,
+      durationSec
+    );
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     setFinished(true);
     Animated.spring(trophyScale, { toValue: 1, friction: 5, tension: 80, useNativeDriver: true }).start();
@@ -845,6 +875,57 @@ export default function LessonScreen() {
     );
   }
 
+  // Game-over: no hearts left
+  if (gameOver) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.finishedContainer}>
+          <Text style={{ fontSize: 64, marginBottom: 8 }}>💔</Text>
+          <Text style={[styles.finishedTitle, { color: "#dc2626" }]}>Out of Hearts!</Text>
+          <Text style={{ color: "#6b7280", textAlign: "center", marginTop: 8, marginBottom: 28, lineHeight: 22 }}>
+            You ran out of hearts before finishing the lesson.{"\n"}
+            Hearts refill over time — try again soon!
+          </Text>
+
+          {/* Remaining hearts indicator */}
+          <View style={{ flexDirection: "row", gap: 6, marginBottom: 28 }}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Ionicons key={i} name="heart" size={26} color="#e5e7eb" />
+            ))}
+          </View>
+
+          <View style={styles.finishedBtns}>
+            <TouchableOpacity
+              style={[styles.btnOutline, { flex: 1 }]}
+              onPress={() => router.replace("/(tabs)" as any)}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="map-outline" size={16} color={BD_GREEN} />
+              <Text style={styles.btnOutlineText}>Back to Map</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.btnPrimary, { flex: 1 }]}
+              onPress={() => {
+                setGameOver(false);
+                setHeartsLost(0);
+                setCurrentIndex(0);
+                setExState("answering");
+                setSelected(null);
+                setTotalXp(0);
+                setCorrect(0);
+                getStats().then((s) => setStartingHearts(s.hearts));
+              }}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="refresh" size={16} color="#fff" />
+              <Text style={styles.btnText}>Try Again</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   const isMatchPairs = exercise.type === "match_pairs";
   const isTranslate  = exercise.type === "translate_to_bangla";
   const answerText   = exState === "incorrect" ? correctAnswerText(exercise) : null;
@@ -853,15 +934,28 @@ export default function LessonScreen() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} hitSlop={{ top:8,bottom:8,left:8,right:8 }}>
+        <TouchableOpacity
+          onPress={() => {
+            trackLessonAbandon(lesson.id, (dialect ?? "standard") as Dialect, progress);
+            router.back();
+          }}
+          hitSlop={{ top:8,bottom:8,left:8,right:8 }}
+        >
           <Ionicons name="close" size={24} color="#9ca3af" />
         </TouchableOpacity>
         <View style={styles.progressBar}>
           <View style={[styles.progressFill, { width: `${progress}%` as any }]} />
         </View>
-        <View style={styles.xpBadge}>
-          <Ionicons name="star" size={14} color="#D97706" />
-          <Text style={styles.xpText}>{totalXp}</Text>
+        {/* Hearts bar */}
+        <View style={styles.heartsBar}>
+          {Array.from({ length: startingHearts }).map((_, i) => (
+            <Ionicons
+              key={i}
+              name="heart"
+              size={16}
+              color={i < startingHearts - heartsLost ? "#ef4444" : "#e5e7eb"}
+            />
+          ))}
         </View>
         {lesson.isQuiz && (
           <View style={styles.ribbonBadge}>
@@ -1095,6 +1189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row", alignItems: "center", gap: 4,
   },
   xpText: { fontSize: 13, fontWeight: "800", color: "#D97706" },
+  heartsBar: { flexDirection: "row", alignItems: "center", gap: 2 },
   ribbonBadge: {
     backgroundColor: "#f5f3ff", borderRadius: 10,
     padding: 6, alignItems: "center", justifyContent: "center",

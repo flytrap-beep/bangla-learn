@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { registerWithEmail } from "@/lib/auth";
 import { pushProgressToFirestore } from "@/lib/sync";
+import { useGoogleSignIn, useFacebookSignIn } from "@/lib/useSocialAuth";
 import { T } from "@/lib/theme";
 
 const BD_GREEN = T.green;
@@ -20,13 +21,20 @@ export default function RegisterScreen() {
   const [error,    setError]    = useState<string | null>(null);
   const [showPass, setShowPass] = useState(false);
 
+  function handleSuccess() {
+    router.back();
+  }
+
+  const google   = useGoogleSignIn(handleSuccess,   (msg) => setError(msg));
+  const facebook = useFacebookSignIn(handleSuccess, (msg) => setError(msg));
+
+  const socialLoading = google.loading || facebook.loading;
+
   async function handleRegister() {
     if (!name.trim() || !email.trim() || password.length < 6) return;
     setLoading(true); setError(null);
     try {
-      // registerWithEmail upgrades anonymous account → preserves all local progress
       await registerWithEmail(email.trim(), password, name.trim());
-      // Push existing local progress to Firestore immediately
       await pushProgressToFirestore();
       router.back();
     } catch (e: any) {
@@ -71,6 +79,41 @@ export default function RegisterScreen() {
             <Text style={styles.infoText}>
               All your lessons and XP are already saved locally and will be synced to your new account.
             </Text>
+          </View>
+
+          {/* Social auth */}
+          <View style={styles.socialRow}>
+            <TouchableOpacity
+              style={[styles.socialBtn, socialLoading && { opacity: 0.6 }]}
+              onPress={google.signIn}
+              disabled={socialLoading}
+              activeOpacity={0.8}
+            >
+              {google.loading
+                ? <ActivityIndicator size="small" color="#374151" />
+                : <Ionicons name="logo-google" size={20} color="#EA4335" />
+              }
+              <Text style={styles.socialBtnText}>Google</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.socialBtn, socialLoading && { opacity: 0.6 }]}
+              onPress={facebook.signIn}
+              disabled={socialLoading}
+              activeOpacity={0.8}
+            >
+              {facebook.loading
+                ? <ActivityIndicator size="small" color="#374151" />
+                : <Ionicons name="logo-facebook" size={20} color="#1877F2" />
+              }
+              <Text style={styles.socialBtnText}>Facebook</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.orRow}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.orText}>or create with email</Text>
+            <View style={styles.dividerLine} />
           </View>
 
           <View style={styles.form}>
@@ -180,6 +223,18 @@ const styles = StyleSheet.create({
     borderWidth: 1.5, borderColor: "#4ade80", marginBottom: 20,
   },
   infoText: { fontSize: 13, color: "#166534", flex: 1, lineHeight: 18 },
+
+  socialRow: { flexDirection: "row", gap: 12, marginBottom: 16 },
+  socialBtn: {
+    flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
+    borderWidth: 2, borderColor: "#e5e7eb", borderRadius: 14, paddingVertical: 13,
+    backgroundColor: "#f9fafb",
+  },
+  socialBtnText: { fontSize: 15, fontWeight: "700", color: "#374151" },
+
+  orRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
+  orText: { fontSize: 12, color: "#9ca3af", fontWeight: "600" },
+
   form:       { gap: 16 },
   fieldGroup: { gap: 6 },
   label:      { fontSize: 13, fontWeight: "700", color: "#374151" },

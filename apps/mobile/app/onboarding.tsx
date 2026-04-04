@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View, Text, TouchableOpacity, StyleSheet, SafeAreaView,
   ScrollView, Dimensions, Animated,
@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { markOnboardingDone } from "@/lib/storage";
 import { T } from "@/lib/theme";
+import { trackScreenView, trackOnboardingComplete } from "@/lib/analytics";
 
 const { width: SCREEN_W } = Dimensions.get("window");
 const BD_GREEN = T.green;
@@ -49,6 +50,8 @@ export default function OnboardingScreen() {
   const [index, setIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
+  useEffect(() => { trackScreenView("onboarding"); }, []);
+
   function goTo(next: number) {
     Animated.timing(fadeAnim, { toValue: 0, duration: 120, useNativeDriver: true }).start(() => {
       setIndex(next);
@@ -58,6 +61,7 @@ export default function OnboardingScreen() {
   }
 
   async function finish() {
+    trackOnboardingComplete();
     await markOnboardingDone();
     router.replace("/(tabs)" as any);
   }

@@ -6,6 +6,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { getStats } from "@/lib/storage";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
+import { trackScreenView } from "@/lib/analytics";
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
@@ -32,6 +33,7 @@ export default function LeaderboardScreen() {
   const podiumScale = useRef(new Animated.Value(0.85)).current;
 
   useEffect(() => {
+    trackScreenView("leaderboard");
     getStats().then((s) => {
       setMyXp(s.totalXp);
       setMyStreak(s.currentStreak);

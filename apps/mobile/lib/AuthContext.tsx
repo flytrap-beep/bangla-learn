@@ -7,6 +7,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import type { User } from "firebase/auth";
 import { signInAnon, onAuthChange } from "./auth";
 import { startRealtimeSync, pullProgressFromFirestore } from "./sync";
+import { trackAppOpen } from "./analytics";
 
 type AuthContextValue = {
   user:        User | null;
@@ -23,6 +24,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    trackAppOpen();
+
     // Listen for auth state changes
     const unsub = onAuthChange(async (firebaseUser) => {
       if (firebaseUser) {

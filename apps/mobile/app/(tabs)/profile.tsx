@@ -12,6 +12,7 @@ import type { Dialect } from "@bangla-learn/types";
 import { useAuth } from "@/lib/AuthContext";
 import { logOut } from "@/lib/auth";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
+import { trackScreenView } from "@/lib/analytics";
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
@@ -249,7 +250,7 @@ export default function ProfileScreen() {
   const router = useRouter();
   const [stats,    setStats]    = useState({ totalXp: 0, currentStreak: 0, hearts: 5 });
   const [progress, setProgress] = useState<Record<Dialect, string[]>>({
-    standard: [], sylheti: [], barisali: [], chittagonian: [],
+    standard: [], sylheti: [], barisali: [], chittagonian: [], rajshahi: [], khulna: [],
   });
   const [history, setHistory] = useState<LessonAttempt[]>([]);
 
@@ -257,6 +258,7 @@ export default function ProfileScreen() {
   const slideAnim = useRef(new Animated.Value(24)).current;
 
   useEffect(() => {
+    trackScreenView("profile");
     Promise.all([getStats(), getAllDialectProgress(), getLessonHistory()]).then(([s, p, h]) => {
       setStats(s);
       setProgress(p);
@@ -268,7 +270,7 @@ export default function ProfileScreen() {
     ]).start();
   }, []);
 
-  const dialectTotals = (["standard", "sylheti", "barisali", "chittagonian"] as Dialect[]).map((d) => ({
+  const dialectTotals = (["standard", "sylheti", "barisali", "chittagonian", "rajshahi", "khulna"] as Dialect[]).map((d) => ({
     dialect:   d,
     completed: progress[d].length,
     total:     getCurriculum(d).units.reduce((s, u) => s + u.lessons.length, 0),

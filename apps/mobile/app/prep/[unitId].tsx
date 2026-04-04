@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, SafeAreaView,
@@ -8,6 +8,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { getCurriculum } from "@bangla-learn/content";
 import type { Character, Dialect } from "@bangla-learn/types";
 import { T } from "@/lib/theme";
+import { trackScreenView, trackPrepOpen } from "@/lib/analytics";
 
 const BD_GREEN = T.green;
 
@@ -31,6 +32,11 @@ export default function PrepScreen() {
   const { unitId, dialect } = useLocalSearchParams<{ unitId: string; dialect: string }>();
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("vowels");
+
+  useEffect(() => {
+    trackScreenView("prep");
+    trackPrepOpen(unitId ?? "", dialect ?? "standard");
+  }, []);
 
   const curriculum = getCurriculum((dialect ?? "standard") as Dialect);
   const unit = curriculum.units.find((u) => u.id === unitId);

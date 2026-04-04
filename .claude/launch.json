@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--filter=@bangla-learn/web"],
       "port": 3000
+    },
+    {
+      "name": "hosting",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "5050", "hosting"],
+      "port": 5050
     }
   ]
 }

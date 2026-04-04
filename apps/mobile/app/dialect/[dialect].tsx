@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import type { Dialect } from "@bangla-learn/types";
 import { T } from "@/lib/theme";
+import { trackScreenView } from "@/lib/analytics";
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
@@ -179,6 +180,7 @@ export default function DialectGuideScreen() {
   const slideAnim = useRef(new Animated.Value(30)).current;
 
   useEffect(() => {
+    trackScreenView(`dialect_${dialect ?? "standard"}`);
     Animated.parallel([
       Animated.timing(fadeAnim, { toValue: 1, duration: 350, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, friction: 8, tension: 80, useNativeDriver: true }),

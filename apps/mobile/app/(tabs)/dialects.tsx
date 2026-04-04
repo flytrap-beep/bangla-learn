@@ -6,6 +6,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
+import { trackScreenView } from "@/lib/analytics";
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
@@ -69,7 +70,7 @@ const DIALECT_CARDS: DialectCard[] = [
     desc:      "The silk and mango dialect from the northwest plains. Soft and rural in character.",
     color:     "#059669",
     icon:      "leaf-outline",
-    available: false,
+    available: true,
   },
   {
     id:        "khulna",
@@ -79,7 +80,7 @@ const DIALECT_CARDS: DialectCard[] = [
     desc:      "Gateway to the world's largest mangrove forest. Rich in fishing and river vocabulary.",
     color:     "#0891b2",
     icon:      "water-outline",
-    available: false,
+    available: true,
   },
 ];
 
@@ -150,6 +151,7 @@ export default function DialectsScreen() {
   const slideAnim = useRef(new Animated.Value(32)).current;
 
   useEffect(() => {
+    trackScreenView("dialects");
     Animated.parallel([
       Animated.timing(fadeAnim,  { toValue: 1, duration: 350, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, friction: 8, tension: 90, useNativeDriver: true }),

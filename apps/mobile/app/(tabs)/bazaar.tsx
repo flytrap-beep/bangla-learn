@@ -6,6 +6,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { getStats, addHearts } from "@/lib/storage";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
+import { trackScreenView, trackBazaarOpen } from "@/lib/analytics";
 
 type Item = {
   name:    string;
@@ -25,6 +26,8 @@ export default function BazaarScreen() {
   const heroScale  = useRef(new Animated.Value(0.7)).current;
 
   useEffect(() => {
+    trackScreenView("bazaar");
+    trackBazaarOpen();
     getStats().then((s) => setHearts(s.hearts));
     Animated.parallel([
       Animated.timing(fadeAnim,  { toValue: 1, duration: 350, useNativeDriver: true }),

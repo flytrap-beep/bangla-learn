@@ -16,7 +16,7 @@ import {
 } from "./storage";
 import type { Dialect } from "@bangla-learn/types";
 
-const DIALECTS: Dialect[] = ["standard", "sylheti", "barisali", "chittagonian"];
+const DIALECTS: Dialect[] = ["standard", "sylheti", "barisali", "chittagonian", "rajshahi", "khulna"];
 
 // ── Push local progress to Firestore ──────────────────────────────────────────
 export async function pushProgressToFirestore(): Promise<void> {

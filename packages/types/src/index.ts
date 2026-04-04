@@ -1,6 +1,6 @@
 // ─── Dialects ────────────────────────────────────────────────────────────────
 
-export type Dialect = "standard" | "sylheti" | "barisali" | "chittagonian";
+export type Dialect = "standard" | "sylheti" | "barisali" | "chittagonian" | "rajshahi" | "khulna";
 
 export const DIALECTS: Record<Dialect, { label: string; nativeLabel: string; region: string; flagEmoji: string }> = {
   standard: {
@@ -26,6 +26,18 @@ export const DIALECTS: Record<Dialect, { label: string; nativeLabel: string; reg
     nativeLabel: "চাটগাঁইয়া",
     region: "Chittagong Division",
     flagEmoji: "⛵",
+  },
+  rajshahi: {
+    label: "Rajshahi",
+    nativeLabel: "রাজশাহী",
+    region: "Rajshahi Division",
+    flagEmoji: "🌾",
+  },
+  khulna: {
+    label: "Khulna",
+    nativeLabel: "খুলনা",
+    region: "Khulna Division",
+    flagEmoji: "🌿",
   },
 };
 

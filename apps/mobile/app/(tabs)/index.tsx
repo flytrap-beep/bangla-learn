@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, SafeAreaView, StatusBar, Animated, Dimensions,
@@ -6,6 +6,7 @@ import {
 import Svg, { Path, Circle } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import { getCurriculum } from "@bangla-learn/content";
 import { DIALECTS } from "@bangla-learn/types";
 import type { Dialect, Lesson } from "@bangla-learn/types";
@@ -15,6 +16,7 @@ import {
 } from "@/lib/storage";
 import SpeakButton from "@/components/SpeakButton";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
+import { trackScreenView, trackDialectSelect } from "@/lib/analytics";
 
 const SCREEN_W      = Dimensions.get("window").width;
 const MAP_COMPACT_W = Math.floor(SCREEN_W * 0.46) - 4;
@@ -59,11 +61,11 @@ type DivMeta = {
 
 const DIVISIONS: DivMeta[] = [
   { id: "rangpur",    nameEn: "Rangpur",    nameBn: "রংপুর",     dialect: "standard",     color: T.green,          icon: "nutrition-outline", cx: 88,  cy: 70,  primary: false },
-  { id: "rajshahi",   nameEn: "Rajshahi",   nameBn: "রাজশাহী",   dialect: "standard",     color: T.green,          icon: "rose-outline",      cx: 48,  cy: 150, primary: false },
+  { id: "rajshahi",   nameEn: "Rajshahi",   nameBn: "রাজশাহী",   dialect: "rajshahi",     color: "#16a34a",        icon: "rose-outline",      cx: 48,  cy: 150, primary: true  },
   { id: "sylhet",     nameEn: "Sylhet",     nameBn: "সিলেট",     dialect: "sylheti",      color: T.sylheti,        icon: "cafe-outline",      cx: 240, cy: 119, primary: true  },
   { id: "mymensingh", nameEn: "Mymensingh", nameBn: "ময়মনসিংহ",  dialect: "standard",     color: T.green,          icon: "leaf-outline",      cx: 155, cy: 128, primary: false },
   { id: "dhaka",      nameEn: "Dhaka",      nameBn: "ঢাকা",      dialect: "standard",     color: T.green,          icon: "business-outline",  cx: 155, cy: 188, primary: true  },
-  { id: "khulna",     nameEn: "Khulna",     nameBn: "খুলনা",     dialect: "standard",     color: T.green,          icon: "leaf-outline",      cx: 105, cy: 241, primary: false },
+  { id: "khulna",     nameEn: "Khulna",     nameBn: "খুলনা",     dialect: "khulna",       color: "#0891b2",        icon: "water-outline",     cx: 105, cy: 241, primary: true  },
   { id: "barisal",    nameEn: "Barisal",    nameBn: "বরিশাল",    dialect: "barisali",     color: T.barisali,       icon: "boat-outline",      cx: 152, cy: 247, primary: true  },
   { id: "chittagong", nameEn: "Chittagong", nameBn: "চট্টগ্রাম", dialect: "chittagonian", color: T.chittagonian,   icon: "navigate-outline",  cx: 238, cy: 267, primary: true  },
 ];
@@ -96,6 +98,18 @@ const DIALECT_INFO: Record<Dialect, {
     tagline: "Chittagong Division · ~13M speakers · ancient dialect",
     phrase: { bangla: "আঁই যাই", roman: "Ai jai", english: "I am going" },
     tip: "আঁই = I (not আমি!) · তুঁই = You · আঁরা = We · বোইন = Sister",
+  },
+  rajshahi: {
+    nameBn: "রাজশাহী", color: "#16a34a", region: "Rajshahi · Northwest",
+    tagline: "Rajshahi Division · silk, mangoes & soft spoken forms",
+    phrase: { bangla: "তোমার নাম কী?", roman: "Tomar nam ki?", english: "What is your name?" },
+    tip: "সে = He/She · তারা = They · Standard-compatible forms · বোন = Sister",
+  },
+  khulna: {
+    nameBn: "খুলনা", color: "#0891b2", region: "Khulna · Southwest Delta",
+    tagline: "Khulna Division · Sundarbans gateway · paired regional/standard forms",
+    phrase: { bangla: "আমি আইতেছি।", roman: "Ami aitesi.", english: "I am coming." },
+    tip: "আপনে = polite you · -তেছি = progressive · বইন/বোন · বাবা/বাপ",
   },
 };
 
@@ -402,28 +416,33 @@ export default function HomeScreen() {
   const headerY     = useRef(new Animated.Value(-80)).current;
   const contentFade = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    (async () => {
-      const d       = await getActiveDialect();
-      setDialect(d);
-      const completed = await getCompletedLessons(d);
-      setCompletedIds(new Set(completed));
-      const stats   = await getStats();
-      setStreak(stats.currentStreak);
-      setHearts(stats.hearts);
-      setTotalXp(stats.totalXp);
-      const daily   = await getDailyProgress();
-      setDailyXp(daily.xpToday);
-      setDailyGoal(daily.goal);
-      setDailyDone(daily.done);
-    })();
-    Animated.parallel([
-      Animated.spring(headerY,     { toValue: 0, friction: 8, tension: 100, useNativeDriver: true }),
-      Animated.timing(contentFade, { toValue: 1, duration: 400, delay: 200, useNativeDriver: true }),
-    ]).start();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      (async () => {
+        const d       = await getActiveDialect();
+        setDialect(d);
+        const completed = await getCompletedLessons(d);
+        setCompletedIds(new Set(completed));
+        const stats   = await getStats();
+        setStreak(stats.currentStreak);
+        setHearts(stats.hearts);
+        setTotalXp(stats.totalXp);
+        const daily   = await getDailyProgress();
+        setDailyXp(daily.xpToday);
+        setDailyGoal(daily.goal);
+        setDailyDone(daily.done);
+      })();
+      // Only animate on true first mount (values already at 0)
+      Animated.parallel([
+        Animated.spring(headerY,     { toValue: 0, friction: 8, tension: 100, useNativeDriver: true }),
+        Animated.timing(contentFade, { toValue: 1, duration: 400, delay: 200, useNativeDriver: true }),
+      ]).start();
+      trackScreenView("home");
+    }, [])
+  );
 
   async function switchDialect(d: Dialect) {
+    trackDialectSelect(d);
     await setActiveDialect(d);
     setDialect(d);
     const completed = await getCompletedLessons(d);
@@ -450,10 +469,16 @@ export default function HomeScreen() {
 
       {/* ── Bhasha Academy header ── */}
       <Animated.View style={[s.header, { transform: [{ translateY: headerY }] }]}>
-        {/* Hearts pill (left) */}
-        <View style={s.headerPill}>
-          <Ionicons name="heart" size={16} color={T.red} />
-          <Text style={[s.headerPillText, { color: T.red }]}>{hearts}</Text>
+        {/* Left: hearts + streak */}
+        <View style={{ flexDirection: "row", gap: 6 }}>
+          <View style={s.headerPill}>
+            <Ionicons name="heart" size={16} color={T.red} />
+            <Text style={[s.headerPillText, { color: T.red }]}>{hearts}</Text>
+          </View>
+          <View style={[s.headerPill, { backgroundColor: "#fff7ed" }]}>
+            <Text style={{ fontSize: 14 }}>🔥</Text>
+            <Text style={[s.headerPillText, { color: "#d97706" }]}>{streak}</Text>
+          </View>
         </View>
 
         {/* Centered branding */}

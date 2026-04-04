@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { loginWithEmail } from "@/lib/auth";
 import { pullProgressFromFirestore } from "@/lib/sync";
+import { useGoogleSignIn, useFacebookSignIn } from "@/lib/useSocialAuth";
 import { T } from "@/lib/theme";
 
 const BD_GREEN = T.green;
@@ -19,12 +20,20 @@ export default function LoginScreen() {
   const [error,    setError]    = useState<string | null>(null);
   const [showPass, setShowPass] = useState(false);
 
+  function handleSuccess() {
+    router.back();
+  }
+
+  const google   = useGoogleSignIn(handleSuccess,   (msg) => setError(msg));
+  const facebook = useFacebookSignIn(handleSuccess, (msg) => setError(msg));
+
+  const socialLoading = google.loading || facebook.loading;
+
   async function handleLogin() {
     if (!email.trim() || !password) return;
     setLoading(true); setError(null);
     try {
       await loginWithEmail(email.trim(), password);
-      // Pull cloud progress after login (restore on new device)
       await pullProgressFromFirestore();
       router.back();
     } catch (e: any) {
@@ -59,7 +68,42 @@ export default function LoginScreen() {
             <Text style={styles.subtitle}>Sign in to sync your progress across devices</Text>
           </View>
 
-          {/* Form */}
+          {/* Social auth */}
+          <View style={styles.socialRow}>
+            <TouchableOpacity
+              style={[styles.socialBtn, socialLoading && { opacity: 0.6 }]}
+              onPress={google.signIn}
+              disabled={socialLoading}
+              activeOpacity={0.8}
+            >
+              {google.loading
+                ? <ActivityIndicator size="small" color="#374151" />
+                : <Ionicons name="logo-google" size={20} color="#EA4335" />
+              }
+              <Text style={styles.socialBtnText}>Google</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.socialBtn, socialLoading && { opacity: 0.6 }]}
+              onPress={facebook.signIn}
+              disabled={socialLoading}
+              activeOpacity={0.8}
+            >
+              {facebook.loading
+                ? <ActivityIndicator size="small" color="#374151" />
+                : <Ionicons name="logo-facebook" size={20} color="#1877F2" />
+              }
+              <Text style={styles.socialBtnText}>Facebook</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.orRow}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.orText}>or sign in with email</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          {/* Email / password form */}
           <View style={styles.form}>
             <View style={styles.fieldGroup}>
               <Text style={styles.label}>Email</Text>
@@ -138,7 +182,7 @@ const styles = StyleSheet.create({
   root:   { flex: 1, backgroundColor: "#fff" },
   scroll: { padding: 24, paddingTop: 16 },
   backBtn:{ width: 40, height: 40, alignItems: "center", justifyContent: "center", marginBottom: 8 },
-  hero:   { alignItems: "center", marginBottom: 36, marginTop: 8 },
+  hero:   { alignItems: "center", marginBottom: 28, marginTop: 8 },
   heroIcon: {
     width: 72, height: 72, borderRadius: 20,
     backgroundColor: BD_GREEN,
@@ -148,6 +192,17 @@ const styles = StyleSheet.create({
   },
   title:    { fontSize: 28, fontWeight: "900", color: "#1f2937", marginBottom: 8 },
   subtitle: { fontSize: 14, color: "#6b7280", textAlign: "center", lineHeight: 20 },
+
+  socialRow: { flexDirection: "row", gap: 12, marginBottom: 20 },
+  socialBtn: {
+    flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
+    borderWidth: 2, borderColor: "#e5e7eb", borderRadius: 14, paddingVertical: 13,
+    backgroundColor: "#f9fafb",
+  },
+  socialBtnText: { fontSize: 15, fontWeight: "700", color: "#374151" },
+
+  orRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 20 },
+  orText: { fontSize: 12, color: "#9ca3af", fontWeight: "600" },
 
   form:       { gap: 16 },
   fieldGroup: { gap: 6 },

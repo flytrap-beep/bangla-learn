@@ -16,6 +16,7 @@ import {
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "./firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { trackAuthLogin, trackAuthSignup } from "./analytics";
 
 const AUTH_KEY = "auth_user_id";
 
@@ -69,6 +70,7 @@ export async function registerWithEmail(
   }, { merge: true });
 
   await AsyncStorage.setItem(AUTH_KEY, user.uid);
+  trackAuthSignup("email");
   return user;
 }
 
@@ -76,6 +78,7 @@ export async function registerWithEmail(
 export async function loginWithEmail(email: string, password: string): Promise<User> {
   const result = await signInWithEmailAndPassword(auth, email, password);
   await AsyncStorage.setItem(AUTH_KEY, result.user.uid);
+  trackAuthLogin("email");
   return result.user;
 }
 

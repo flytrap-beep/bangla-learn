@@ -8,13 +8,21 @@ const KEYS = {
   streak: "streak",
   hearts: "hearts",
   lastActive: "last_active",
+  lastHeartLostAt: "last_heart_lost_at", // epoch ms — drives passive regen
   dailyXp: "daily_xp",
   dailyDate: "daily_date",
   dailyGoalTarget: "daily_goal_target",
   onboardingDone: "onboarding_done",
   lessonResume: (lessonId: string) => `resume_${lessonId}`,
   lessonHistory: "lesson_history",
+  coins: "coins",
+  lastStreakCoinDate: "last_streak_coin_date", // prevents double-awarding streak coins
 };
+
+const MAX_HEARTS = 5;
+const HEART_REGEN_MS = 30 * 60 * 1000; // 30 minutes per heart
+const AD_HEART_PER_SECONDS = 15;        // 1 heart per 15s of ad watched
+const STREAK_COINS_PER_DAY = 3;
 
 export async function getActiveDialect(): Promise<Dialect> {
   const val = await AsyncStorage.getItem(KEYS.activeDialect);
@@ -30,7 +38,13 @@ export async function getCompletedLessons(dialect: Dialect): Promise<string[]> {
   return val ? JSON.parse(val) : [];
 }
 
-export async function completeLesson(dialect: Dialect, lessonId: string, xp: number) {
+export async function completeLesson(
+  dialect: Dialect,
+  lessonId: string,
+  xp: number,
+  correct: number = 0,
+  total: number = 0,
+) {
   const completed = await getCompletedLessons(dialect);
   if (!completed.includes(lessonId)) {
     completed.push(lessonId);
@@ -55,10 +69,9 @@ export async function completeLesson(dialect: Dialect, lessonId: string, xp: num
   // Update streak
   const lastActive = await AsyncStorage.getItem(KEYS.lastActive);
   const yesterday = new Date(Date.now() - 86400000).toDateString();
-
   const currentStreak = parseInt((await AsyncStorage.getItem(KEYS.streak)) ?? "0");
   if (lastActive === today) {
-    // Same day, no change
+    // Same day — no streak change
   } else if (lastActive === yesterday) {
     await AsyncStorage.setItem(KEYS.streak, String(currentStreak + 1));
   } else {
@@ -66,10 +79,44 @@ export async function completeLesson(dialect: Dialect, lessonId: string, xp: num
   }
   await AsyncStorage.setItem(KEYS.lastActive, today);
 
+  // Award coins: streak coins (once per day) + lesson completion coins
+  await Promise.all([
+    maybeAwardStreakCoins(),
+    addCoinsForLesson(xp, correct, total),
+  ]);
+
   // Caller is responsible for triggering Firestore sync (see lesson/[id].tsx)
 }
 
+// ── Heart regeneration ────────────────────────────────────────────────────────
+// Passive regen: 1 heart per 30 min since last heart was lost.
+// Call this before any getStats() read to keep hearts current.
+async function applyHeartRegen(): Promise<void> {
+  const [heartsRaw, lastLostRaw] = await Promise.all([
+    AsyncStorage.getItem(KEYS.hearts),
+    AsyncStorage.getItem(KEYS.lastHeartLostAt),
+  ]);
+  const current = parseInt(heartsRaw ?? String(MAX_HEARTS));
+  if (current >= MAX_HEARTS || !lastLostRaw) return; // full or never lost
+
+  const elapsed = Date.now() - parseInt(lastLostRaw);
+  const regened = Math.floor(elapsed / HEART_REGEN_MS);
+  if (regened <= 0) return;
+
+  const newHearts = Math.min(MAX_HEARTS, current + regened);
+  const ops: [string, string][] = [[KEYS.hearts, String(newHearts)]];
+  if (newHearts >= MAX_HEARTS) {
+    ops.push([KEYS.lastHeartLostAt, ""]); // clear timer when full
+  } else {
+    // Advance the timestamp so next regen counts from the right point
+    const consumed = regened * HEART_REGEN_MS;
+    ops.push([KEYS.lastHeartLostAt, String(parseInt(lastLostRaw) + consumed)]);
+  }
+  await AsyncStorage.multiSet(ops);
+}
+
 export async function getStats() {
+  await applyHeartRegen();
   const [xp, streak, hearts] = await Promise.all([
     AsyncStorage.getItem(KEYS.xp),
     AsyncStorage.getItem(KEYS.streak),
@@ -78,28 +125,108 @@ export async function getStats() {
   return {
     totalXp: parseInt(xp ?? "0"),
     currentStreak: parseInt(streak ?? "0"),
-    hearts: parseInt(hearts ?? "5"),
+    hearts: parseInt(hearts ?? String(MAX_HEARTS)),
   };
 }
 
-export async function loseHeart() {
-  const current = parseInt((await AsyncStorage.getItem(KEYS.hearts)) ?? "5");
-  await AsyncStorage.setItem(KEYS.hearts, String(Math.max(0, current - 1)));
+export async function loseHeart(): Promise<void> {
+  await applyHeartRegen();
+  const current = parseInt((await AsyncStorage.getItem(KEYS.hearts)) ?? String(MAX_HEARTS));
+  const next = Math.max(0, current - 1);
+  const ops: [string, string][] = [[KEYS.hearts, String(next)]];
+  if (next < MAX_HEARTS) {
+    ops.push([KEYS.lastHeartLostAt, String(Date.now())]);
+  }
+  await AsyncStorage.multiSet(ops);
 }
 
-export async function addHearts(n: number) {
-  const current = parseInt((await AsyncStorage.getItem(KEYS.hearts)) ?? "5");
-  await AsyncStorage.setItem(KEYS.hearts, String(Math.min(5, current + n)));
+export async function addHearts(n: number): Promise<void> {
+  await applyHeartRegen();
+  const current = parseInt((await AsyncStorage.getItem(KEYS.hearts)) ?? String(MAX_HEARTS));
+  const next = Math.min(MAX_HEARTS, current + n);
+  const ops: [string, string][] = [[KEYS.hearts, String(next)]];
+  if (next >= MAX_HEARTS) ops.push([KEYS.lastHeartLostAt, ""]);
+  await AsyncStorage.multiSet(ops);
 }
 
+// Hearts earned from watching a rewarded ad
+// Rate: 1 heart per AD_HEART_PER_SECONDS seconds of ad watched
+export async function addHeartsFromAd(adDurationSeconds: number): Promise<number> {
+  const granted = Math.floor(adDurationSeconds / AD_HEART_PER_SECONDS);
+  if (granted > 0) await addHearts(granted);
+  return granted;
+}
+
+// How many seconds until the next heart regens (for countdown display)
+export async function nextHeartRegenMs(): Promise<number | null> {
+  await applyHeartRegen();
+  const [heartsRaw, lastLostRaw] = await Promise.all([
+    AsyncStorage.getItem(KEYS.hearts),
+    AsyncStorage.getItem(KEYS.lastHeartLostAt),
+  ]);
+  const current = parseInt(heartsRaw ?? String(MAX_HEARTS));
+  if (current >= MAX_HEARTS || !lastLostRaw) return null;
+  const elapsed = Date.now() - parseInt(lastLostRaw);
+  return Math.max(0, HEART_REGEN_MS - (elapsed % HEART_REGEN_MS));
+}
+
+// ── Coins ─────────────────────────────────────────────────────────────────────
+export async function getCoins(): Promise<number> {
+  const raw = await AsyncStorage.getItem(KEYS.coins);
+  return parseInt(raw ?? "0");
+}
+
+export async function addCoins(n: number): Promise<number> {
+  const current = await getCoins();
+  const next = current + n;
+  await AsyncStorage.setItem(KEYS.coins, String(next));
+  return next;
+}
+
+export async function spendCoins(n: number): Promise<boolean> {
+  const current = await getCoins();
+  if (current < n) return false;
+  await AsyncStorage.setItem(KEYS.coins, String(current - n));
+  return true;
+}
+
+// Coins from social sharing actions
+export async function addCoinsForShare(action: "streak" | "invite" | "report_card" | "wrapped"): Promise<number> {
+  const AMOUNTS: Record<string, number> = {
+    streak: 5, invite: 15, report_card: 3, wrapped: 10,
+  };
+  return addCoins(AMOUNTS[action] ?? 0);
+}
+
+// Coins from lesson/quiz completion
+// Formula: floor(lessonXpReward × correctFraction)
+// This scales coins to difficulty × performance
+export async function addCoinsForLesson(lessonXpReward: number, correct: number, total: number): Promise<number> {
+  if (total === 0) return 0;
+  const earned = Math.max(1, Math.floor(lessonXpReward * (correct / total)));
+  return addCoins(earned);
+}
+
+// Streak coins: 3 per new streak day (idempotent — won't double-award same day)
+export async function maybeAwardStreakCoins(): Promise<number> {
+  const today = new Date().toDateString();
+  const lastDate = await AsyncStorage.getItem(KEYS.lastStreakCoinDate);
+  if (lastDate === today) return 0;
+  await AsyncStorage.setItem(KEYS.lastStreakCoinDate, today);
+  return addCoins(STREAK_COINS_PER_DAY);
+}
+
+// ── Dialect progress ──────────────────────────────────────────────────────────
 export async function getAllDialectProgress(): Promise<Record<Dialect, string[]>> {
-  const dialects: Dialect[] = ["standard", "sylheti", "barisali", "chittagonian"];
+  const dialects: Dialect[] = ["standard", "sylheti", "barisali", "chittagonian", "rajshahi", "khulna"];
   const results = await Promise.all(dialects.map((d) => getCompletedLessons(d)));
   return {
     standard:     results[0],
     sylheti:      results[1],
     barisali:     results[2],
     chittagonian: results[3],
+    rajshahi:     results[4],
+    khulna:       results[5],
   };
 }
 
@@ -193,7 +320,7 @@ export async function restoreFromCloud(data: {
     AsyncStorage.setItem(KEYS.hearts,        String(data.hearts)),
     AsyncStorage.setItem(KEYS.activeDialect, data.activeDialect),
   ];
-  const dialects: Dialect[] = ["standard", "sylheti", "barisali", "chittagonian"];
+  const dialects: Dialect[] = ["standard", "sylheti", "barisali", "chittagonian", "rajshahi", "khulna"];
   for (const d of dialects) {
     const lessons = data.completedLessons[d];
     if (lessons) {
