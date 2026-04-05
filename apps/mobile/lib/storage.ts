@@ -66,7 +66,7 @@ export async function completeLesson(
     [KEYS.dailyDate, today],
   ]);
 
-  // Update streak
+  // Update streak (streak freeze protects against missed days)
   const lastActive = await AsyncStorage.getItem(KEYS.lastActive);
   const yesterday = new Date(Date.now() - 86400000).toDateString();
   const currentStreak = parseInt((await AsyncStorage.getItem(KEYS.streak)) ?? "0");
@@ -75,7 +75,12 @@ export async function completeLesson(
   } else if (lastActive === yesterday) {
     await AsyncStorage.setItem(KEYS.streak, String(currentStreak + 1));
   } else {
-    await AsyncStorage.setItem(KEYS.streak, "1");
+    // Missed at least one day — check for freeze
+    const frozeIt = await consumeStreakFreezeIfNeeded();
+    if (!frozeIt) {
+      await AsyncStorage.setItem(KEYS.streak, "1");
+    }
+    // If freeze was active, streak is preserved as-is
   }
   await AsyncStorage.setItem(KEYS.lastActive, today);
 
@@ -168,6 +173,32 @@ export async function nextHeartRegenMs(): Promise<number | null> {
   if (current >= MAX_HEARTS || !lastLostRaw) return null;
   const elapsed = Date.now() - parseInt(lastLostRaw);
   return Math.max(0, HEART_REGEN_MS - (elapsed % HEART_REGEN_MS));
+}
+
+// Spend XP (lowers leaderboard rank — intentional Bazaar tradeoff)
+export async function spendXp(n: number): Promise<boolean> {
+  const current = parseInt((await AsyncStorage.getItem(KEYS.xp)) ?? "0");
+  if (current < n) return false;
+  await AsyncStorage.setItem(KEYS.xp, String(current - n));
+  return true;
+}
+
+// ── Streak freeze ─────────────────────────────────────────────────────────────
+const STREAK_FREEZE_KEY = "streak_freeze_active";
+
+export async function activateStreakFreeze(): Promise<void> {
+  await AsyncStorage.setItem(STREAK_FREEZE_KEY, "true");
+}
+
+export async function isStreakFreezeActive(): Promise<boolean> {
+  return (await AsyncStorage.getItem(STREAK_FREEZE_KEY)) === "true";
+}
+
+export async function consumeStreakFreezeIfNeeded(): Promise<boolean> {
+  const frozen = await isStreakFreezeActive();
+  if (!frozen) return false;
+  await AsyncStorage.removeItem(STREAK_FREEZE_KEY);
+  return true;
 }
 
 // ── Coins ─────────────────────────────────────────────────────────────────────
@@ -277,6 +308,24 @@ export async function getLessonResume(lessonId: string): Promise<LessonResume | 
 
 export async function clearLessonResume(lessonId: string): Promise<void> {
   await AsyncStorage.removeItem(KEYS.lessonResume(lessonId));
+}
+
+// Returns the streak count that was just broken, or null if intact.
+// Resets streak to 0 when a break is detected (no freeze active).
+// Call once on app open inside useFocusEffect on HomeScreen.
+export async function checkAndResetBrokenStreak(): Promise<number | null> {
+  const lastActive = await AsyncStorage.getItem(KEYS.lastActive);
+  if (!lastActive) return null;
+  const today     = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (lastActive === today || lastActive === yesterday) return null;
+  const currentStreak = parseInt((await AsyncStorage.getItem(KEYS.streak)) ?? "0");
+  if (currentStreak <= 0) return null;
+  // Streak is broken — check for freeze
+  const frozeIt = await consumeStreakFreezeIfNeeded();
+  if (frozeIt) return null; // freeze saved us, no modal needed
+  await AsyncStorage.setItem(KEYS.streak, "0");
+  return currentStreak;
 }
 
 // ── Lesson attempt history ────────────────────────────────────────────────────

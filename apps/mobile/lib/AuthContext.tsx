@@ -4,9 +4,10 @@
 //           then tries to pull progress from Firestore (new device support).
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { AppState, AppStateStatus } from "react-native";
 import type { User } from "firebase/auth";
 import { signInAnon, onAuthChange } from "./auth";
-import { startRealtimeSync, pullProgressFromFirestore } from "./sync";
+import { startRealtimeSync, pullProgressFromFirestore, pushProgressToFirestore } from "./sync";
 import { trackAppOpen } from "./analytics";
 
 type AuthContextValue = {
@@ -46,6 +47,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(false);
     });
     return unsub;
+  }, []);
+
+  // Push progress to Firestore whenever app comes back to foreground
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (state: AppStateStatus) => {
+      if (state === "active") {
+        pushProgressToFirestore().catch(() => {});
+      }
+    });
+    return () => sub.remove();
   }, []);
 
   return (

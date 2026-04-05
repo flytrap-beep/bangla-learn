@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, SafeAreaView, StatusBar, Animated, Dimensions,
@@ -12,8 +12,9 @@ import { DIALECTS } from "@bangla-learn/types";
 import type { Dialect, Lesson } from "@bangla-learn/types";
 import {
   getActiveDialect, getCompletedLessons, setActiveDialect,
-  getStats, getDailyProgress,
+  getStats, getDailyProgress, nextHeartRegenMs, checkAndResetBrokenStreak,
 } from "@/lib/storage";
+import StreakBrokenModal from "@/components/StreakBrokenModal";
 import SpeakButton from "@/components/SpeakButton";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView, trackDialectSelect } from "@/lib/analytics";
@@ -412,6 +413,8 @@ export default function HomeScreen() {
   const [dailyXp,   setDailyXp]   = useState(0);
   const [dailyGoal, setDailyGoal] = useState(50);
   const [dailyDone, setDailyDone] = useState(false);
+  const [regenMs,   setRegenMs]   = useState<number | null>(null);
+  const [brokenStreak, setBrokenStreak] = useState<number | null>(null);
 
   const headerY     = useRef(new Animated.Value(-80)).current;
   const contentFade = useRef(new Animated.Value(0)).current;
@@ -431,6 +434,12 @@ export default function HomeScreen() {
         setDailyXp(daily.xpToday);
         setDailyGoal(daily.goal);
         setDailyDone(daily.done);
+        // Seed the regen countdown
+        const ms = await nextHeartRegenMs();
+        setRegenMs(ms);
+        // Check for broken streak (show modal once)
+        const broken = await checkAndResetBrokenStreak();
+        if (broken) setBrokenStreak(broken);
       })();
       // Only animate on true first mount (values already at 0)
       Animated.parallel([
@@ -438,6 +447,24 @@ export default function HomeScreen() {
         Animated.timing(contentFade, { toValue: 1, duration: 400, delay: 200, useNativeDriver: true }),
       ]).start();
       trackScreenView("home");
+
+      // Tick the regen countdown every second
+      const interval = setInterval(() => {
+        setRegenMs((prev) => {
+          if (prev === null || prev <= 0) return null;
+          const next = prev - 1000;
+          if (next <= 0) {
+            // Heart just regenerated — re-read from storage
+            getStats().then((s) => {
+              setHearts(s.hearts);
+              nextHeartRegenMs().then(setRegenMs);
+            });
+            return null;
+          }
+          return next;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
     }, [])
   );
 
@@ -470,15 +497,22 @@ export default function HomeScreen() {
       {/* ── Bhasha Academy header ── */}
       <Animated.View style={[s.header, { transform: [{ translateY: headerY }] }]}>
         {/* Left: hearts + streak */}
-        <View style={{ flexDirection: "row", gap: 6 }}>
-          <View style={s.headerPill}>
-            <Ionicons name="heart" size={16} color={T.red} />
-            <Text style={[s.headerPillText, { color: T.red }]}>{hearts}</Text>
+        <View style={{ flexDirection: "column", gap: 4 }}>
+          <View style={{ flexDirection: "row", gap: 6 }}>
+            <View style={s.headerPill}>
+              <Ionicons name="heart" size={16} color={T.red} />
+              <Text style={[s.headerPillText, { color: T.red }]}>{hearts}</Text>
+            </View>
+            <View style={[s.headerPill, { backgroundColor: "#fff7ed" }]}>
+              <Text style={{ fontSize: 14 }}>🔥</Text>
+              <Text style={[s.headerPillText, { color: "#d97706" }]}>{streak}</Text>
+            </View>
           </View>
-          <View style={[s.headerPill, { backgroundColor: "#fff7ed" }]}>
-            <Text style={{ fontSize: 14 }}>🔥</Text>
-            <Text style={[s.headerPillText, { color: "#d97706" }]}>{streak}</Text>
-          </View>
+          {hearts < 5 && regenMs !== null && (
+            <Text style={s.regenLabel}>
+              +❤️ {Math.ceil(regenMs / 60000)}m {String(Math.ceil((regenMs % 60000) / 1000)).padStart(2, "0")}s
+            </Text>
+          )}
         </View>
 
         {/* Centered branding */}
@@ -631,8 +665,35 @@ export default function HomeScreen() {
               </View>
             );
           })}
+
+          {/* ── Coming Soon card (shown when dialect has fewer than 3 units) ── */}
+          {curriculum.units.length < 3 && (
+            <View style={s.comingSoonCard}>
+              <View style={s.comingSoonIconWrap}>
+                <Ionicons name="construct-outline" size={28} color={T.textMuted as string} />
+              </View>
+              <Text style={s.comingSoonTitle}>More lessons coming soon</Text>
+              <Text style={s.comingSoonSub}>
+                Our team is crafting new units for the {dialect.charAt(0).toUpperCase() + dialect.slice(1)} dialect.
+                Check back soon!
+              </Text>
+              <View style={s.comingSoonPills}>
+                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Numbers</Text></View>
+                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Food</Text></View>
+                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Travel</Text></View>
+                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Family</Text></View>
+              </View>
+            </View>
+          )}
+
         </ScrollView>
       </Animated.View>
+
+      <StreakBrokenModal
+        visible={brokenStreak !== null}
+        lostStreak={brokenStreak ?? 0}
+        onDismiss={() => setBrokenStreak(null)}
+      />
     </SafeAreaView>
   );
 }
@@ -659,6 +720,10 @@ const s = StyleSheet.create({
   },
   headerPillGold: { borderColor: T.gold, backgroundColor: T.gold + "20" },
   headerPillText: { fontFamily: FONT.bold, fontSize: 14 },
+  regenLabel: {
+    fontFamily: FONT.bold, fontSize: 9, color: T.red,
+    textTransform: "uppercase", letterSpacing: 0.5, marginLeft: 2,
+  },
   headerCenter:   { alignItems: "center" },
   headerEyebrow: {
     fontFamily: FONT.bold, fontSize: 9,
@@ -793,4 +858,22 @@ const s = StyleSheet.create({
   },
   completeBannerTitle: { fontFamily: FONT.bold, fontSize: 16 },
   completeBannerSub:   { fontFamily: FONT.medium, fontSize: 12, color: T.textMid as string, marginTop: 2 },
+
+  // ── Coming Soon ──
+  comingSoonCard: {
+    marginHorizontal: 16, marginTop: 8, marginBottom: 24,
+    backgroundColor: T.card, borderRadius: 16, borderWidth: 2,
+    borderColor: T.border, borderStyle: "dashed" as const,
+    padding: 24, alignItems: "center", gap: 8,
+  },
+  comingSoonIconWrap: {
+    width: 56, height: 56, borderRadius: 28,
+    backgroundColor: T.bg, alignItems: "center", justifyContent: "center",
+    marginBottom: 4,
+  },
+  comingSoonTitle: { fontFamily: FONT.bold, fontSize: 16, color: T.text as string, textAlign: "center" },
+  comingSoonSub:   { fontFamily: FONT.regular, fontSize: 13, color: T.textMuted as string, textAlign: "center", lineHeight: 19 },
+  comingSoonPills: { flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 4 },
+  comingSoonPill:  { backgroundColor: T.bg, borderRadius: 20, paddingVertical: 4, paddingHorizontal: 12, borderWidth: 1, borderColor: T.border },
+  comingSoonPillText: { fontFamily: FONT.medium, fontSize: 12, color: T.textMid as string },
 });

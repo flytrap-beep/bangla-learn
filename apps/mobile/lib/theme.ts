@@ -16,10 +16,12 @@ export const T = {
   textMid:      "rgba(27,77,62,0.60)",
   textMuted:    "rgba(27,77,62,0.40)",
 
-  // Dialect accent colours (unchanged from existing)
+  // Dialect accent colours
   sylheti:      "#7c3aed",
   barisali:     "#0284c7",
   chittagonian: "#d97706",
+  rajshahi:     "#16a34a",
+  khulna:       "#0891b2",
 } as const;
 
 // ── Brutalist offset shadow (no blur — hard-edge Wes Anderson feel) ────────────

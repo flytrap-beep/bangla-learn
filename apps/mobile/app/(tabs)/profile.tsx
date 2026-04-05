@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   View, Text, StyleSheet, SafeAreaView, ScrollView,
-  StatusBar, Animated, TouchableOpacity,
+  StatusBar, Animated, TouchableOpacity, Share, Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getAllDialectProgress, getStats, getLessonHistory } from "@/lib/storage";
+import { getAllDialectProgress, getStats, getLessonHistory, addCoinsForShare, getCoins } from "@/lib/storage";
 import type { LessonAttempt } from "@/lib/storage";
 import { getCurriculum } from "@bangla-learn/content";
 import type { Dialect } from "@bangla-learn/types";
@@ -35,6 +35,8 @@ const DIALECT_META: Record<Dialect, { nameEn: string; nameBn: string; color: str
   sylheti:      { nameEn: "Sylheti",      nameBn: "সিলেটি",      color: T.sylheti,        icon: "cafe-outline"     },
   barisali:     { nameEn: "Barisali",     nameBn: "বরিশালি",    color: T.barisali,       icon: "boat-outline"     },
   chittagonian: { nameEn: "Chittagonian", nameBn: "চাটগাঁইয়া", color: T.chittagonian,   icon: "triangle-outline" },
+  rajshahi:     { nameEn: "Rajshahi",     nameBn: "রাজশাহী",    color: T.rajshahi,       icon: "leaf-outline"     },
+  khulna:       { nameEn: "Khulna",       nameBn: "খুলনা",      color: T.khulna,         icon: "water-outline"    },
 };
 
 // ── Achievements ───────────────────────────────────────────────────────────────
@@ -252,17 +254,20 @@ export default function ProfileScreen() {
   const [progress, setProgress] = useState<Record<Dialect, string[]>>({
     standard: [], sylheti: [], barisali: [], chittagonian: [], rajshahi: [], khulna: [],
   });
-  const [history, setHistory] = useState<LessonAttempt[]>([]);
+  const [history,  setHistory]  = useState<LessonAttempt[]>([]);
+  const [coins,    setCoins]    = useState(0);
+  const [sharedToday, setSharedToday] = useState<Set<string>>(new Set());
 
   const fadeAnim  = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
 
   useEffect(() => {
     trackScreenView("profile");
-    Promise.all([getStats(), getAllDialectProgress(), getLessonHistory()]).then(([s, p, h]) => {
+    Promise.all([getStats(), getAllDialectProgress(), getLessonHistory(), getCoins()]).then(([s, p, h, c]) => {
       setStats(s);
       setProgress(p);
       setHistory(h);
+      setCoins(c);
     });
     Animated.parallel([
       Animated.timing(fadeAnim,  { toValue: 1, duration: 400, useNativeDriver: true }),
@@ -279,6 +284,30 @@ export default function ProfileScreen() {
   const totalLessons    = dialectTotals.reduce((sum, d) => sum + d.completed, 0);
   const dialectsStarted = dialectTotals.filter((d) => d.completed > 0).length;
   const heartsArr       = Array.from({ length: 5 }, (_, i) => i < stats.hearts);
+
+  async function handleShare(action: "streak" | "invite" | "report_card") {
+    if (sharedToday.has(action)) {
+      Alert.alert("Already shared", "You already earned coins for this share today!");
+      return;
+    }
+    const MESSAGES: Record<string, string> = {
+      streak:      `🔥 I'm on a ${stats.currentStreak}-day Bengali learning streak on BanglaLearn! Join me and learn Bangla today.`,
+      invite:      "📚 I've been learning Bengali with BanglaLearn — a Duolingo-style app for all 6 Bangladeshi dialects. Try it free!",
+      report_card: `🎓 My BanglaLearn report: ${stats.totalXp} XP earned, ${totalLessons} lessons done, ${stats.currentStreak}-day streak! Learning Bengali one day at a time.`,
+    };
+    const COIN_LABELS: Record<string, string> = {
+      streak: "5 coins", invite: "15 coins", report_card: "3 coins",
+    };
+    try {
+      const result = await Share.share({ message: MESSAGES[action] });
+      if (result.action === Share.sharedAction) {
+        const earned = await addCoinsForShare(action);
+        setCoins((c) => c + earned);
+        setSharedToday((s) => new Set([...s, action]));
+        Alert.alert("Thanks for sharing! 🎉", `You earned ${COIN_LABELS[action]} for sharing.`);
+      }
+    } catch {}
+  }
 
   return (
     <SafeAreaView style={s.root}>
@@ -397,6 +426,50 @@ export default function ProfileScreen() {
           </TouchableOpacity>
 
           {/* ── Account card ── */}
+          {/* ── Share & Earn ── */}
+          <View style={[s.card, SHADOW.soft]}>
+            <View style={s.cardHeader}>
+              <Ionicons name="gift-outline" size={18} color={T.gold} />
+              <Text style={s.cardTitle}>Share & Earn Coins</Text>
+              <View style={[s.syncBadge, { backgroundColor: T.gold }]}>
+                <Ionicons name="logo-bitcoin" size={11} color={T.white} />
+                <Text style={s.syncBadgeText}>{coins}</Text>
+              </View>
+            </View>
+            <Text style={s.shareSubtitle}>Share your progress and earn coins for the Bazaar</Text>
+            <View style={s.shareGrid}>
+              <TouchableOpacity
+                style={[s.shareBtn, sharedToday.has("streak") && s.shareBtnUsed]}
+                onPress={() => handleShare("streak")}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="flame" size={22} color={sharedToday.has("streak") ? T.textMuted as string : T.red} />
+                <Text style={[s.shareBtnLabel, sharedToday.has("streak") && s.shareLabelUsed]}>Share Streak</Text>
+                <Text style={s.shareBtnCoins}>{sharedToday.has("streak") ? "✓ done" : "+5 🪙"}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[s.shareBtn, sharedToday.has("invite") && s.shareBtnUsed]}
+                onPress={() => handleShare("invite")}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="person-add-outline" size={22} color={sharedToday.has("invite") ? T.textMuted as string : T.green} />
+                <Text style={[s.shareBtnLabel, sharedToday.has("invite") && s.shareLabelUsed]}>Invite Friend</Text>
+                <Text style={s.shareBtnCoins}>{sharedToday.has("invite") ? "✓ done" : "+15 🪙"}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[s.shareBtn, sharedToday.has("report_card") && s.shareBtnUsed]}
+                onPress={() => handleShare("report_card")}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="ribbon-outline" size={22} color={sharedToday.has("report_card") ? T.textMuted as string : "#3b82f6"} />
+                <Text style={[s.shareBtnLabel, sharedToday.has("report_card") && s.shareLabelUsed]}>Report Card</Text>
+                <Text style={s.shareBtnCoins}>{sharedToday.has("report_card") ? "✓ done" : "+3 🪙"}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           <AccountCard />
 
           {/* ── Recent activity ── */}
@@ -412,6 +485,7 @@ export default function ProfileScreen() {
                   const dialectColors: Record<string, string> = {
                     standard: T.green, sylheti: T.sylheti,
                     barisali: T.barisali, chittagonian: T.chittagonian,
+                    rajshahi: T.rajshahi, khulna: T.khulna,
                   };
                   const color   = dialectColors[item.dialect] ?? T.green;
                   const date    = new Date(item.date);
@@ -601,4 +675,16 @@ const s = StyleSheet.create({
   footerBn:   { fontFamily: FONT.bold, color: T.white, fontSize: 20, textAlign: "center", marginBottom: 8 },
   footerLine: { width: 32, height: 2, backgroundColor: T.gold, marginBottom: 8 },
   footerEn:   { fontFamily: FONT.medium, color: "rgba(255,255,255,0.8)", fontSize: 13, textAlign: "center" },
+
+  // Share & Earn
+  shareSubtitle: { fontFamily: FONT.regular, fontSize: 13, color: T.textMid as string, marginBottom: 12 },
+  shareGrid:     { flexDirection: "row", gap: 8 },
+  shareBtn: {
+    flex: 1, borderRadius: 14, borderWidth: 2, borderColor: T.border,
+    backgroundColor: T.bg, padding: 12, alignItems: "center", gap: 4,
+  },
+  shareBtnUsed:   { opacity: 0.45 },
+  shareBtnLabel:  { fontFamily: FONT.bold, fontSize: 11, color: T.text as string, textAlign: "center" },
+  shareLabelUsed: { color: T.textMuted as string },
+  shareBtnCoins:  { fontFamily: FONT.medium, fontSize: 11, color: T.gold },
 });
