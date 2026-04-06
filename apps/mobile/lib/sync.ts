@@ -6,6 +6,7 @@
 import {
   doc, setDoc, getDoc, updateDoc,
   serverTimestamp, onSnapshot, Unsubscribe,
+  collection, query, orderBy, limit, getDocs,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { getCurrentUser } from "./auth";
@@ -37,6 +38,14 @@ export async function pushProgressToFirestore(): Promise<void> {
       activeDialect,
       completedLessons: dialectProgress,
       syncedAt: serverTimestamp(),
+    }, { merge: true });
+
+    // Also update the public leaderboard entry
+    await setDoc(doc(db, "leaderboard", user.uid), {
+      displayName: user.displayName ?? user.email ?? "Learner",
+      xp:     stats.totalXp,
+      streak: stats.currentStreak,
+      updatedAt: serverTimestamp(),
     }, { merge: true });
   } catch (e) {
     // Fail silently — offline is fine, will sync next time
@@ -105,4 +114,49 @@ export function startRealtimeSync(): void {
 export function stopRealtimeSync(): void {
   _unsubscribe?.();
   _unsubscribe = null;
+}
+
+// ── Leaderboard: top 20 users by XP ─────────────────────────────────────────
+export type LeaderboardEntry = {
+  uid:    string;
+  name:   string;
+  xp:     number;
+  streak: number;
+};
+
+export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
+  const user = getCurrentUser();
+  try {
+    const q = query(
+      collection(db, "leaderboard"),
+      orderBy("xp", "desc"),
+      limit(20),
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => ({
+      uid:    d.id,
+      name:   (d.data().displayName as string) ?? "Learner",
+      xp:     (d.data().xp as number) ?? 0,
+      streak: (d.data().streak as number) ?? 0,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+// Push the current user's public stats to /leaderboard/{uid}
+export async function pushLeaderboardEntry(): Promise<void> {
+  const user = getCurrentUser();
+  if (!user) return;
+  try {
+    const stats = await getStats();
+    await setDoc(doc(db, "leaderboard", user.uid), {
+      displayName: user.displayName ?? user.email ?? "Learner",
+      xp:     stats.totalXp,
+      streak: stats.currentStreak,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch {
+    // Offline — fine
+  }
 }

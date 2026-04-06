@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   getStats, getCoins, addHearts, spendCoins, spendXp,
   activateStreakFreeze, isStreakFreezeActive,
+  activateXpBoost, isXpBoostActive, xpBoostRemainingMs,
 } from "@/lib/storage";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView, trackBazaarOpen } from "@/lib/analytics";
@@ -40,6 +41,8 @@ export default function BazaarScreen() {
   const [totalXp,     setTotalXp]     = useState(0);
   const [coins,       setCoins]       = useState(0);
   const [freezeOn,    setFreezeOn]    = useState(false);
+  const [boostOn,     setBoostOn]     = useState(false);
+  const [boostMs,     setBoostMs]     = useState<number | null>(null);
   const [toast,       setToast]       = useState<{ msg: string; ok: boolean } | null>(null);
 
   const fadeAnim  = useRef(new Animated.Value(0)).current;
@@ -48,13 +51,16 @@ export default function BazaarScreen() {
   const toastAnim = useRef(new Animated.Value(0)).current;
 
   async function refresh() {
-    const [s, c, f] = await Promise.all([
+    const [s, c, f, b, bMs] = await Promise.all([
       getStats(), getCoins(), isStreakFreezeActive(),
+      isXpBoostActive(), xpBoostRemainingMs(),
     ]);
     setHearts(s.hearts);
     setTotalXp(s.totalXp);
     setCoins(c);
     setFreezeOn(f);
+    setBoostOn(b);
+    setBoostMs(bMs);
   }
 
   // Refresh every time tab is focused
@@ -146,10 +152,20 @@ export default function BazaarScreen() {
       xpPrice:  null,        // can't buy an XP boost with XP
       coinPrice: 75,
       buy: async (method) => {
-        if (method === "iap" || method === "xp") {
-          return { ok: false, msg: "XP Boost coming in the next update!" };
+        if (boostOn) return { ok: false, msg: "XP Boost is already active!" };
+        if (method === "iap") {
+          return { ok: false, msg: "In-app purchases coming soon!" };
         }
-        return { ok: false, msg: "XP Boost coming in the next update!" };
+        if (method === "xp") {
+          return { ok: false, msg: "XP Boost can't be bought with XP." };
+        }
+        if (method === "coins") {
+          const ok = await spendCoins(75);
+          if (!ok) return { ok: false, msg: `Need 75 coins — you have ${coins}.` };
+        }
+        await activateXpBoost();
+        await refresh();
+        return { ok: true, msg: "2× XP Boost active for 2 hours! 🔥" };
       },
     },
   ];
@@ -214,6 +230,14 @@ export default function BazaarScreen() {
             <View style={s.freezeBadge}>
               <Ionicons name="snow" size={14} color={T.barisali} />
               <Text style={s.freezeBadgeText}>Streak Freeze active</Text>
+            </View>
+          )}
+          {boostOn && (
+            <View style={[s.freezeBadge, { borderColor: T.gold, backgroundColor: T.gold + "18" }]}>
+              <Ionicons name="flash" size={14} color={T.gold} />
+              <Text style={[s.freezeBadgeText, { color: T.gold }]}>
+                2× XP Boost{boostMs ? ` · ${formatCountdown(boostMs)}` : " active"}
+              </Text>
             </View>
           )}
         </View>

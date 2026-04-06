@@ -1,6 +1,33 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Dialect } from "@bangla-learn/types";
 
+// ── XP Boost ──────────────────────────────────────────────────────────────────
+const XP_BOOST_KEY    = "xp_boost_expires_at"; // epoch ms when 2× boost expires
+const XP_BOOST_MS     = 2 * 60 * 60 * 1000;    // 2 hours
+
+export async function activateXpBoost(): Promise<void> {
+  const expiresAt = Date.now() + XP_BOOST_MS;
+  await AsyncStorage.setItem(XP_BOOST_KEY, String(expiresAt));
+}
+
+export async function isXpBoostActive(): Promise<boolean> {
+  const raw = await AsyncStorage.getItem(XP_BOOST_KEY);
+  if (!raw) return false;
+  return Date.now() < parseInt(raw);
+}
+
+export async function xpBoostRemainingMs(): Promise<number | null> {
+  const raw = await AsyncStorage.getItem(XP_BOOST_KEY);
+  if (!raw) return null;
+  const remaining = parseInt(raw) - Date.now();
+  return remaining > 0 ? remaining : null;
+}
+
+// Apply boost multiplier to XP amount
+export async function applyBoostToXp(xp: number): Promise<number> {
+  return (await isXpBoostActive()) ? xp * 2 : xp;
+}
+
 const KEYS = {
   activeDialect: "active_dialect",
   completedLessons: (dialect: Dialect) => `completed_${dialect}`,
@@ -51,18 +78,21 @@ export async function completeLesson(
     await AsyncStorage.setItem(KEYS.completedLessons(dialect), JSON.stringify(completed));
   }
 
+  // Apply XP Boost multiplier if active
+  const finalXp = await applyBoostToXp(xp);
+
   // Update total XP
   const currentXp = parseInt((await AsyncStorage.getItem(KEYS.xp)) ?? "0");
-  await AsyncStorage.setItem(KEYS.xp, String(currentXp + xp));
+  await AsyncStorage.setItem(KEYS.xp, String(currentXp + finalXp));
 
-  // Update daily XP (resets each calendar day)
+  // Update daily XP (resets each calendar day; use boosted value)
   const today = new Date().toDateString();
   const dailyDate = await AsyncStorage.getItem(KEYS.dailyDate);
   const currentDailyXp = dailyDate === today
     ? parseInt((await AsyncStorage.getItem(KEYS.dailyXp)) ?? "0")
     : 0;
   await AsyncStorage.multiSet([
-    [KEYS.dailyXp,   String(currentDailyXp + xp)],
+    [KEYS.dailyXp,   String(currentDailyXp + finalXp)],
     [KEYS.dailyDate, today],
   ]);
 
