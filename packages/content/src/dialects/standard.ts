@@ -842,6 +842,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আমি ভাত খাই",
               romanization: "Ami bhat khai",
               answer: "I eat rice",
+
               xp: 4,
             },
             {
@@ -986,6 +987,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "সকালে চা খাই",
               romanization: "Shokale cha khai",
               answer: "I drink tea in the morning",
+
               xp: 4,
             },
             {
@@ -1054,6 +1056,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আজ সোমবার",
               romanization: "Aj Shombar",
               answer: "Today is Monday",
+
               xp: 4,
             },
           ],
@@ -1108,6 +1111,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "রান্না করা",
               romanization: "Ranna kora",
               answer: "To cook",
+
               xp: 3,
             },
             {
@@ -1404,6 +1408,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "সে ভাত খায় না",
               romanization: "She bhat khay na",
               answer: "He / She doesn't eat rice",
+
               xp: 4,
             },
           ],
@@ -1481,6 +1486,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "তুমি কেন আসো না?",
               romanization: "Tumi ken asho na?",
               answer: "Why don't you come?",
+
               xp: 4,
             },
           ],
@@ -1509,6 +1515,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আমি চা পান করি",
               romanization: "Ami cha pan kori",
               answer: "I drink tea",
+
               xp: 4,
             },
             {
@@ -1517,6 +1524,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "সে বাড়িতে থাকে",
               romanization: "She barite thake",
               answer: "He / She stays at home",
+
               xp: 4,
             },
             {
@@ -1598,6 +1606,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "তুমি কোথায় যাও?",
               romanization: "Tumi kothay jao?",
               answer: "Where do you go?",
+
               xp: 4,
             },
             {
@@ -1756,6 +1765,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আমি ভাত খেলাম",
               romanization: "Ami bhat khelam",
               answer: "I ate rice",
+
               xp: 4,
             },
           ],
@@ -1822,6 +1832,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "সে বাংলা বলল",
               romanization: "She Bangla bolllo",
               answer: "He / She spoke Bengali",
+
               xp: 4,
             },
           ],
@@ -1888,6 +1899,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আমি চা খাবো",
               romanization: "Ami cha khabo",
               answer: "I will drink tea",
+
               xp: 4,
             },
           ],
@@ -1954,6 +1966,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "তুমি কি বাড়িতে থাকবে?",
               romanization: "Tumi ki barite thakbe?",
               answer: "Will you stay at home?",
+
               xp: 4,
             },
           ],
@@ -2001,6 +2014,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "কাল আমি ঢাকা যাবো",
               romanization: "Kal ami Dhaka jabo",
               answer: "Tomorrow I will go to Dhaka",
+
               xp: 5,
             },
             {
@@ -2009,6 +2023,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "গতকাল সে বাড়ি এল",
               romanization: "Gotokal she bari elo",
               answer: "Yesterday he / she came home",
+
               xp: 5,
             },
             {
@@ -2079,6 +2094,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আমি কাল আসবো",
               romanization: "Ami kal ashbo",
               answer: "I will come tomorrow",
+
               xp: 4,
             },
             {
@@ -2234,6 +2250,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "তুমি আমার খুব প্রিয়।",
               romanization: "tumi amar khub priyo.",
               answer: "You are very dear to me.",
+
               xp: 6,
             },
             {
@@ -2288,6 +2305,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "তোমার কেমন মনে হয়?",
               romanization: "tomar kemon mone hoy?",
               answer: "How does it seem to you? / What do you think?",
+
               xp: 6,
             },
             {
@@ -2401,6 +2419,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আমার বয়স বিশ।",
               romanization: "amar boyosh bish.",
               answer: "I am twenty years old.",
+
               xp: 5,
             },
           ],
@@ -2430,6 +2449,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "সকালে চা খাই।",
               romanization: "shokale cha khai.",
               answer: "I drink tea in the morning.",
+
               xp: 5,
             },
             {
@@ -2481,6 +2501,7 @@ export const standardCurriculum: DialectCurriculum = {
               bangla: "আগামীকাল আসব।",
               romanization: "agamikal ashbo.",
               answer: "I will come tomorrow.",
+
               xp: 5,
             },
             {
@@ -2499,6 +2520,364 @@ export const standardCurriculum: DialectCurriculum = {
               romanization: "___ bhalo din.",
               options: ["গতকাল", "আজ", "আগামীকাল", "রাত"],
               xp: 5,
+            },
+          ],
+        },
+      ],
+    },
+    // ─── Unit 6 ───────────────────────────────────────────────────────────────
+    {
+      id: "std-unit-6",
+      title: "Food & Market",
+      description: "Kitchen vocabulary, market haggling, and mealtime sentences.",
+      color: "#dc2626",
+      order: 6,
+      prep: {
+        flashcards: [
+          { id: "fc-std-6-1",  bangla: "ভাত",        romanization: "bhat",       english: "cooked rice",     emoji: "🍚", category: "food" },
+          { id: "fc-std-6-2",  bangla: "মাছ",         romanization: "mach",       english: "fish",            emoji: "🐟", category: "food" },
+          { id: "fc-std-6-3",  bangla: "মাংস",        romanization: "mangsho",    english: "meat",            emoji: "🍖", category: "food" },
+          { id: "fc-std-6-4",  bangla: "ডাল",         romanization: "dal",        english: "lentils",         emoji: "🫘", category: "food" },
+          { id: "fc-std-6-5",  bangla: "সবজি",        romanization: "shobji",     english: "vegetables",      emoji: "🥦", category: "food" },
+          { id: "fc-std-6-6",  bangla: "ফল",          romanization: "fol",        english: "fruit",           emoji: "🍎", category: "food" },
+          { id: "fc-std-6-7",  bangla: "রুটি",        romanization: "ruti",       english: "bread / roti",    emoji: "🫓", category: "food" },
+          { id: "fc-std-6-8",  bangla: "চাল",         romanization: "chal",       english: "uncooked rice",   emoji: "🌾", category: "food" },
+          { id: "fc-std-6-9",  bangla: "তেল",         romanization: "tel",        english: "oil",             emoji: "🫙", category: "food" },
+          { id: "fc-std-6-10", bangla: "নুন",         romanization: "nun",        english: "salt",            emoji: "🧂", category: "food" },
+          { id: "fc-std-6-11", bangla: "চিনি",        romanization: "chini",      english: "sugar",           emoji: "🍬", category: "food" },
+          { id: "fc-std-6-12", bangla: "মশলা",        romanization: "moshla",     english: "spice",           emoji: "🌶️", category: "food" },
+          { id: "fc-std-6-13", bangla: "রান্না করা",  romanization: "ranna kora", english: "to cook",         emoji: "👨‍🍳", category: "verb" },
+          { id: "fc-std-6-14", bangla: "খাওয়া",       romanization: "khawa",      english: "to eat",          emoji: "😋", category: "verb" },
+          { id: "fc-std-6-15", bangla: "পান করা",     romanization: "pan kora",   english: "to drink",        emoji: "🥤", category: "verb" },
+          { id: "fc-std-6-16", bangla: "কেনা",        romanization: "kena",       english: "to buy",          emoji: "🛒", category: "verb" },
+          { id: "fc-std-6-17", bangla: "বিক্রি করা",  romanization: "bikri kora", english: "to sell",         emoji: "💰", category: "verb" },
+          { id: "fc-std-6-18", bangla: "বাজার",       romanization: "bajar",      english: "market",          emoji: "🏪", category: "place" },
+          { id: "fc-std-6-19", bangla: "দোকান",       romanization: "dokan",      english: "shop / store",    emoji: "🏬", category: "place" },
+          { id: "fc-std-6-20", bangla: "রান্নাঘর",    romanization: "rannaghor",  english: "kitchen",         emoji: "🍳", category: "place" },
+          { id: "fc-std-6-21", bangla: "দাম",         romanization: "dam",        english: "price",           emoji: "🏷️", category: "market" },
+          { id: "fc-std-6-22", bangla: "সস্তা",       romanization: "shoshta",    english: "cheap",           emoji: "✅", category: "market" },
+          { id: "fc-std-6-23", bangla: "দামি",        romanization: "dami",       english: "expensive",       emoji: "💎", category: "market" },
+          { id: "fc-std-6-24", bangla: "তাজা",        romanization: "taja",       english: "fresh",           emoji: "🌿", category: "market" },
+          { id: "fc-std-6-25", bangla: "পচা",         romanization: "pocha",      english: "rotten / stale",  emoji: "🤢", category: "market" },
+          { id: "fc-std-6-26", bangla: "ক্ষুধার্ত",   romanization: "khudhaarto", english: "hungry",          emoji: "😩", category: "feeling" },
+          { id: "fc-std-6-27", bangla: "তৃষ্ণার্ত",   romanization: "trishnarto", english: "thirsty",         emoji: "🥵", category: "feeling" },
+          { id: "fc-std-6-28", bangla: "সুস্বাদু",    romanization: "shushwadu",  english: "delicious",       emoji: "😍", category: "feeling" },
+          { id: "fc-std-6-29", bangla: "কেজি",        romanization: "keji",       english: "kilogram (kg)",   emoji: "⚖️", category: "market" },
+          { id: "fc-std-6-30", bangla: "টাকা",        romanization: "taka",       english: "taka (currency)", emoji: "💵", category: "market" },
+        ],
+        characters: [],
+        grammar: [
+          {
+            title: "-এর দাম কত? — asking price",
+            explanation: "Standard formula to ask price: [item]-এর দাম কত? (How much does [item] cost?). Answer: [number] টাকা।",
+            examples: [
+              { bangla: "মাছের দাম কত?",  romanization: "macher dam koto?",  english: "How much does the fish cost?" },
+              { bangla: "একশো টাকা।",      romanization: "ekshho taka.",       english: "One hundred taka." },
+            ],
+          },
+          {
+            title: "Verb + -তে চাই — expressing want",
+            explanation: "I want to [verb]: [verb stem] + তে চাই. E.g. খেতে চাই (want to eat), কিনতে চাই (want to buy).",
+            examples: [
+              { bangla: "আমি মাছ খেতে চাই।",    romanization: "ami mach khete chai.",    english: "I want to eat fish." },
+              { bangla: "আমি সবজি কিনতে চাই।",  romanization: "ami shobji kinte chai.",  english: "I want to buy vegetables." },
+            ],
+          },
+          {
+            title: "-টা / -টি classifiers with food",
+            explanation: "Count food items with classifiers: এক-টা মাছ (one fish), দুই-টা রুটি (two rotis). -টি is more formal.",
+            examples: [
+              { bangla: "দুটো মাছ দিন।",    romanization: "duto mach din.",   english: "Give me two fish." },
+              { bangla: "একটা আম কত?",       romanization: "ekta am koto?",    english: "How much is one mango?" },
+            ],
+          },
+        ],
+      },
+      lessons: [
+        {
+          id: "std-6-1",
+          title: "Kitchen Basics",
+          description: "Kitchen basics: common food vocabulary in standard Bengali",
+          unit: 6,
+          order: 1,
+          xpReward: 22,
+          exercises: [
+            {
+              type: "match_pairs",
+              id: "std-6-1-mp-1",
+              pairs: [
+                { bangla: "ভাত",   english: "cooked rice", romanization: "bhat" },
+                { bangla: "মাছ",   english: "fish", romanization: "mach" },
+                { bangla: "ডাল",   english: "lentils", romanization: "dal" },
+                { bangla: "সবজি",  english: "vegetables", romanization: "shobji" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "match_pairs",
+              id: "std-6-1-mp-2",
+              pairs: [
+                { bangla: "তেল",   english: "oil", romanization: "তেল" },
+                { bangla: "নুন",   english: "salt", romanization: "নুন" },
+                { bangla: "চিনি",  english: "sugar", romanization: "চিনি" },
+                { bangla: "মশলা",  english: "spice", romanization: "মশলা" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "multiple_choice",
+              id: "std-6-1-mc-1",
+              prompt: "The Bengali word for 'uncooked rice' is:",
+              options: ["ভাত", "চাল", "রুটি", "ডাল"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "std-6-1-ttb-1",
+              english: "I want to cook rice.",
+              answer: "আমি ভাত রান্না করতে চাই।",
+              romanization: "ami bhat ranna korte chai.",
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "std-6-2",
+          title: "At the Market",
+          description: "At the market: buying and selling food",
+          unit: 6,
+          order: 2,
+          xpReward: 22,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "std-6-2-tte-1",
+              bangla: "মাছের দাম কত?",
+              romanization: "macher dam koto?",
+              answer: "How much does the fish cost?",
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "std-6-2-mc-1",
+              prompt: "Which means 'cheap'?",
+              options: ["দামি", "তাজা", "সস্তা", "পচা"],
+              correct: 2,
+              xp: 4,
+            },
+            {
+              type: "fill_blank",
+              id: "std-6-2-fb-1",
+              sentence: "এই সবজি অনেক ___।",
+              romanization: "ei shobji onek ___.",
+              blank: "তাজা",
+
+              options: ["তাজা"],
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "std-6-2-ttb-1",
+              english: "I want to buy two fish.",
+              answer: "আমি দুটো মাছ কিনতে চাই।",
+              romanization: "ami duto mach kinte chai.",
+              xp: 8,
+            },
+          ],
+        },
+        {
+          id: "std-6-3",
+          title: "Hunger & Taste",
+          description: "Hunger and taste: expressing food feelings",
+          unit: 6,
+          order: 3,
+          xpReward: 22,
+          exercises: [
+            {
+              type: "match_pairs",
+              id: "std-6-3-mp-1",
+              pairs: [
+                { bangla: "ক্ষুধার্ত",  english: "hungry", romanization: "khudhaarto" },
+                { bangla: "তৃষ্ণার্ত",  english: "thirsty", romanization: "trishnarto" },
+                { bangla: "সুস্বাদু",   english: "delicious", romanization: "shushwadu" },
+                { bangla: "পচা",        english: "rotten", romanization: "pocha" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_english",
+              id: "std-6-3-tte-1",
+              bangla: "আমি খুব ক্ষুধার্ত। আমি ভাত খেতে চাই।",
+              romanization: "ami khub khudhaarto. ami bhat khete chai.",
+              answer: "I am very hungry. I want to eat rice.",
+
+              xp: 6,
+            },
+            {
+              type: "multiple_choice",
+              id: "std-6-3-mc-1",
+              prompt: "সুস্বাদু means:",
+              options: ["cheap", "fresh", "delicious", "thirsty"],
+              correct: 2,
+              xp: 4,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "std-6-3-ttb-1",
+              english: "This food is delicious.",
+              answer: "এই খাবার সুস্বাদু।",
+              romanization: "ei khabar shushwadu.",
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "std-6-4",
+          title: "Buying & Selling",
+          description: "Buying and selling: market transactions",
+          unit: 6,
+          order: 4,
+          xpReward: 22,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "std-6-4-tte-1",
+              bangla: "এক কেজি চাল কত টাকা?",
+              romanization: "ek keji chal koto taka?",
+              answer: "How many taka for one kilogram of rice?",
+
+              xp: 6,
+            },
+            {
+              type: "fill_blank",
+              id: "std-6-4-fb-1",
+              sentence: "আমি সবজি ___ চাই।",
+              romanization: "ami shobji ___ chai.",
+              blank: "কিনতে",
+
+              options: ["কিনতে"],
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "std-6-4-mc-1",
+              prompt: "বিক্রি করা means:",
+              options: ["to cook", "to eat", "to sell", "to buy"],
+              correct: 2,
+              xp: 4,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "std-6-4-ttb-1",
+              english: "The price of meat is expensive.",
+              answer: "মাংসের দাম দামি।",
+              romanization: "mangsher dam dami.",
+              xp: 7,
+            },
+          ],
+        },
+        {
+          id: "std-6-5",
+          title: "Mealtime",
+          description: "Mealtime: sharing food and eating together",
+          unit: 6,
+          order: 5,
+          xpReward: 22,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "std-6-5-tte-1",
+              bangla: "আমি রান্নাঘরে রান্না করছি।",
+              romanization: "ami rannaghor-e ranna korshhi.",
+              answer: "I am cooking in the kitchen.",
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "std-6-5-mc-1",
+              prompt: "'Give me two rotis' in Bengali is:",
+              options: ["দুটো রুটি দাও।", "রুটি কত?", "আমি রুটি খাই।", "একটা রুটি।"],
+              correct: 0,
+              xp: 4,
+            },
+            {
+              type: "fill_blank",
+              id: "std-6-5-fb-1",
+              sentence: "এই মাছ খুব ___।",
+              romanization: "ei mach khub ___.",
+              blank: "সুস্বাদু",
+
+              options: ["সুস্বাদু"],
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "std-6-5-ttb-1",
+              english: "How much is one mango?",
+              answer: "একটা আম কত?",
+              romanization: "ekta am koto?",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "std-6-6",
+          title: "Food & Market Quiz",
+          description: "Food & Market quiz — Standard Unit 6",
+          unit: 6,
+          order: 6,
+          xpReward: 22,
+          isQuiz: true,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "std-6-6-mc-1",
+              prompt: "How do you ask 'How much does fish cost?'",
+              options: ["মাছ কোথায়?", "মাছের দাম কত?", "মাছ কেমন?", "মাছ খাও?"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "std-6-6-tte-1",
+              bangla: "আমি বাজার থেকে তাজা সবজি কিনতে চাই।",
+              romanization: "ami bajar theke taja shobji kinte chai.",
+              answer: "I want to buy fresh vegetables from the market.",
+
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "std-6-6-ttb-1",
+              english: "This food is very delicious.",
+              answer: "এই খাবার খুব সুস্বাদু।",
+              romanization: "ei khabar khub shushwadu.",
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "std-6-6-fb-1",
+              sentence: "দুটো ___ দিন।",
+              romanization: "duto ___ din.",
+              blank: "রুটি",
+
+              options: ["রুটি"],
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "std-6-6-mc-2",
+              prompt: "'I want to eat' uses which construction?",
+              options: ["খাওয়া আছি", "খেতে চাই", "খাওয়া হবে", "খাচ্ছি"],
+              correct: 1,
+              xp: 4,
             },
           ],
         },

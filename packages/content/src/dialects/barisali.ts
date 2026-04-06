@@ -118,6 +118,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "তুমি কেমন আছো?",
               romanization: "tumi kemon acho?",
               answer: "How are you?",
+
               xp: 4,
             },
             {
@@ -152,6 +153,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আমার নাম ___।",
               romanization: "amar nam ___.",
               answer: "My name is ___.",
+
               xp: 4,
             },
             {
@@ -160,6 +162,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আমি বাংলা শিখতাছি।",
               romanization: "ami bangla shikhtasi.",
               answer: "I am learning Bangla. (Barisali form)",
+
               xp: 4,
             },
             {
@@ -206,6 +209,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "দয়া কইরা বসেন।",
               romanization: "doya koira bosen.",
               answer: "Please sit. (Barisali polite form)",
+
               xp: 4,
             },
             {
@@ -281,6 +285,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আপনে কেমন আসেন?",
               romanization: "apne kemon asen?",
               answer: "How are you? (Barisali polite form)",
+
               xp: 4,
             },
             {
@@ -289,6 +294,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আমি আইতাছি।",
               romanization: "ami aitasi.",
               answer: "I am coming. (Barisali progressive)",
+
               xp: 3,
             },
             {
@@ -328,6 +334,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "এইডা আমার মা।",
               romanization: "eida amar ma.",
               answer: "This is my mother. (Barisali)",
+
               xp: 4,
             },
             {
@@ -336,6 +343,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আমার এক বইন আছে।",
               romanization: "amar ek boin ase.",
               answer: "I have one sister. (Barisali: বইন for বোন)",
+
               xp: 4,
             },
             {
@@ -441,6 +449,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আমি তোমারে খুব মায়া করি।",
               romanization: "ami tomare khub maya kori.",
               answer: "I love / care for you a lot.",
+
               xp: 5,
             },
             {
@@ -467,6 +476,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "তুমি এহন কই আসো?",
               romanization: "tumi ehon koi aso?",
               answer: "Where are you now?",
+
               xp: 5,
             },
             {
@@ -561,6 +571,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আমার বয়স পনেরো।",
               romanization: "amar boyosh ponero.",
               answer: "I am fifteen years old.",
+
               xp: 5,
             },
           ],
@@ -590,6 +601,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আইজ রাইত ভালো।",
               romanization: "aij rait bhalo.",
               answer: "Tonight is good. / The night is good today.",
+
               xp: 5,
             },
             {
@@ -633,6 +645,7 @@ export const barisaliCurriculum: DialectCurriculum = {
               bangla: "আগাইলকাল আমি যামু।",
               romanization: "agailkal ami jamu.",
               answer: "Tomorrow I will go.",
+
               xp: 5,
             },
             {
@@ -642,6 +655,363 @@ export const barisaliCurriculum: DialectCurriculum = {
               answer: "গইকাল তুমি কই আছিলা?",
               romanization: "goikal tumi koi ashila?",
               xp: 5,
+            },
+          ],
+        },
+      ],
+    },
+    // ─── Unit 3 ───────────────────────────────────────────────────────────────
+    {
+      id: "bar-unit-3",
+      title: "Food & Daily Life",
+      description: "Barisali kitchen talk, market haggling, and home routines.",
+      color: "#ea580c",
+      order: 3,
+      prep: {
+        flashcards: [
+          { id: "fc-bar-3-1",  bangla: "ভাত",        romanization: "vhat",       english: "cooked rice",         emoji: "🍚", category: "food" },
+          { id: "fc-bar-3-2",  bangla: "মাছ",         romanization: "mach",       english: "fish",                emoji: "🐟", category: "food" },
+          { id: "fc-bar-3-3",  bangla: "ডাল",         romanization: "dal",        english: "lentils",             emoji: "🫘", category: "food" },
+          { id: "fc-bar-3-4",  bangla: "সবজি",        romanization: "shobji",     english: "vegetables",          emoji: "🥦", category: "food" },
+          { id: "fc-bar-3-5",  bangla: "পানি",        romanization: "pani",       english: "water",               emoji: "💧", category: "food" },
+          { id: "fc-bar-3-6",  bangla: "চা",          romanization: "cha",        english: "tea",                 emoji: "🍵", category: "food" },
+          { id: "fc-bar-3-7",  bangla: "দুধ",         romanization: "dudh",       english: "milk",                emoji: "🥛", category: "food" },
+          { id: "fc-bar-3-8",  bangla: "রুটি",        romanization: "ruti",       english: "bread / roti",        emoji: "🫓", category: "food" },
+          { id: "fc-bar-3-9",  bangla: "মাংস",        romanization: "mangsho",    english: "meat",                emoji: "🍖", category: "food" },
+          { id: "fc-bar-3-10", bangla: "ফল",          romanization: "fol",        english: "fruit",               emoji: "🍎", category: "food" },
+          { id: "fc-bar-3-11", bangla: "খাইতাছি",    romanization: "khaitashi",  english: "I am eating",         emoji: "😋", category: "verb" },
+          { id: "fc-bar-3-12", bangla: "রানতাছি",    romanization: "rantashi",   english: "I am cooking",        emoji: "👨‍🍳", category: "verb" },
+          { id: "fc-bar-3-13", bangla: "বাজার",       romanization: "bajar",      english: "market",              emoji: "🛒", category: "place" },
+          { id: "fc-bar-3-14", bangla: "দোকান",       romanization: "dokan",      english: "shop",                emoji: "🏪", category: "place" },
+          { id: "fc-bar-3-15", bangla: "বাড়ি",        romanization: "bari",       english: "home",                emoji: "🏠", category: "place" },
+          { id: "fc-bar-3-16", bangla: "ঘর",          romanization: "ghor",       english: "room",                emoji: "🚪", category: "place" },
+          { id: "fc-bar-3-17", bangla: "রান্নাঘর",    romanization: "rannaghor",  english: "kitchen",             emoji: "🍳", category: "place" },
+          { id: "fc-bar-3-18", bangla: "বিছানা",      romanization: "bishana",    english: "bed",                 emoji: "🛏️", category: "home" },
+          { id: "fc-bar-3-19", bangla: "খিদা",        romanization: "khida",      english: "hunger (Barisali)",   emoji: "😩", category: "feeling" },
+          { id: "fc-bar-3-20", bangla: "পেট ভরা",     romanization: "pet vhora",  english: "stomach full",        emoji: "😌", category: "feeling" },
+          { id: "fc-bar-3-21", bangla: "কিনমু",       romanization: "kinmu",      english: "I will buy",          emoji: "🛍️", category: "verb" },
+          { id: "fc-bar-3-22", bangla: "দামটা",       romanization: "damta",      english: "the price",           emoji: "💰", category: "market" },
+          { id: "fc-bar-3-23", bangla: "সস্তা",       romanization: "shoshta",    english: "cheap",               emoji: "🏷️", category: "market" },
+          { id: "fc-bar-3-24", bangla: "দামী",        romanization: "dami",       english: "expensive",           emoji: "💎", category: "market" },
+          { id: "fc-bar-3-25", bangla: "ঘুমাইতাছি",  romanization: "ghumaishi",  english: "I am sleeping",       emoji: "😴", category: "routine" },
+          { id: "fc-bar-3-26", bangla: "উইঠা যাই",   romanization: "uitha jai",  english: "I get up / wake up",  emoji: "🌅", category: "routine" },
+          { id: "fc-bar-3-27", bangla: "গোসল",        romanization: "ghoshol",    english: "bath",                emoji: "🚿", category: "routine" },
+          { id: "fc-bar-3-28", bangla: "কামে যাই",   romanization: "kame jai",   english: "I go to work",        emoji: "💼", category: "routine" },
+        ],
+        characters: [],
+        grammar: [
+          {
+            title: "-তাছি progressive in Barisali",
+            explanation: "Barisali uses -তাছি for ongoing actions: খাইতাছি (am eating), রানতাছি (am cooking).",
+            examples: [
+              { bangla: "আমি ভাত খাইতাছি।",  romanization: "ami vhat khaitashi.",  english: "I am eating rice." },
+              { bangla: "মা রান্না রানতাছে।",  romanization: "ma ranna rantashe.",   english: "Mother is cooking." },
+            ],
+          },
+          {
+            title: "কিনমু — Barisali future 'will buy'",
+            explanation: "Barisali future: কিনমু (I will buy), দিমু (I will give), যামু (I will go) — all use -মু.",
+            examples: [
+              { bangla: "আমি বাজার থাইকা মাছ কিনমু।", romanization: "ami bajar thaika mach kinmu.", english: "I will buy fish from the market." },
+              { bangla: "তোমারে চা দিমু।",             romanization: "tomare cha dimu.",             english: "I will give you tea." },
+            ],
+          },
+          {
+            title: "থাইকা = from",
+            explanation: "Barisali থাইকা = standard Bengali থেকে (from). Used with places: বাজার থাইকা (from the market).",
+            examples: [
+              { bangla: "দোকান থাইকা কিনছি।", romanization: "dokan thaika kinshi.", english: "I bought from the shop." },
+              { bangla: "বাড়ির কাছে বাজার।",   romanization: "barir kashe bajar.",   english: "The market is near home." },
+            ],
+          },
+        ],
+      },
+      lessons: [
+        {
+          id: "bar-3-1",
+          title: "Rice & Fish",
+          description: "Food staples: rice, fish, and lentils in Barisali",
+          unit: 3,
+          order: 1,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "bar-3-1-mc-1",
+              prompt: "Barisali 'I am eating' is:",
+              options: ["খাইতাছি", "খাচ্ছি", "খাইছিলাম", "খামু"],
+              correct: 0,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "bar-3-1-tte-1",
+              bangla: "আমি ভাত আর মাছ খাইতাছি।",
+              romanization: "ami vhat ar mach khaitashi.",
+              answer: "I am eating rice and fish.",
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "bar-3-1-mp-1",
+              pairs: [
+                { bangla: "ভাত",  english: "rice", romanization: "bhat" },
+                { bangla: "মাছ",  english: "fish", romanization: "mach" },
+                { bangla: "ডাল",  english: "lentils", romanization: "dal" },
+                { bangla: "পানি", english: "water", romanization: "pani" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "bar-3-1-ttb-1",
+              english: "I will eat fish and rice.",
+              answer: "আমি মাছ আর ভাত খামু।",
+              romanization: "ami mach ar vhat khamu.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "bar-3-2",
+          title: "At the Market",
+          description: "Shopping at the market in Barisali dialect",
+          unit: 3,
+          order: 2,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "bar-3-2-mc-1",
+              prompt: "Barisali for 'I will buy' is:",
+              options: ["কিনব", "কিনমু", "কিনছি", "কিনতাছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "bar-3-2-tte-1",
+              bangla: "বাজার থাইকা সবজি কিনমু।",
+              romanization: "bajar thaika shobji kinmu.",
+              answer: "I will buy vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "bar-3-2-fb-1",
+              sentence: "দামটা অনেক ___।",
+              romanization: "damta onek ___.",
+              blank: "দামী",
+
+              options: ["দামী"],
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "bar-3-2-mp-1",
+              pairs: [
+                { bangla: "বাজার",  english: "market", romanization: "bajar" },
+                { bangla: "দোকান",  english: "shop", romanization: "dokan" },
+                { bangla: "সস্তা",  english: "cheap", romanization: "shoshta" },
+                { bangla: "দামী",   english: "expensive", romanization: "dami" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "bar-3-3",
+          title: "In the Kitchen",
+          description: "Kitchen vocabulary and cooking in Barisali",
+          unit: 3,
+          order: 3,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "bar-3-3-tte-1",
+              bangla: "মা রান্নাঘরে রান্না রানতাছে।",
+              romanization: "ma rannaghor-e ranna rantashe.",
+              answer: "Mother is cooking in the kitchen.",
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "bar-3-3-mc-1",
+              prompt: "Barisali 'kitchen' is:",
+              options: ["খাবার ঘর", "রান্নাঘর", "বিছানা ঘর", "বাজার ঘর"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "match_pairs",
+              id: "bar-3-3-mp-1",
+              pairs: [
+                { bangla: "রান্নাঘর", english: "kitchen", romanization: "rannaghor" },
+                { bangla: "বিছানা",   english: "bed", romanization: "bishana" },
+                { bangla: "ঘর",       english: "room", romanization: "ghor" },
+                { bangla: "বাড়ি",    english: "home", romanization: "bari" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "bar-3-3-ttb-1",
+              english: "I will cook at home.",
+              answer: "আমি বাড়িতে রান্না রানমু।",
+              romanization: "ami barite ranna ranmu.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "bar-3-4",
+          title: "Daily Routine",
+          description: "Daily routine and meal times in Barisali",
+          unit: 3,
+          order: 4,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "bar-3-4-mc-1",
+              prompt: "Barisali 'I am sleeping' is:",
+              options: ["ঘুমাইছি", "ঘুমাইতাছি", "ঘুমামু", "ঘুমাইছিলাম"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "bar-3-4-tte-1",
+              bangla: "ভোরে উইঠা গোসল করছি।",
+              romanization: "vhore uitha ghoshol korshi.",
+              answer: "I woke up early and bathed.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "bar-3-4-fb-1",
+              sentence: "সকালে উইঠা ___ করছি।",
+              romanization: "shokale uitha ___ korshi.",
+              blank: "গোসল",
+
+              options: ["গোসল"],
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "bar-3-4-ttb-1",
+              english: "I go to work every day.",
+              answer: "আমি প্রতিদিন কামে যাই।",
+              romanization: "ami protidin kame jai.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "bar-3-5",
+          title: "Hunger & Fullness",
+          description: "Expressing hunger and fullness in Barisali",
+          unit: 3,
+          order: 5,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "bar-3-5-mc-1",
+              prompt: "Barisali for 'hunger' (not standard ক্ষুধা) is:",
+              options: ["পেট", "খিদা", "তৃষ্ণা", "ব্যথা"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "bar-3-5-tte-1",
+              bangla: "আমার অনেক খিদা লাগছে।",
+              romanization: "amar onek khida lagse.",
+              answer: "I am very hungry.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "bar-3-5-ttb-1",
+              english: "My stomach is full.",
+              answer: "আমার পেট ভরা।",
+              romanization: "amar pet vhora.",
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "bar-3-5-mp-1",
+              pairs: [
+                { bangla: "খিদা",    english: "hunger", romanization: "khida" },
+                { bangla: "পেট ভরা", english: "stomach full", romanization: "pet vhora" },
+                { bangla: "পানি",    english: "water", romanization: "pani" },
+                { bangla: "চা",      english: "tea", romanization: "cha" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "bar-3-6",
+          title: "Food Quiz",
+          description: "Food & Daily Life quiz — Barisali Unit 3",
+          unit: 3,
+          order: 6,
+          xpReward: 20,
+          isQuiz: true,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "bar-3-6-mc-1",
+              prompt: "What does 'কিনমু' mean?",
+              options: ["I bought", "I am buying", "I will buy", "Buy!"],
+              correct: 2,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "bar-3-6-tte-1",
+              bangla: "আমি বাজার থাইকা মাছ আর সবজি কিনমু।",
+              romanization: "ami bajar thaika mach ar shobji kinmu.",
+              answer: "I will buy fish and vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "bar-3-6-ttb-1",
+              english: "Mother is cooking in the kitchen.",
+              answer: "মা রান্নাঘরে রান্না রানতাছে।",
+              romanization: "ma rannaghor-e ranna rantashe.",
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "bar-3-6-fb-1",
+              sentence: "আমার অনেক ___ লাগছে।",
+              romanization: "amar onek ___ lagse.",
+              blank: "খিদা",
+
+              options: ["খিদা"],
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "bar-3-6-mc-2",
+              prompt: "Barisali progressive suffix is:",
+              options: ["-ছি", "-তেছি", "-তাছি", "-ব"],
+              correct: 2,
+              xp: 4,
             },
           ],
         },

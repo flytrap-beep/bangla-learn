@@ -119,6 +119,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "তুমি কেমন আছো?",
               romanization: "tumi kemon acho?",
               answer: "How are you?",
+
               xp: 4,
             },
             {
@@ -158,6 +159,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "আমার নাম ___।",
               romanization: "amar nam ___.",
               answer: "My name is ___.",
+
               xp: 4,
             },
             {
@@ -166,6 +168,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "আমি বাংলা শিখছি।",
               romanization: "ami bangla shikhchi.",
               answer: "I am learning Bangla.",
+
               xp: 4,
             },
             {
@@ -212,6 +215,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "দয়া করে বসুন।",
               romanization: "doya kore bosun.",
               answer: "Please sit.",
+
               xp: 4,
             },
             {
@@ -287,6 +291,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "আপনি কেমন আছেন?",
               romanization: "apni kemon achen?",
               answer: "How are you? (polite)",
+
               xp: 4,
             },
             {
@@ -295,6 +300,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "তারা আসবে।",
               romanization: "tara ashbe.",
               answer: "They will come.",
+
               xp: 3,
             },
             {
@@ -334,6 +340,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "এ আমার মা।",
               romanization: "e amar ma.",
               answer: "This is my mother.",
+
               xp: 4,
             },
             {
@@ -342,6 +349,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "আমার এক ভাই আছে।",
               romanization: "amar ek bhai ache.",
               answer: "I have one brother.",
+
               xp: 4,
             },
             {
@@ -439,6 +447,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "তুমি আমার খুব প্রিয়।",
               romanization: "tumi amar khub priyo.",
               answer: "You are very dear to me.",
+
               xp: 5,
             },
             {
@@ -465,6 +474,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "তুমি কোথায় যাচ্ছ?",
               romanization: "tumi kothay jaccho?",
               answer: "Where are you going?",
+
               xp: 5,
             },
             {
@@ -559,6 +569,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "আমার বয়স আঠারো।",
               romanization: "amar boyosh atharo.",
               answer: "I am eighteen years old.",
+
               xp: 5,
             },
           ],
@@ -588,6 +599,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "এখন সন্ধ্যা।",
               romanization: "ekhon shondhya.",
               answer: "It is evening now.",
+
               xp: 5,
             },
             {
@@ -631,6 +643,7 @@ export const rajshahiCurriculum: DialectCurriculum = {
               bangla: "আমি আগামীকাল আসব।",
               romanization: "ami agamikal ashbo.",
               answer: "I will come tomorrow.",
+
               xp: 5,
             },
             {
@@ -640,6 +653,363 @@ export const rajshahiCurriculum: DialectCurriculum = {
               answer: "তুমি গতকাল কী করলে?",
               romanization: "tumi gotokal ki korle?",
               xp: 5,
+            },
+          ],
+        },
+      ],
+    },
+    // ─── Unit 3 ───────────────────────────────────────────────────────────────
+    {
+      id: "raj-unit-3",
+      title: "Food & Daily Life",
+      description: "Rajshahi-flavoured food talk, market visits, and home routines.",
+      color: "#15803d",
+      order: 3,
+      prep: {
+        flashcards: [
+          { id: "fc-raj-3-1",  bangla: "ভাত",        romanization: "vhat",      english: "cooked rice",     emoji: "🍚", category: "food" },
+          { id: "fc-raj-3-2",  bangla: "মাছ",         romanization: "mach",      english: "fish",            emoji: "🐟", category: "food" },
+          { id: "fc-raj-3-3",  bangla: "ডাল",         romanization: "dal",       english: "lentils",         emoji: "🫘", category: "food" },
+          { id: "fc-raj-3-4",  bangla: "সবজি",        romanization: "shobji",    english: "vegetables",      emoji: "🥦", category: "food" },
+          { id: "fc-raj-3-5",  bangla: "পানি",        romanization: "pani",      english: "water",           emoji: "💧", category: "food" },
+          { id: "fc-raj-3-6",  bangla: "চা",          romanization: "cha",       english: "tea",             emoji: "🍵", category: "food" },
+          { id: "fc-raj-3-7",  bangla: "দুধ",         romanization: "dudh",      english: "milk",            emoji: "🥛", category: "food" },
+          { id: "fc-raj-3-8",  bangla: "রুটি",        romanization: "ruti",      english: "bread / roti",    emoji: "🫓", category: "food" },
+          { id: "fc-raj-3-9",  bangla: "মাংস",        romanization: "mangsho",   english: "meat",            emoji: "🍖", category: "food" },
+          { id: "fc-raj-3-10", bangla: "ফল",          romanization: "fol",       english: "fruit",           emoji: "🍎", category: "food" },
+          { id: "fc-raj-3-11", bangla: "খাচ্ছি",     romanization: "khashshi",  english: "I am eating",     emoji: "😋", category: "verb" },
+          { id: "fc-raj-3-12", bangla: "রান্না করছি", romanization: "ranna korshi", english: "I am cooking", emoji: "👨‍🍳", category: "verb" },
+          { id: "fc-raj-3-13", bangla: "বাজার",       romanization: "bajar",     english: "market",          emoji: "🛒", category: "place" },
+          { id: "fc-raj-3-14", bangla: "দোকান",       romanization: "dokan",     english: "shop",            emoji: "🏪", category: "place" },
+          { id: "fc-raj-3-15", bangla: "বাড়ি",        romanization: "bari",      english: "home",            emoji: "🏠", category: "place" },
+          { id: "fc-raj-3-16", bangla: "ঘর",          romanization: "ghor",      english: "room",            emoji: "🚪", category: "place" },
+          { id: "fc-raj-3-17", bangla: "রান্নাঘর",    romanization: "rannaghor", english: "kitchen",         emoji: "🍳", category: "place" },
+          { id: "fc-raj-3-18", bangla: "বিছানা",      romanization: "bishana",   english: "bed",             emoji: "🛏️", category: "home" },
+          { id: "fc-raj-3-19", bangla: "ক্ষুধা",      romanization: "khudha",    english: "hunger",          emoji: "😩", category: "feeling" },
+          { id: "fc-raj-3-20", bangla: "পেট ভরা",     romanization: "pet vhora", english: "stomach full",    emoji: "😌", category: "feeling" },
+          { id: "fc-raj-3-21", bangla: "কিনব",        romanization: "kinbo",     english: "I will buy",      emoji: "🛍️", category: "verb" },
+          { id: "fc-raj-3-22", bangla: "দাম",         romanization: "dam",       english: "price",           emoji: "💰", category: "market" },
+          { id: "fc-raj-3-23", bangla: "সস্তা",       romanization: "shoshta",   english: "cheap",           emoji: "🏷️", category: "market" },
+          { id: "fc-raj-3-24", bangla: "দামি",        romanization: "dami",      english: "expensive",       emoji: "💎", category: "market" },
+          { id: "fc-raj-3-25", bangla: "ঘুমাচ্ছি",   romanization: "ghumashshi",english: "I am sleeping",   emoji: "😴", category: "routine" },
+          { id: "fc-raj-3-26", bangla: "উঠছি",       romanization: "uthshi",    english: "I am getting up", emoji: "🌅", category: "routine" },
+          { id: "fc-raj-3-27", bangla: "গোসল",        romanization: "ghoshol",   english: "bath",            emoji: "🚿", category: "routine" },
+          { id: "fc-raj-3-28", bangla: "কাজে যাই",   romanization: "kaje jai",  english: "I go to work",    emoji: "💼", category: "routine" },
+        ],
+        characters: [],
+        grammar: [
+          {
+            title: "Standard -ছি progressive in Rajshahi",
+            explanation: "Rajshahi uses standard Bengali -ছি progressive: খাচ্ছি (am eating), রান্না করছি (am cooking). This matches Standard Bengali closely.",
+            examples: [
+              { bangla: "আমি ভাত খাচ্ছি।",      romanization: "ami vhat khashshi.",    english: "I am eating rice." },
+              { bangla: "মা রান্না করছেন।",      romanization: "ma ranna korshhen.",    english: "Mother is cooking." },
+            ],
+          },
+          {
+            title: "কিনব — future in Rajshahi",
+            explanation: "Rajshahi future uses standard -ব: কিনব (will buy), খাব (will eat), যাব (will go).",
+            examples: [
+              { bangla: "আমি বাজার থেকে মাছ কিনব।", romanization: "ami bajar theke mach kinbo.", english: "I will buy fish from the market." },
+              { bangla: "তোমাকে চা দেব।",            romanization: "tomake cha debo.",             english: "I will give you tea." },
+            ],
+          },
+          {
+            title: "থেকে = from (Rajshahi standard form)",
+            explanation: "Rajshahi uses থেকে (standard Bengali) for 'from', unlike Barisali থাইকা or Chittagonian থাকি.",
+            examples: [
+              { bangla: "দোকান থেকে কিনেছি।", romanization: "dokan theke kineshi.", english: "I bought from the shop." },
+              { bangla: "বাড়ির কাছে বাজার।",  romanization: "barir kashe bajar.",   english: "The market is near home." },
+            ],
+          },
+        ],
+      },
+      lessons: [
+        {
+          id: "raj-3-1",
+          title: "Rice & Fish",
+          description: "Food staples: rice, fish, and lentils in Rajshahi dialect",
+          unit: 3,
+          order: 1,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "raj-3-1-mc-1",
+              prompt: "Rajshahi 'I am eating' (standard form) is:",
+              options: ["খাইতাছি", "খাচ্ছি", "খাইছি", "খামু"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "raj-3-1-tte-1",
+              bangla: "আমি ভাত আর মাছ খাচ্ছি।",
+              romanization: "ami vhat ar mach khashshi.",
+              answer: "I am eating rice and fish.",
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "raj-3-1-mp-1",
+              pairs: [
+                { bangla: "ভাত",  english: "rice", romanization: "bhat" },
+                { bangla: "মাছ",  english: "fish", romanization: "mach" },
+                { bangla: "ডাল",  english: "lentils", romanization: "dal" },
+                { bangla: "পানি", english: "water", romanization: "pani" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "raj-3-1-ttb-1",
+              english: "I will eat fish and rice.",
+              answer: "আমি মাছ আর ভাত খাব।",
+              romanization: "ami mach ar vhat khabo.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "raj-3-2",
+          title: "At the Market",
+          description: "Shopping at the market in Rajshahi dialect",
+          unit: 3,
+          order: 2,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "raj-3-2-mc-1",
+              prompt: "Rajshahi 'I will buy' is:",
+              options: ["কিনব", "কিনমু", "কিনুম", "কিনছি"],
+              correct: 0,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "raj-3-2-tte-1",
+              bangla: "বাজার থেকে সবজি কিনব।",
+              romanization: "bajar theke shobji kinbo.",
+              answer: "I will buy vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "raj-3-2-fb-1",
+              sentence: "মাংসটা অনেক ___।",
+              romanization: "mangsota onek ___.",
+              blank: "দামি",
+
+              options: ["দামি"],
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "raj-3-2-mp-1",
+              pairs: [
+                { bangla: "বাজার",  english: "market", romanization: "bajar" },
+                { bangla: "দোকান",  english: "shop", romanization: "dokan" },
+                { bangla: "সস্তা",  english: "cheap", romanization: "shoshta" },
+                { bangla: "দামি",   english: "expensive", romanization: "dami" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "raj-3-3",
+          title: "In the Kitchen",
+          description: "Kitchen vocabulary and cooking in Rajshahi",
+          unit: 3,
+          order: 3,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "raj-3-3-tte-1",
+              bangla: "মা রান্নাঘরে রান্না করছেন।",
+              romanization: "ma rannaghor-e ranna korshhen.",
+              answer: "Mother is cooking in the kitchen.",
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "raj-3-3-mc-1",
+              prompt: "Rajshahi 'kitchen' is:",
+              options: ["খাবার ঘর", "রান্নাঘর", "বিছানা ঘর", "কাজের ঘর"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "match_pairs",
+              id: "raj-3-3-mp-1",
+              pairs: [
+                { bangla: "রান্নাঘর", english: "kitchen", romanization: "rannaghor" },
+                { bangla: "বিছানা",   english: "bed", romanization: "bishana" },
+                { bangla: "ঘর",       english: "room", romanization: "ghor" },
+                { bangla: "বাড়ি",    english: "home", romanization: "bari" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "raj-3-3-ttb-1",
+              english: "I will cook at home.",
+              answer: "আমি বাড়িতে রান্না করব।",
+              romanization: "ami barite ranna korbo.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "raj-3-4",
+          title: "Daily Routine",
+          description: "Daily routine and meal times in Rajshahi",
+          unit: 3,
+          order: 4,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "raj-3-4-mc-1",
+              prompt: "Rajshahi 'I am sleeping' is:",
+              options: ["ঘুমাইতাছি", "ঘুমাচ্ছি", "ঘুমামু", "ঘুমাইছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "raj-3-4-tte-1",
+              bangla: "ভোরে উঠে গোসল করেছি।",
+              romanization: "vhore uthe ghoshol korechi.",
+              answer: "I woke up early and bathed.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "raj-3-4-fb-1",
+              sentence: "সকালে উঠে ___ করেছি।",
+              romanization: "shokale uthe ___ korechi.",
+              blank: "গোসল",
+
+              options: ["গোসল"],
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "raj-3-4-ttb-1",
+              english: "I go to work every day.",
+              answer: "আমি প্রতিদিন কাজে যাই।",
+              romanization: "ami protidin kaje jai.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "raj-3-5",
+          title: "Hunger & Fullness",
+          description: "Expressing hunger and fullness in Rajshahi",
+          unit: 3,
+          order: 5,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "raj-3-5-mc-1",
+              prompt: "Rajshahi standard word for 'hunger' is:",
+              options: ["খিদা", "ক্ষুধা", "পেট", "তৃষ্ণা"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "raj-3-5-tte-1",
+              bangla: "আমার অনেক ক্ষুধা পেয়েছে।",
+              romanization: "amar onek khudha peyeche.",
+              answer: "I am very hungry.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "raj-3-5-ttb-1",
+              english: "My stomach is full.",
+              answer: "আমার পেট ভরা।",
+              romanization: "amar pet vhora.",
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "raj-3-5-mp-1",
+              pairs: [
+                { bangla: "ক্ষুধা",  english: "hunger", romanization: "khudha" },
+                { bangla: "পেট ভরা", english: "stomach full", romanization: "pet vhora" },
+                { bangla: "পানি",    english: "water", romanization: "pani" },
+                { bangla: "চা",      english: "tea", romanization: "cha" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "raj-3-6",
+          title: "Food Quiz",
+          description: "Food & Daily Life quiz — Rajshahi Unit 3",
+          unit: 3,
+          order: 6,
+          xpReward: 20,
+          isQuiz: true,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "raj-3-6-mc-1",
+              prompt: "Rajshahi future 'I will buy' is:",
+              options: ["কিনমু", "কিনব", "কিনুম", "কিনতেছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "raj-3-6-tte-1",
+              bangla: "আমি বাজার থেকে মাছ আর সবজি কিনব।",
+              romanization: "ami bajar theke mach ar shobji kinbo.",
+              answer: "I will buy fish and vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "raj-3-6-ttb-1",
+              english: "Mother is cooking in the kitchen.",
+              answer: "মা রান্নাঘরে রান্না করছেন।",
+              romanization: "ma rannaghor-e ranna korshhen.",
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "raj-3-6-fb-1",
+              sentence: "আমার অনেক ___ পেয়েছে।",
+              romanization: "amar onek ___ peyeche.",
+              blank: "ক্ষুধা",
+
+              options: ["ক্ষুধা"],
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "raj-3-6-mc-2",
+              prompt: "Rajshahi 'from the market' is:",
+              options: ["বাজার থাইকা", "বাজার থাকি", "বাজার থেকে", "বাজার লাই"],
+              correct: 2,
+              xp: 4,
             },
           ],
         },

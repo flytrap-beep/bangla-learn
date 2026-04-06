@@ -49,12 +49,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return unsub;
   }, []);
 
-  // Push progress to Firestore whenever app comes back to foreground
+  // Sync progress whenever app comes back to foreground
+  // Pull first (pick up changes from other devices), then push local state
   useEffect(() => {
+    let lastState = AppState.currentState;
     const sub = AppState.addEventListener("change", (state: AppStateStatus) => {
-      if (state === "active") {
-        pushProgressToFirestore().catch(() => {});
+      if (state === "active" && lastState !== "active") {
+        pullProgressFromFirestore()
+          .then(() => pushProgressToFirestore())
+          .catch(() => {});
       }
+      lastState = state;
     });
     return () => sub.remove();
   }, []);

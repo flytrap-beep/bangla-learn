@@ -119,6 +119,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "তুমি কেমন আছো?",
               romanization: "tumi kemon acho?",
               answer: "How are you?",
+
               xp: 4,
             },
             {
@@ -158,6 +159,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমার নাম ___।",
               romanization: "amar nam ___.",
               answer: "My name is ___.",
+
               xp: 4,
             },
             {
@@ -166,6 +168,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমি বাংলা শিখতেছি।",
               romanization: "ami bangla shikhtesi.",
               answer: "I am learning Bangla. (Khulna form)",
+
               xp: 4,
             },
             {
@@ -212,6 +215,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "দয়া করে সাহায্য করেন।",
               romanization: "doya kore shahajjo koren.",
               answer: "Please help.",
+
               xp: 4,
             },
             {
@@ -287,6 +291,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আপনে কেমন আছেন?",
               romanization: "apne kemon asen?",
               answer: "How are you? (polite, Khulna form)",
+
               xp: 4,
             },
             {
@@ -295,6 +300,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমি আইতেছি।",
               romanization: "ami aitesi.",
               answer: "I am coming. (Khulna progressive)",
+
               xp: 3,
             },
             {
@@ -334,6 +340,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "এইডা আমার মা।",
               romanization: "eida amar ma.",
               answer: "This is my mother.",
+
               xp: 4,
             },
             {
@@ -342,6 +349,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমার এক বইন আছে।",
               romanization: "amar ek boin ase.",
               answer: "I have one sister. (Khulna form)",
+
               xp: 4,
             },
             {
@@ -450,6 +458,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমি তোমারে ভালোবাসি।",
               romanization: "ami tomare bhalobashi.",
               answer: "I love you.",
+
               xp: 5,
             },
             {
@@ -476,6 +485,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "তুমি এহন কই আসো?",
               romanization: "tumi ehon koi aso?",
               answer: "Where are you now?",
+
               xp: 5,
             },
             {
@@ -570,6 +580,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমার বয়স তেরো।",
               romanization: "amar boyosh tero.",
               answer: "I am thirteen years old.",
+
               xp: 5,
             },
           ],
@@ -599,6 +610,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমি এহন আইতেছি।",
               romanization: "ami ehon aiteshi.",
               answer: "I am coming now.",
+
               xp: 5,
             },
             {
@@ -642,6 +654,7 @@ export const khulnaCurriculum: DialectCurriculum = {
               bangla: "আমি আগাইলকাল দিমু।",
               romanization: "ami agailkal dimu.",
               answer: "I will give (it) tomorrow.",
+
               xp: 5,
             },
             {
@@ -651,6 +664,363 @@ export const khulnaCurriculum: DialectCurriculum = {
               answer: "আমি তোমার লাই আইতেছি।",
               romanization: "ami tomar lai aiteshi.",
               xp: 5,
+            },
+          ],
+        },
+      ],
+    },
+    // ─── Unit 3 ───────────────────────────────────────────────────────────────
+    {
+      id: "khu-unit-3",
+      title: "Food & Daily Life",
+      description: "Khulna kitchen talk with -তেছি progressive and market haggling.",
+      color: "#0e7490",
+      order: 3,
+      prep: {
+        flashcards: [
+          { id: "fc-khu-3-1",  bangla: "ভাত",         romanization: "vhat",       english: "cooked rice",      emoji: "🍚", category: "food" },
+          { id: "fc-khu-3-2",  bangla: "মাছ",          romanization: "mach",       english: "fish",             emoji: "🐟", category: "food" },
+          { id: "fc-khu-3-3",  bangla: "ডাল",          romanization: "dal",        english: "lentils",          emoji: "🫘", category: "food" },
+          { id: "fc-khu-3-4",  bangla: "সবজি",         romanization: "shobji",     english: "vegetables",       emoji: "🥦", category: "food" },
+          { id: "fc-khu-3-5",  bangla: "পানি",         romanization: "pani",       english: "water",            emoji: "💧", category: "food" },
+          { id: "fc-khu-3-6",  bangla: "চা",           romanization: "cha",        english: "tea",              emoji: "🍵", category: "food" },
+          { id: "fc-khu-3-7",  bangla: "দুধ",          romanization: "dudh",       english: "milk",             emoji: "🥛", category: "food" },
+          { id: "fc-khu-3-8",  bangla: "রুটি",         romanization: "ruti",       english: "bread / roti",     emoji: "🫓", category: "food" },
+          { id: "fc-khu-3-9",  bangla: "মাংস",         romanization: "mangsho",    english: "meat",             emoji: "🍖", category: "food" },
+          { id: "fc-khu-3-10", bangla: "ফল",           romanization: "fol",        english: "fruit",            emoji: "🍎", category: "food" },
+          { id: "fc-khu-3-11", bangla: "খাইতেছি",     romanization: "khaiteshi",  english: "I am eating",      emoji: "😋", category: "verb" },
+          { id: "fc-khu-3-12", bangla: "রানতেছি",     romanization: "ranteshi",   english: "I am cooking",     emoji: "👨‍🍳", category: "verb" },
+          { id: "fc-khu-3-13", bangla: "বাজার",        romanization: "bajar",      english: "market",           emoji: "🛒", category: "place" },
+          { id: "fc-khu-3-14", bangla: "দোকান",        romanization: "dokan",      english: "shop",             emoji: "🏪", category: "place" },
+          { id: "fc-khu-3-15", bangla: "বাড়ি",         romanization: "bari",       english: "home",             emoji: "🏠", category: "place" },
+          { id: "fc-khu-3-16", bangla: "ঘর",           romanization: "ghor",       english: "room",             emoji: "🚪", category: "place" },
+          { id: "fc-khu-3-17", bangla: "রান্নাঘর",     romanization: "rannaghor",  english: "kitchen",          emoji: "🍳", category: "place" },
+          { id: "fc-khu-3-18", bangla: "বিছানা",       romanization: "bishana",    english: "bed",              emoji: "🛏️", category: "home" },
+          { id: "fc-khu-3-19", bangla: "খিদা",         romanization: "khida",      english: "hunger",           emoji: "😩", category: "feeling" },
+          { id: "fc-khu-3-20", bangla: "পেট ভরা",      romanization: "pet vhora",  english: "stomach full",     emoji: "😌", category: "feeling" },
+          { id: "fc-khu-3-21", bangla: "কিনমু",        romanization: "kinmu",      english: "I will buy",       emoji: "🛍️", category: "verb" },
+          { id: "fc-khu-3-22", bangla: "দামটা",        romanization: "damta",      english: "the price",        emoji: "💰", category: "market" },
+          { id: "fc-khu-3-23", bangla: "সস্তা",        romanization: "shoshta",    english: "cheap",            emoji: "🏷️", category: "market" },
+          { id: "fc-khu-3-24", bangla: "দামী",         romanization: "dami",       english: "expensive",        emoji: "💎", category: "market" },
+          { id: "fc-khu-3-25", bangla: "ঘুমাইতেছি",   romanization: "ghumaiteshi",english: "I am sleeping",    emoji: "😴", category: "routine" },
+          { id: "fc-khu-3-26", bangla: "উইঠা যাই",    romanization: "uitha jai",  english: "I get up",         emoji: "🌅", category: "routine" },
+          { id: "fc-khu-3-27", bangla: "গোসল",         romanization: "ghoshol",    english: "bath",             emoji: "🚿", category: "routine" },
+          { id: "fc-khu-3-28", bangla: "কামে যাই",    romanization: "kame jai",   english: "I go to work",     emoji: "💼", category: "routine" },
+        ],
+        characters: [],
+        grammar: [
+          {
+            title: "-তেছি progressive in Khulna",
+            explanation: "Khulna uses -তেছি for ongoing actions: খাইতেছি (am eating), আইতেছি (am coming), রানতেছি (am cooking).",
+            examples: [
+              { bangla: "আমি ভাত খাইতেছি।",  romanization: "ami vhat khaiteshi.",  english: "I am eating rice." },
+              { bangla: "মা রান্না রানতেছে।",  romanization: "ma ranna ranteshe.",   english: "Mother is cooking." },
+            ],
+          },
+          {
+            title: "কিনমু — Khulna future",
+            explanation: "Khulna future: কিনমু (I will buy), দিমু (I will give), যামু (I will go) — same -মু suffix as Barisali.",
+            examples: [
+              { bangla: "আমি বাজার থাইকা মাছ কিনমু।", romanization: "ami bajar thaika mach kinmu.", english: "I will buy fish from the market." },
+              { bangla: "তোমারে চা দিমু।",             romanization: "tomare cha dimu.",             english: "I will give you tea." },
+            ],
+          },
+          {
+            title: "তোমারে — object marker in Khulna",
+            explanation: "Khulna uses -রে as the object suffix: তোমারে (to you), আমারে (to me) — not standard তোমাকে.",
+            examples: [
+              { bangla: "তোমারে মাছ দিমু।",  romanization: "tomare mach dimu.",   english: "I will give you fish." },
+              { bangla: "আমারে চা দাও।",      romanization: "amare cha dao.",       english: "Give me tea." },
+            ],
+          },
+        ],
+      },
+      lessons: [
+        {
+          id: "khu-3-1",
+          title: "Rice & Fish",
+          description: "Food staples: rice, fish, and lentils in Khulna dialect",
+          unit: 3,
+          order: 1,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "khu-3-1-mc-1",
+              prompt: "Khulna 'I am eating' uses:",
+              options: ["খাইতাছি", "খাইতেছি", "খাচ্ছি", "খাইছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "khu-3-1-tte-1",
+              bangla: "আমি ভাত আর মাছ খাইতেছি।",
+              romanization: "ami vhat ar mach khaiteshi.",
+              answer: "I am eating rice and fish.",
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "khu-3-1-mp-1",
+              pairs: [
+                { bangla: "ভাত",  english: "rice", romanization: "bhat" },
+                { bangla: "মাছ",  english: "fish", romanization: "mach" },
+                { bangla: "ডাল",  english: "lentils", romanization: "dal" },
+                { bangla: "পানি", english: "water", romanization: "pani" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "khu-3-1-ttb-1",
+              english: "I will eat fish and rice.",
+              answer: "আমি মাছ আর ভাত খামু।",
+              romanization: "ami mach ar vhat khamu.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "khu-3-2",
+          title: "At the Market",
+          description: "Shopping at the market in Khulna dialect",
+          unit: 3,
+          order: 2,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "khu-3-2-mc-1",
+              prompt: "Khulna 'I will buy' is:",
+              options: ["কিনব", "কিনমু", "কিনুম", "কিনতেছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "khu-3-2-tte-1",
+              bangla: "বাজার থাইকা সবজি কিনমু।",
+              romanization: "bajar thaika shobji kinmu.",
+              answer: "I will buy vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "khu-3-2-fb-1",
+              sentence: "দামটা অনেক ___।",
+              romanization: "damta onek ___.",
+              blank: "দামী",
+
+              options: ["দামী"],
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "khu-3-2-mp-1",
+              pairs: [
+                { bangla: "বাজার",  english: "market", romanization: "bajar" },
+                { bangla: "দোকান",  english: "shop", romanization: "dokan" },
+                { bangla: "সস্তা",  english: "cheap", romanization: "shoshta" },
+                { bangla: "দামী",   english: "expensive", romanization: "dami" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "khu-3-3",
+          title: "In the Kitchen",
+          description: "Kitchen vocabulary and cooking in Khulna",
+          unit: 3,
+          order: 3,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "khu-3-3-tte-1",
+              bangla: "মা রান্নাঘরে রান্না রানতেছে।",
+              romanization: "ma rannaghor-e ranna ranteshe.",
+              answer: "Mother is cooking in the kitchen.",
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "khu-3-3-mc-1",
+              prompt: "Khulna 'kitchen' is:",
+              options: ["খাবার ঘর", "রান্নাঘর", "বিছানা ঘর", "কামের ঘর"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "match_pairs",
+              id: "khu-3-3-mp-1",
+              pairs: [
+                { bangla: "রান্নাঘর", english: "kitchen", romanization: "rannaghor" },
+                { bangla: "বিছানা",   english: "bed", romanization: "bishana" },
+                { bangla: "ঘর",       english: "room", romanization: "ghor" },
+                { bangla: "বাড়ি",    english: "home", romanization: "bari" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "khu-3-3-ttb-1",
+              english: "I will cook at home.",
+              answer: "আমি বাড়িতে রান্না রানমু।",
+              romanization: "ami barite ranna ranmu.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "khu-3-4",
+          title: "Daily Routine",
+          description: "Daily routine and meal times in Khulna",
+          unit: 3,
+          order: 4,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "khu-3-4-mc-1",
+              prompt: "Khulna 'I am sleeping' uses -তেছি form:",
+              options: ["ঘুমাইতাছি", "ঘুমাইতেছি", "ঘুমাচ্ছি", "ঘুমামু"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "khu-3-4-tte-1",
+              bangla: "ভোরে উইঠা গোসল করছি।",
+              romanization: "vhore uitha ghoshol korshi.",
+              answer: "I woke up early and bathed.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "khu-3-4-fb-1",
+              sentence: "সকালে উইঠা ___ করছি।",
+              romanization: "shokale uitha ___ korshi.",
+              blank: "গোসল",
+
+              options: ["গোসল"],
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "khu-3-4-ttb-1",
+              english: "I go to work every day.",
+              answer: "আমি প্রতিদিন কামে যাই।",
+              romanization: "ami protidin kame jai.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "khu-3-5",
+          title: "Hunger & Fullness",
+          description: "Expressing hunger and fullness in Khulna",
+          unit: 3,
+          order: 5,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "khu-3-5-mc-1",
+              prompt: "Khulna word for 'hunger' is:",
+              options: ["ক্ষুধা", "খিদা", "পেট", "তৃষ্ণা"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "khu-3-5-tte-1",
+              bangla: "আমার অনেক খিদা লাগছে।",
+              romanization: "amar onek khida lagse.",
+              answer: "I am very hungry.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "khu-3-5-ttb-1",
+              english: "Give me tea.",
+              answer: "আমারে চা দাও।",
+              romanization: "amare cha dao.",
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "khu-3-5-mp-1",
+              pairs: [
+                { bangla: "খিদা",    english: "hunger", romanization: "khida" },
+                { bangla: "পেট ভরা", english: "stomach full", romanization: "pet vhora" },
+                { bangla: "পানি",    english: "water", romanization: "pani" },
+                { bangla: "চা",      english: "tea", romanization: "cha" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "khu-3-6",
+          title: "Food Quiz",
+          description: "Food & Daily Life quiz — Khulna Unit 3",
+          unit: 3,
+          order: 6,
+          xpReward: 20,
+          isQuiz: true,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "khu-3-6-mc-1",
+              prompt: "Khulna progressive suffix is:",
+              options: ["-তাছি", "-তেছি", "-ছি", "-ব"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "khu-3-6-tte-1",
+              bangla: "আমি বাজার থাইকা মাছ আর সবজি কিনমু।",
+              romanization: "ami bajar thaika mach ar shobji kinmu.",
+              answer: "I will buy fish and vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "khu-3-6-ttb-1",
+              english: "Mother is cooking in the kitchen.",
+              answer: "মা রান্নাঘরে রান্না রানতেছে।",
+              romanization: "ma rannaghor-e ranna ranteshe.",
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "khu-3-6-fb-1",
+              sentence: "আমার অনেক ___ লাগছে।",
+              romanization: "amar onek ___ lagse.",
+              blank: "খিদা",
+
+              options: ["খিদা"],
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "khu-3-6-mc-2",
+              prompt: "Khulna 'Give me tea' uses which object marker?",
+              options: ["আমাকে", "আমারে", "আমার", "আমাগো"],
+              correct: 1,
+              xp: 4,
             },
           ],
         },

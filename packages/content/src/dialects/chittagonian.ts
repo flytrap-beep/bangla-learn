@@ -119,6 +119,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "তুঁই গইন অ?",
               romanization: "tui goin o?",
               answer: "How are you? (Chittagonian spoken form)",
+
               xp: 4,
             },
             {
@@ -153,6 +154,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আঁর নাম ___।",
               romanization: "ar nam ___.",
               answer: "My name is ___. (Chittagonian: আঁর for my)",
+
               xp: 4,
             },
             {
@@ -161,6 +163,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আঁই বাংলা শিখতাসি।",
               romanization: "ai bangla shikhtasi.",
               answer: "I am learning Bangla. (Chittagonian form)",
+
               xp: 4,
             },
             {
@@ -207,6 +210,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "মাফ গইরেন।",
               romanization: "maf goiren.",
               answer: "Excuse me. (Chittagonian: গইরেন vs কইরেন in Sylheti)",
+
               xp: 4,
             },
             {
@@ -283,6 +287,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আপনে ভাল আসেন?",
               romanization: "apne bhal asen?",
               answer: "Are you well? (Chittagonian polite)",
+
               xp: 4,
             },
             {
@@ -291,6 +296,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "হেরা আইবো।",
               romanization: "hera aibo.",
               answer: "They will come. (Chittagonian: হেরা = they)",
+
               xp: 3,
             },
             {
@@ -330,6 +336,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "এইডা আঁর মা।",
               romanization: "eida ar ma.",
               answer: "This is my mother. (Chittagonian: আঁর = my)",
+
               xp: 4,
             },
             {
@@ -338,6 +345,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আঁর এক বইন আসে।",
               romanization: "ar ek boin ase.",
               answer: "I have one sister. (Chittagonian)",
+
               xp: 4,
             },
             {
@@ -441,6 +449,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আঁই তোয়ারে মায়া করি।",
               romanization: "ai toyare maya kori.",
               answer: "I love / care for you.",
+
               xp: 5,
             },
             {
@@ -467,6 +476,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "তুঁয়ার নাম কিতা?",
               romanization: "tuyar nam kita?",
               answer: "What is your name?",
+
               xp: 5,
             },
             {
@@ -561,6 +571,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আঁর বয়স সতেরো।",
               romanization: "ar boyosh shotero.",
               answer: "I am seventeen years old.",
+
               xp: 5,
             },
           ],
@@ -590,6 +601,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "এহন রাইত।",
               romanization: "ehon rait.",
               answer: "It is night now.",
+
               xp: 5,
             },
             {
@@ -633,6 +645,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
               bangla: "আঁই আগাইলকাল যামু।",
               romanization: "ai agailkal jamu.",
               answer: "I will go tomorrow.",
+
               xp: 5,
             },
             {
@@ -642,6 +655,363 @@ export const chittagonianCurriculum: DialectCurriculum = {
               answer: "তুঁই গইকাল কই আছিলা?",
               romanization: "tui goikal koi ashila?",
               xp: 5,
+            },
+          ],
+        },
+      ],
+    },
+    // ─── Unit 3 ───────────────────────────────────────────────────────────────
+    {
+      id: "cgt-unit-3",
+      title: "Food & Daily Life",
+      description: "Chittagonian kitchen talk — আঁই খাই, বাজার, and home life.",
+      color: "#0284c7",
+      order: 3,
+      prep: {
+        flashcards: [
+          { id: "fc-cgt-3-1",  bangla: "ভাত",       romanization: "vhat",      english: "cooked rice",           emoji: "🍚", category: "food" },
+          { id: "fc-cgt-3-2",  bangla: "মাছ",        romanization: "mach",      english: "fish",                  emoji: "🐟", category: "food" },
+          { id: "fc-cgt-3-3",  bangla: "ডাইল",       romanization: "dail",      english: "lentils (Cgt.)",        emoji: "🫘", category: "food" },
+          { id: "fc-cgt-3-4",  bangla: "তরকারি",     romanization: "torkari",   english: "curry / vegetables",    emoji: "🥘", category: "food" },
+          { id: "fc-cgt-3-5",  bangla: "পানি",       romanization: "pani",      english: "water",                 emoji: "💧", category: "food" },
+          { id: "fc-cgt-3-6",  bangla: "চা",         romanization: "cha",       english: "tea",                   emoji: "🍵", category: "food" },
+          { id: "fc-cgt-3-7",  bangla: "দুধ",        romanization: "dudh",      english: "milk",                  emoji: "🥛", category: "food" },
+          { id: "fc-cgt-3-8",  bangla: "রুডি",       romanization: "rudi",      english: "bread (Cgt.)",          emoji: "🫓", category: "food" },
+          { id: "fc-cgt-3-9",  bangla: "গোশত",       romanization: "gosht",     english: "meat (Cgt.)",           emoji: "🍖", category: "food" },
+          { id: "fc-cgt-3-10", bangla: "ফল",         romanization: "fol",       english: "fruit",                 emoji: "🍎", category: "food" },
+          { id: "fc-cgt-3-11", bangla: "আঁই খাই",    romanization: "ai khai",   english: "I eat",                 emoji: "😋", category: "verb" },
+          { id: "fc-cgt-3-12", bangla: "আঁই রান্ধি", romanization: "ai randhi", english: "I cook",                emoji: "👨‍🍳", category: "verb" },
+          { id: "fc-cgt-3-13", bangla: "বাজার",      romanization: "bajar",     english: "market",                emoji: "🛒", category: "place" },
+          { id: "fc-cgt-3-14", bangla: "দোকান",      romanization: "dokan",     english: "shop",                  emoji: "🏪", category: "place" },
+          { id: "fc-cgt-3-15", bangla: "বাড়ি",       romanization: "bari",      english: "home",                  emoji: "🏠", category: "place" },
+          { id: "fc-cgt-3-16", bangla: "ঘর",         romanization: "ghor",      english: "room",                  emoji: "🚪", category: "place" },
+          { id: "fc-cgt-3-17", bangla: "রান্নাঘর",   romanization: "rannaghor", english: "kitchen",               emoji: "🍳", category: "place" },
+          { id: "fc-cgt-3-18", bangla: "বিছানা",     romanization: "bishana",   english: "bed",                   emoji: "🛏️", category: "home" },
+          { id: "fc-cgt-3-19", bangla: "খিদা",       romanization: "khida",     english: "hunger",                emoji: "😩", category: "feeling" },
+          { id: "fc-cgt-3-20", bangla: "পেট ভরা",    romanization: "pet vhora", english: "stomach full",          emoji: "😌", category: "feeling" },
+          { id: "fc-cgt-3-21", bangla: "কিনুম",      romanization: "kinum",     english: "I will buy (Cgt.)",     emoji: "🛍️", category: "verb" },
+          { id: "fc-cgt-3-22", bangla: "দাম",        romanization: "dam",       english: "price",                 emoji: "💰", category: "market" },
+          { id: "fc-cgt-3-23", bangla: "সস্তা",      romanization: "shoshta",   english: "cheap",                 emoji: "🏷️", category: "market" },
+          { id: "fc-cgt-3-24", bangla: "দামি",       romanization: "dami",      english: "expensive",             emoji: "💎", category: "market" },
+          { id: "fc-cgt-3-25", bangla: "ঘুমাই",     romanization: "ghumai",    english: "I sleep",               emoji: "😴", category: "routine" },
+          { id: "fc-cgt-3-26", bangla: "উডি",       romanization: "udi",       english: "I get up (Cgt.)",       emoji: "🌅", category: "routine" },
+          { id: "fc-cgt-3-27", bangla: "গোসল",      romanization: "ghoshol",   english: "bath",                  emoji: "🚿", category: "routine" },
+          { id: "fc-cgt-3-28", bangla: "কামে যাই",  romanization: "kame jai",  english: "I go to work",          emoji: "💼", category: "routine" },
+        ],
+        characters: [],
+        grammar: [
+          {
+            title: "আঁই/তুঁই verb forms in daily activity",
+            explanation: "Chittagonian keeps its unique pronouns: আঁই (I) + রান্ধি (cook), তুঁই (you) + খাস (eat-informal).",
+            examples: [
+              { bangla: "আঁই ভাত রান্ধি।", romanization: "ai vhat randhi.", english: "I cook rice." },
+              { bangla: "তুঁই কিতা খাস?",  romanization: "tui kita khas?",  english: "What do you eat?" },
+            ],
+          },
+          {
+            title: "কিনুম — Chittagonian future",
+            explanation: "Chittagonian future 1st person: কিনুম (I will buy), যামু (I will go), দিমু (I will give).",
+            examples: [
+              { bangla: "আঁই বাজার থাকি মাছ কিনুম।", romanization: "ai bajar thaki mach kinum.", english: "I will buy fish from the market." },
+              { bangla: "আঁই তুঁয়ারে চা দিমু।",      romanization: "ai tuare cha dimu.",          english: "I will give you tea." },
+            ],
+          },
+          {
+            title: "গোশত — Chittagonian word for meat",
+            explanation: "Chittagonian uses গোশত (from Arabic/Persian) for meat, while Standard Bengali uses মাংস.",
+            examples: [
+              { bangla: "গোশত দামি।", romanization: "gosht dami.",   english: "Meat is expensive." },
+              { bangla: "মাছ সস্তা।", romanization: "mach shoshta.", english: "Fish is cheap." },
+            ],
+          },
+        ],
+      },
+      lessons: [
+        {
+          id: "cgt-3-1",
+          title: "Rice & Fish",
+          description: "Food staples: rice, fish, and meat in Chittagonian",
+          unit: 3,
+          order: 1,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "cgt-3-1-mc-1",
+              prompt: "Chittagonian 'I eat' is:",
+              options: ["আমি খাই", "আঁই খাই", "আমি খাচ্ছি", "আঁই খাইতাছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "cgt-3-1-tte-1",
+              bangla: "আঁই ভাত আর মাছ খাই।",
+              romanization: "ai vhat ar mach khai.",
+              answer: "I eat rice and fish.",
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "cgt-3-1-mp-1",
+              pairs: [
+                { bangla: "ভাত",   english: "rice", romanization: "bhat" },
+                { bangla: "মাছ",   english: "fish", romanization: "mach" },
+                { bangla: "ডাইল", english: "lentils", romanization: "dail" },
+                { bangla: "গোশত", english: "meat", romanization: "gosht" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "cgt-3-1-ttb-1",
+              english: "I will buy fish.",
+              answer: "আঁই মাছ কিনুম।",
+              romanization: "ai mach kinum.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "cgt-3-2",
+          title: "At the Market",
+          description: "Shopping at the market in Chittagonian dialect",
+          unit: 3,
+          order: 2,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "cgt-3-2-mc-1",
+              prompt: "Chittagonian 'I will buy' is:",
+              options: ["কিনব", "কিনমু", "কিনুম", "কিনছি"],
+              correct: 2,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "cgt-3-2-tte-1",
+              bangla: "বাজার থাকি তরকারি কিনুম।",
+              romanization: "bajar thaki torkari kinum.",
+              answer: "I will buy vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "cgt-3-2-fb-1",
+              sentence: "গোশত অনেক ___।",
+              romanization: "gosht onek ___.",
+              blank: "দামি",
+
+              options: ["দামি"],
+
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "cgt-3-2-mp-1",
+              pairs: [
+                { bangla: "বাজার",  english: "market", romanization: "bajar" },
+                { bangla: "দোকান",  english: "shop", romanization: "dokan" },
+                { bangla: "সস্তা",  english: "cheap", romanization: "shoshta" },
+                { bangla: "দামি",   english: "expensive", romanization: "dami" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "cgt-3-3",
+          title: "In the Kitchen",
+          description: "Kitchen vocabulary and cooking in Chittagonian",
+          unit: 3,
+          order: 3,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "translate_to_english",
+              id: "cgt-3-3-tte-1",
+              bangla: "আঁর মা রান্নাঘরে রান্ধে।",
+              romanization: "ar ma rannaghor-e randhe.",
+              answer: "My mother cooks in the kitchen.",
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "cgt-3-3-mc-1",
+              prompt: "Chittagonian 'I cook' is:",
+              options: ["আঁই রান্নি", "আঁই রান্ধি", "আঁই রানতাছি", "আঁই রানছি"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "match_pairs",
+              id: "cgt-3-3-mp-1",
+              pairs: [
+                { bangla: "রান্নাঘর", english: "kitchen", romanization: "rannaghor" },
+                { bangla: "বিছানা",   english: "bed", romanization: "bishana" },
+                { bangla: "ঘর",       english: "room", romanization: "ghor" },
+                { bangla: "বাড়ি",    english: "home", romanization: "bari" },
+              ],
+              xp: 6,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "cgt-3-3-ttb-1",
+              english: "I cook rice at home.",
+              answer: "আঁই বাড়িত ভাত রান্ধি।",
+              romanization: "ai barit vhat randhi.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "cgt-3-4",
+          title: "Daily Routine",
+          description: "Daily routine and meal times in Chittagonian",
+          unit: 3,
+          order: 4,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "cgt-3-4-mc-1",
+              prompt: "Chittagonian 'I get up' is:",
+              options: ["আঁই উঠি", "আঁই উডি", "আঁই উইঠা", "আঁই উঠলাম"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "cgt-3-4-tte-1",
+              bangla: "আঁই ভোরে উডি গোসল করি।",
+              romanization: "ai vhore udi ghoshol kori.",
+              answer: "I wake up early and bathe.",
+
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "cgt-3-4-fb-1",
+              sentence: "সকালে উডি ___ করি।",
+              romanization: "shokale udi ___ kori.",
+              blank: "গোসল",
+
+              options: ["গোসল"],
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "cgt-3-4-ttb-1",
+              english: "I go to work every day.",
+              answer: "আঁই রোজ কামে যাই।",
+              romanization: "ai roj kame jai.",
+              xp: 5,
+            },
+          ],
+        },
+        {
+          id: "cgt-3-5",
+          title: "Hunger & Fullness",
+          description: "Expressing hunger and fullness in Chittagonian",
+          unit: 3,
+          order: 5,
+          xpReward: 20,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "cgt-3-5-mc-1",
+              prompt: "Chittagonian 'I am hungry' uses:",
+              options: ["আমার ক্ষুধা", "আঁর খিদা লাগছে", "আমার ক্ষুধা পেয়েছে", "আঁই ক্ষুধার্ত"],
+              correct: 1,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "cgt-3-5-tte-1",
+              bangla: "আঁর অনেক খিদা লাগছে।",
+              romanization: "ar onek khida lagse.",
+              answer: "I am very hungry.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "cgt-3-5-ttb-1",
+              english: "My stomach is full.",
+              answer: "আঁর পেট ভরা।",
+              romanization: "ar pet vhora.",
+              xp: 5,
+            },
+            {
+              type: "match_pairs",
+              id: "cgt-3-5-mp-1",
+              pairs: [
+                { bangla: "খিদা",    english: "hunger", romanization: "khida" },
+                { bangla: "পেট ভরা", english: "stomach full", romanization: "pet vhora" },
+                { bangla: "পানি",    english: "water", romanization: "pani" },
+                { bangla: "চা",      english: "tea", romanization: "cha" },
+              ],
+              xp: 6,
+            },
+          ],
+        },
+        {
+          id: "cgt-3-6",
+          title: "Food Quiz",
+          description: "Food & Daily Life quiz — Chittagonian Unit 3",
+          unit: 3,
+          order: 6,
+          xpReward: 20,
+          isQuiz: true,
+          exercises: [
+            {
+              type: "multiple_choice",
+              id: "cgt-3-6-mc-1",
+              prompt: "What does Chittagonian 'কিনুম' mean?",
+              options: ["I bought", "I am buying", "I will buy", "Buy!"],
+              correct: 2,
+              xp: 4,
+            },
+            {
+              type: "translate_to_english",
+              id: "cgt-3-6-tte-1",
+              bangla: "আঁই বাজার থাকি মাছ আর তরকারি কিনুম।",
+              romanization: "ai bajar thaki mach ar torkari kinum.",
+              answer: "I will buy fish and vegetables from the market.",
+
+              xp: 5,
+            },
+            {
+              type: "translate_to_bangla",
+              id: "cgt-3-6-ttb-1",
+              english: "My mother cooks in the kitchen.",
+              answer: "আঁর মা রান্নাঘরে রান্ধে।",
+              romanization: "ar ma rannaghor-e randhe.",
+              xp: 5,
+            },
+            {
+              type: "fill_blank",
+              id: "cgt-3-6-fb-1",
+              sentence: "আঁর অনেক ___ লাগছে।",
+              romanization: "ar onek ___ lagse.",
+              blank: "খিদা",
+
+              options: ["খিদা"],
+
+              xp: 5,
+            },
+            {
+              type: "multiple_choice",
+              id: "cgt-3-6-mc-2",
+              prompt: "Chittagonian word for 'meat' (not মাংস) is:",
+              options: ["ডাইল", "তরকারি", "গোশত", "ভাত"],
+              correct: 2,
+              xp: 4,
             },
           ],
         },
