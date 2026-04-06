@@ -9,6 +9,12 @@ import type { User } from "firebase/auth";
 import { signInAnon, onAuthChange } from "./auth";
 import { startRealtimeSync, pullProgressFromFirestore, pushProgressToFirestore } from "./sync";
 import { trackAppOpen } from "./analytics";
+import {
+  configureNotificationHandler,
+  requestNotificationPermission,
+  scheduleStreakReminder,
+  cancelStreakReminder,
+} from "./notifications";
 
 type AuthContextValue = {
   user:        User | null;
@@ -25,6 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    configureNotificationHandler();
     trackAppOpen();
 
     // Listen for auth state changes
@@ -35,6 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         pullProgressFromFirestore().catch(() => {});
         // Start real-time sync if signed in (non-anonymous)
         if (!firebaseUser.isAnonymous) startRealtimeSync();
+        // Request notification permission once, then schedule streak reminder
+        requestNotificationPermission().then((granted) => {
+          if (granted) scheduleStreakReminder();
+        });
       } else {
         // No user → sign in anonymously so progress is always tied to an ID
         try {
@@ -58,6 +69,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         pullProgressFromFirestore()
           .then(() => pushProgressToFirestore())
           .catch(() => {});
+        // Reschedule streak reminder — pushes it 23 h from now so active users never see it
+        cancelStreakReminder().then(() => scheduleStreakReminder()).catch(() => {});
       }
       lastState = state;
     });

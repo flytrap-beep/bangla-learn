@@ -19,6 +19,7 @@ import { pushProgressToFirestore } from "@/lib/sync";
 import {
   trackLessonStart, trackLessonComplete, trackLessonAbandon,
 } from "@/lib/analytics";
+import { cancelStreakReminder, scheduleStreakReminder } from "@/lib/notifications";
 import * as Haptics from "expo-haptics";
 import LetterTrace from "@/components/LetterTrace";
 import GreetingScene from "@/components/GreetingScene";
@@ -738,6 +739,8 @@ export default function LessonScreen() {
       isQuiz:      !!lesson!.isQuiz,
     });
     pushProgressToFirestore().catch(() => {});
+    // Push the streak reminder 23 h from now — active users never see it
+    cancelStreakReminder().then(() => scheduleStreakReminder()).catch(() => {});
     getDailyProgress().then(setDailyInfo).catch(() => {});
     const durationSec = lessonStartRef.current
       ? Math.round((Date.now() - lessonStartRef.current) / 1000)
