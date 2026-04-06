@@ -53,7 +53,7 @@ const DIALECT_CARDS: DialectCard[] = [
     available: true,
   },
   {
-    id:        "chatgaiya",
+    id:        "chittagonian",
     label:     "Chatgaiya",
     nameBn:    "চাটগাঁইয়া",
     region:    "Chittagong · Southeast Coast",
@@ -107,7 +107,7 @@ function DialectCardItem({ d, idx }: { d: DialectCard; idx: number }) {
         ]}
         onPress={() =>
           d.available
-            ? router.push(`/dialect/${d.id === "chatgaiya" ? "chittagonian" : d.id}` as any)
+            ? router.push(`/dialect/${d.id}` as any)
             : null
         }
         activeOpacity={d.available ? 0.78 : 1}

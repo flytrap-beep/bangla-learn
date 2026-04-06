@@ -92,12 +92,12 @@ function extractFlashCards(exercises: Exercise[]): FlashCard[] {
     } else if (ex.type === "translate_to_bangla") {
       if (!seen.has(ex.answer)) {
         seen.add(ex.answer);
-        cards.push({ bangla: ex.answer, romanization: ex.romanization, english: ex.english });
+        cards.push({ bangla: ex.answer, romanization: ex.romanization ?? "", english: ex.english });
       }
     } else if (ex.type === "fill_blank") {
       if (!seen.has(ex.blank)) {
         seen.add(ex.blank);
-        cards.push({ bangla: ex.blank, romanization: ex.romanization, english: ex.sentence.replace("___", `[${ex.blank}]`) });
+        cards.push({ bangla: ex.blank, romanization: ex.romanization ?? "", english: ex.sentence.replace("___", `[${ex.blank}]`) });
       }
     }
   }
@@ -638,6 +638,7 @@ export default function LessonScreen() {
   const [gameOver, setGameOver]         = useState(false);
   const [correct, setCorrect]           = useState(0);
   const [finished, setFinished]         = useState(false);
+  const [hasShared, setHasShared]       = useState(false);
   const [dailyInfo, setDailyInfo]       = useState<{ xpToday: number; goal: number; done: boolean } | null>(null);
   const [resumeBanner, setResumeBanner] = useState(false);
   const trophyScale = useRef(new Animated.Value(0)).current;
@@ -859,8 +860,9 @@ export default function LessonScreen() {
 
           {/* Share & Earn coins */}
           <TouchableOpacity
-            style={styles.shareBtn}
+            style={[styles.shareBtn, hasShared && { opacity: 0.5 }]}
             activeOpacity={0.8}
+            disabled={hasShared}
             onPress={async () => {
               const accuracy = lesson.exercises.length > 0
                 ? Math.round((correct / lesson.exercises.length) * 100)
@@ -869,8 +871,11 @@ export default function LessonScreen() {
                 ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in BanglaLearn. Shekho Bengali with me!`
                 : `📚 Just completed "${lesson.title}" in BanglaLearn — earned +${totalXp} XP with ${accuracy}% accuracy! #BanglaLearn`;
               try {
-                await Share.share({ message: msg });
-                await addCoinsForShare("report_card");
+                const result = await Share.share({ message: msg });
+                if (result.action === Share.sharedAction) {
+                  setHasShared(true);
+                  await addCoinsForShare("report_card");
+                }
               } catch {}
             }}
           >
@@ -931,6 +936,7 @@ export default function LessonScreen() {
             <TouchableOpacity
               style={[styles.btnPrimary, { flex: 1 }]}
               onPress={() => {
+                clearLessonResume(lesson!.id).catch(() => {});
                 setGameOver(false);
                 setHeartsLost(0);
                 setCurrentIndex(0);
