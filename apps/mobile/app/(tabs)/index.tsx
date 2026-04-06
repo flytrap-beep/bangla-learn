@@ -13,8 +13,10 @@ import type { Dialect, Lesson } from "@bangla-learn/types";
 import {
   getActiveDialect, getCompletedLessons, setActiveDialect,
   getStats, getDailyProgress, nextHeartRegenMs, checkAndResetBrokenStreak,
+  checkStreakMilestone,
 } from "@/lib/storage";
 import StreakBrokenModal from "@/components/StreakBrokenModal";
+import StreakMilestoneModal, { type StreakMilestone } from "@/components/StreakMilestoneModal";
 import SpeakButton from "@/components/SpeakButton";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView, trackDialectSelect } from "@/lib/analytics";
@@ -414,7 +416,8 @@ export default function HomeScreen() {
   const [dailyGoal, setDailyGoal] = useState(50);
   const [dailyDone, setDailyDone] = useState(false);
   const [regenMs,   setRegenMs]   = useState<number | null>(null);
-  const [brokenStreak, setBrokenStreak] = useState<number | null>(null);
+  const [brokenStreak,    setBrokenStreak]    = useState<number | null>(null);
+  const [streakMilestone, setStreakMilestone] = useState<StreakMilestone | null>(null);
 
   const headerY     = useRef(new Animated.Value(-80)).current;
   const contentFade = useRef(new Animated.Value(0)).current;
@@ -439,7 +442,13 @@ export default function HomeScreen() {
         setRegenMs(ms);
         // Check for broken streak (show modal once)
         const broken = await checkAndResetBrokenStreak();
-        if (broken) setBrokenStreak(broken);
+        if (broken) {
+          setBrokenStreak(broken);
+        } else {
+          // Only check milestones if streak is intact (not broken)
+          const milestone = await checkStreakMilestone(stats.currentStreak);
+          if (milestone) setStreakMilestone(milestone);
+        }
       })();
       // Only animate on true first mount (values already at 0)
       Animated.parallel([
@@ -666,22 +675,22 @@ export default function HomeScreen() {
             );
           })}
 
-          {/* ── Coming Soon card (shown when dialect has fewer than 3 units) ── */}
-          {curriculum.units.length < 3 && (
+          {/* ── Coming Soon card (non-standard dialects have 3 units; standard has 6) ── */}
+          {dialect !== "standard" && (
             <View style={s.comingSoonCard}>
               <View style={s.comingSoonIconWrap}>
                 <Ionicons name="construct-outline" size={28} color={T.textMuted as string} />
               </View>
-              <Text style={s.comingSoonTitle}>More lessons coming soon</Text>
+              <Text style={s.comingSoonTitle}>More units coming soon</Text>
               <Text style={s.comingSoonSub}>
-                Our team is crafting new units for the {dialect.charAt(0).toUpperCase() + dialect.slice(1)} dialect.
-                Check back soon!
+                We're crafting Units 4–6 for the {DIALECT_INFO[dialect]?.nameBn ?? dialect} dialect.
+                Keep practising — new content drops soon!
               </Text>
               <View style={s.comingSoonPills}>
                 <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Numbers</Text></View>
-                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Food</Text></View>
                 <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Travel</Text></View>
                 <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Family</Text></View>
+                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Culture</Text></View>
               </View>
             </View>
           )}
@@ -693,6 +702,11 @@ export default function HomeScreen() {
         visible={brokenStreak !== null}
         lostStreak={brokenStreak ?? 0}
         onDismiss={() => setBrokenStreak(null)}
+      />
+      <StreakMilestoneModal
+        visible={streakMilestone !== null}
+        milestone={streakMilestone}
+        onDismiss={() => setStreakMilestone(null)}
       />
     </SafeAreaView>
   );

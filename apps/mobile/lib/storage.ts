@@ -328,6 +328,27 @@ export async function checkAndResetBrokenStreak(): Promise<number | null> {
   return currentStreak;
 }
 
+// ── Streak milestone detection ───────────────────────────────────────────────
+// Returns the milestone (7, 14, or 30) if this streak value just crossed one,
+// awards coins, and marks it so it won't fire again for the same value.
+const MILESTONE_COIN_KEY = (n: number) => `streak_milestone_${n}_awarded`;
+const STREAK_MILESTONES = [7, 14, 30] as const;
+
+export async function checkStreakMilestone(streak: number): Promise<7 | 14 | 30 | null> {
+  for (const m of STREAK_MILESTONES) {
+    if (streak >= m) {
+      const done = await AsyncStorage.getItem(MILESTONE_COIN_KEY(m));
+      if (!done) {
+        await AsyncStorage.setItem(MILESTONE_COIN_KEY(m), "true");
+        const coins = m === 7 ? 15 : m === 14 ? 30 : 75;
+        await addCoins(coins);
+        return m;
+      }
+    }
+  }
+  return null;
+}
+
 // ── Lesson attempt history ────────────────────────────────────────────────────
 export type LessonAttempt = {
   lessonId:   string;

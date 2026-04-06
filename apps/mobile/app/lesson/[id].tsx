@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View, Text, TouchableOpacity, StyleSheet, TextInput, Keyboard,
-  SafeAreaView, ScrollView, Animated, Platform,
+  SafeAreaView, ScrollView, Animated, Platform, Share,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -11,9 +11,9 @@ import type {
   TranslateToEnglishExercise, TranslateToBanglaExercise, FillBlankExercise,
 } from "@bangla-learn/types";
 import {
-  completeLesson, loseHeart, getDailyProgress,
+  completeLesson, loseHeart, getStats, getDailyProgress,
   saveLessonResume, getLessonResume, clearLessonResume,
-  recordLessonAttempt,
+  recordLessonAttempt, addCoinsForShare,
 } from "@/lib/storage";
 import { pushProgressToFirestore } from "@/lib/sync";
 import {
@@ -853,6 +853,28 @@ export default function LessonScreen() {
               <Text style={styles.heartsText}>{heartsLost} heart{heartsLost > 1 ? "s" : ""} lost</Text>
             </View>
           )}
+
+          {/* Share & Earn coins */}
+          <TouchableOpacity
+            style={styles.shareBtn}
+            activeOpacity={0.8}
+            onPress={async () => {
+              const accuracy = lesson.exercises.length > 0
+                ? Math.round((correct / lesson.exercises.length) * 100)
+                : 100;
+              const msg = lesson.isQuiz
+                ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in BanglaLearn. Shekho Bengali with me!`
+                : `📚 Just completed "${lesson.title}" in BanglaLearn — earned +${totalXp} XP with ${accuracy}% accuracy! #BanglaLearn`;
+              try {
+                await Share.share({ message: msg });
+                await addCoinsForShare("report_card");
+              } catch {}
+            }}
+          >
+            <Ionicons name="share-social-outline" size={16} color="#b45309" />
+            <Text style={styles.shareBtnText}>Share result · earn 3 coins</Text>
+          </TouchableOpacity>
+
           <View style={styles.finishedBtns}>
             <TouchableOpacity
               style={[styles.btnOutline, { flex: 1 }]}
@@ -1355,4 +1377,11 @@ const styles = StyleSheet.create({
   quizBadgeText:     { fontSize: 14, fontWeight: "700", color: "#7c3aed" },
   heartsRow:         { flexDirection: "row", alignItems: "center", gap: 6 },
   heartsText:        { fontSize: 14, color: "#ef4444" },
+  shareBtn: {
+    flexDirection: "row", alignItems: "center", gap: 8,
+    borderWidth: 2, borderColor: "#b45309",
+    borderRadius: 12, paddingVertical: 10, paddingHorizontal: 18,
+    backgroundColor: "#fffbeb",
+  },
+  shareBtnText:      { fontSize: 13, fontWeight: "700", color: "#b45309" },
 });
