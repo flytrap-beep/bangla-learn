@@ -868,8 +868,8 @@ export default function LessonScreen() {
                 ? Math.round((correct / lesson.exercises.length) * 100)
                 : 100;
               const msg = lesson.isQuiz
-                ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in BanglaLearn. Shekho Bengali with me!`
-                : `📚 Just completed "${lesson.title}" in BanglaLearn — earned +${totalXp} XP with ${accuracy}% accuracy! #BanglaLearn`;
+                ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in The Academy of Bengali Letters. Shekho Bengali with me!`
+                : `📚 Just completed "${lesson.title}" in The Academy of Bengali Letters — earned +${totalXp} XP with ${accuracy}% accuracy! #AcademyOfBengaliLetters`;
               try {
                 const result = await Share.share({ message: msg });
                 if (result.action === Share.sharedAction) {

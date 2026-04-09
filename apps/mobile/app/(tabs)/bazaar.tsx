@@ -195,7 +195,12 @@ export default function BazaarScreen() {
 
   return (
     <SafeAreaView style={s.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={T.bg} />
+      <StatusBar barStyle="light-content" backgroundColor={T.green} />
+
+      {/* ── Bengali nav header ── */}
+      <View style={s.navHeader}>
+        <Text style={s.navHeaderText}>বাজার · BAZAAR</Text>
+      </View>
 
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
@@ -340,6 +345,21 @@ export default function BazaarScreen() {
 // ── Styles ────────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: T.bg },
+
+  // Bengali nav header
+  navHeader: {
+    backgroundColor: T.green,
+    borderBottomWidth: 3, borderBottomColor: T.gold,
+    paddingVertical: 14, paddingHorizontal: 24,
+    alignItems: "center",
+  },
+  navHeaderText: {
+    fontFamily: FONT.bold,
+    fontSize: 16,
+    color: T.card,
+    letterSpacing: 2,
+    textTransform: "uppercase",
+  },
 
   // Hero
   hero: {

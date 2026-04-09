@@ -14,7 +14,7 @@ const TABS: {
   { name: "index",       title: "Map",      icon: "map-outline",        iconActive: "map"          },
   { name: "dialects",    title: "Dialects", icon: "globe-outline",      iconActive: "globe"        },
   { name: "leaderboard", title: "Ranks",    icon: "trophy-outline",     iconActive: "trophy"       },
-  { name: "profile",     title: "Dossier",  icon: "person-outline",     iconActive: "person"       },
+  { name: "profile",     title: "Archive",  icon: "person-outline",     iconActive: "person"       },
   { name: "bazaar",      title: "Bazaar",   icon: "storefront-outline", iconActive: "storefront"   },
 ];
 

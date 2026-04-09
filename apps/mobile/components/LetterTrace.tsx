@@ -9,9 +9,9 @@ import type { LetterTraceExercise } from "@bangla-learn/types";
 import { T } from "@/lib/theme";
 
 const BD_GREEN  = T.green;
-const HIT_RADIUS = 32;   // hit zone in pixels
-// Pass when ≥ 72 % of waypoints are hit (requires proper trace, rejects tiny scribble)
-const PASS_RATIO = 0.72;
+const HIT_RADIUS = 40;   // hit zone in pixels — generous so tracing feels accurate
+// Pass when ≥ 65 % of waypoints are hit
+const PASS_RATIO = 0.65;
 
 // ── Waypoints — stroke paths for all Bengali characters ──────────────────────
 // px/py = % of canvas (width/height). Ghost letter at fontSize=155 renders with
@@ -823,6 +823,17 @@ export default function LetterTrace({ exercise, onComplete }: Props) {
         },
       ]}
     >
+      {/* ── Character header: big character + romanization ─────────────────── */}
+      <View style={styles.charHeader}>
+        <Text style={styles.charHeaderSymbol}>{exercise.character}</Text>
+        <View style={styles.charHeaderRight}>
+          <Text style={styles.charHeaderRoman}>/{exercise.romanization}/</Text>
+          {exercise.exampleWord && (
+            <Text style={styles.charHeaderExample} numberOfLines={1}>{exercise.exampleWord}</Text>
+          )}
+        </View>
+      </View>
+
       {/* Hint text */}
       <Text style={[styles.hint, done && styles.hintDone]}>{hintText}</Text>
 
@@ -833,6 +844,13 @@ export default function LetterTrace({ exercise, onComplete }: Props) {
         <Text style={[styles.guideLetter, done && styles.guideLetterDone]}>
           {exercise.character}
         </Text>
+
+        {/* Romanization pill — always visible in top-left while tracing */}
+        {!done && (
+          <View style={styles.romanPill}>
+            <Text style={styles.romanPillText}>/{exercise.romanization}/</Text>
+          </View>
+        )}
 
         {/* SVG layer: guide path + user stroke + waypoint circles */}
         <Svg style={StyleSheet.absoluteFill} width={canvasW} height={canvasH}>
@@ -921,26 +939,19 @@ export default function LetterTrace({ exercise, onComplete }: Props) {
         )}
       </View>
 
-      {/* ── Info + reset row ─────────────────────────────────────────────── */}
-      <View style={styles.infoRow}>
-        <Text style={styles.charBig}>{exercise.character}</Text>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.roman}>/{exercise.romanization}/</Text>
-          {exercise.exampleWord && (
-            <Text style={styles.example} numberOfLines={2}>{exercise.exampleWord}</Text>
-          )}
-        </View>
-        {!done && (
+      {/* ── Reset row ─────────────────────────────────────────────────────── */}
+      {!done && (
+        <View style={styles.resetRow}>
           <TouchableOpacity
             onPress={() => { resetAttempt(); setTries((t) => t + 1); }}
             style={styles.resetBtn}
             activeOpacity={0.7}
           >
             <Ionicons name="refresh-outline" size={18} color="#9ca3af" />
-            <Text style={styles.resetBtnText}>Clear</Text>
+            <Text style={styles.resetBtnText}>Clear & retry</Text>
           </TouchableOpacity>
-        )}
-      </View>
+        </View>
+      )}
 
       {/* Stroke guide legend */}
       {!done && tries === 0 && (
@@ -986,6 +997,35 @@ export default function LetterTrace({ exercise, onComplete }: Props) {
 const styles = StyleSheet.create({
   container: { alignItems: "center", paddingHorizontal: 2 },
 
+  // ── Character header ──────────────────────────────────────────────────────
+  charHeader: {
+    flexDirection: "row", alignItems: "center", gap: 14,
+    width: "100%", marginBottom: 12,
+    backgroundColor: "#f0fdf4", borderRadius: 16,
+    paddingVertical: 10, paddingHorizontal: 14,
+  },
+  charHeaderSymbol: {
+    fontSize: 54, fontWeight: "900", color: "#1f2937", lineHeight: 62,
+  },
+  charHeaderRight: { flex: 1 },
+  charHeaderRoman: {
+    fontSize: 22, fontWeight: "800", color: BD_GREEN, letterSpacing: 0.5,
+  },
+  charHeaderExample: {
+    fontSize: 13, color: "#6b7280", marginTop: 2,
+  },
+
+  // ── Romanization pill inside canvas ──────────────────────────────────────
+  romanPill: {
+    position: "absolute", top: 10, left: 10,
+    backgroundColor: "rgba(0,106,78,0.12)",
+    borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4,
+    borderWidth: 1.5, borderColor: "rgba(0,106,78,0.2)",
+  },
+  romanPillText: {
+    fontSize: 13, fontWeight: "800", color: BD_GREEN,
+  },
+
   hint: {
     fontSize: 12, fontWeight: "700", color: "#6366f1",
     letterSpacing: 0.5, marginBottom: 10, textAlign: "center",
@@ -1023,15 +1063,9 @@ const styles = StyleSheet.create({
     borderRadius: 56, padding: 16,
   },
 
-  infoRow: {
-    flexDirection: "row", alignItems: "center", gap: 14,
-    marginTop: 14, paddingHorizontal: 4, width: "100%",
-    flexWrap: "wrap",
+  resetRow: {
+    width: "100%", alignItems: "flex-end", marginTop: 10, paddingHorizontal: 4,
   },
-  charBig: { fontSize: 52, fontWeight: "900", color: "#1f2937" },
-  roman:   { fontSize: 17, fontWeight: "700", color: BD_GREEN, flexShrink: 1 },
-  example: { fontSize: 13, color: "#6b7280", marginTop: 3, flexShrink: 1, flexWrap: "wrap" },
-
   resetBtn: {
     flexDirection: "row", alignItems: "center", gap: 4,
     paddingVertical: 8, paddingHorizontal: 12,

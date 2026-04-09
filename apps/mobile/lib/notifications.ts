@@ -64,7 +64,6 @@ export async function scheduleStreakReminder(): Promise<void> {
         data: { type: "streak_reminder" },
       },
       trigger: {
-        type: Notifications.SchedulableTriggerInputTypes.DATE,
         date: fireAt,
       },
     });

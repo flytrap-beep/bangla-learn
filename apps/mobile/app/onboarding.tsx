@@ -16,7 +16,7 @@ type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 const SLIDES: { icon: IoniconsName; title: string; body: string; color: string; bg: string }[] = [
   {
     icon:  "flag",
-    title: "Welcome to BanglaLearn",
+    title: "Welcome to The Academy of Bengali Letters",
     body:  "Learn Bengali (Bangla) through bite-sized lessons, real dialect audio, and interactive exercises — just 5 minutes a day.",
     color: BD_GREEN,
     bg:    "#f0fdf4",

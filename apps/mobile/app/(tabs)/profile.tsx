@@ -291,9 +291,9 @@ export default function ProfileScreen() {
       return;
     }
     const MESSAGES: Record<string, string> = {
-      streak:      `🔥 I'm on a ${stats.currentStreak}-day Bengali learning streak on BanglaLearn! Join me and learn Bangla today.`,
-      invite:      "📚 I've been learning Bengali with BanglaLearn — a Duolingo-style app for all 6 Bangladeshi dialects. Try it free!",
-      report_card: `🎓 My BanglaLearn report: ${stats.totalXp} XP earned, ${totalLessons} lessons done, ${stats.currentStreak}-day streak! Learning Bengali one day at a time.`,
+      streak:      `🔥 I'm on a ${stats.currentStreak}-day Bengali learning streak on The Academy of Bengali Letters! Join me and learn Bangla today.`,
+      invite:      "📚 I've been learning Bengali with The Academy of Bengali Letters — a Duolingo-style app for all 6 Bangladeshi dialects. Try it free!",
+      report_card: `🎓 My Academy of Bengali Letters report: ${stats.totalXp} XP earned, ${totalLessons} lessons done, ${stats.currentStreak}-day streak! Learning Bengali one day at a time.`,
     };
     const COIN_LABELS: Record<string, string> = {
       streak: "5 coins", invite: "15 coins", report_card: "3 coins",
@@ -315,8 +315,8 @@ export default function ProfileScreen() {
 
       {/* ── Bhasha-style header ── */}
       <View style={s.header}>
-        <Text style={s.headerEyebrow}>THE ACADEMY OF</Text>
-        <Text style={s.headerTitle}>DOSSIER</Text>
+        <Text style={s.headerEyebrow}>THE LINGUISTIC</Text>
+        <Text style={s.headerTitle}>ARCHIVE</Text>
       </View>
 
       <Animated.ScrollView
