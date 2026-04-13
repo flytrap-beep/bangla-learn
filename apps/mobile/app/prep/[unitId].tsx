@@ -49,7 +49,7 @@ export default function PrepScreen() {
     );
   }
 
-  const { characters, flashcards, grammar } = unit.prep;
+  const { characters, flashcards = [], grammar } = unit.prep;
   const vowels = characters.filter((c) => c.type === "vowel");
   const consonants = characters.filter((c) => c.type === "consonant");
 
@@ -165,7 +165,7 @@ export default function PrepScreen() {
                   </View>
                   <Text style={styles.grammarTitle}>{g.title}</Text>
                 </View>
-                <Text style={styles.grammarExplanation}>{g.explanation}</Text>
+                <Text style={styles.grammarExplanation}>{g.explanation ?? g.rule}</Text>
                 {g.examples.length > 0 && (
                   <View style={styles.grammarExamples}>
                     {g.examples.map((ex, j) => (

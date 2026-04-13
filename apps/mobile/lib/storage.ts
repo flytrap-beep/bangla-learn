@@ -379,6 +379,70 @@ export async function checkStreakMilestone(streak: number): Promise<7 | 14 | 30 
   return null;
 }
 
+// ── Weekly Wrapped ────────────────────────────────────────────────────────────
+// Shown once per calendar week after the user completes ≥1 lesson.
+// Uses ISO week string (e.g. "2026-W15") as the idempotency key.
+
+const WRAPPED_LAST_WEEK_KEY = "wrapped_last_week";
+const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+function isoWeek(date: Date): string {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+  const jan4 = new Date(d.getFullYear(), 0, 4);
+  const weekNum = 1 + Math.round(
+    ((d.getTime() - jan4.getTime()) / 86400000 - 3 + (jan4.getDay() + 6) % 7) / 7
+  );
+  return `${d.getFullYear()}-W${String(weekNum).padStart(2, "0")}`;
+}
+
+export type WeeklyWrappedData = {
+  week:             string;   // "2026-W15"
+  xpEarned:         number;
+  lessonsCompleted: number;
+  topDialect:       Dialect | null;
+  currentStreak:    number;
+};
+
+// Returns wrapped data if it should be shown this week, or null if already seen.
+export async function checkWeeklyWrapped(): Promise<WeeklyWrappedData | null> {
+  const currentWeek = isoWeek(new Date());
+  const lastShown   = await AsyncStorage.getItem(WRAPPED_LAST_WEEK_KEY);
+  if (lastShown === currentWeek) return null;
+
+  const raw = await AsyncStorage.getItem(KEYS.lessonHistory);
+  const history: LessonAttempt[] = raw ? JSON.parse(raw) : [];
+  const cutoff    = Date.now() - ONE_WEEK_MS;
+  const thisWeek  = history.filter((h) => h.date >= cutoff);
+  if (thisWeek.length === 0) return null;
+
+  const xpEarned = thisWeek.reduce((sum, h) => sum + h.xpEarned, 0);
+
+  const dialectCounts: Partial<Record<Dialect, number>> = {};
+  for (const h of thisWeek) {
+    dialectCounts[h.dialect] = (dialectCounts[h.dialect] ?? 0) + 1;
+  }
+  const topDialect = (
+    Object.entries(dialectCounts).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] ?? null
+  ) as Dialect | null;
+
+  const stats = await getStats();
+
+  return {
+    week:             currentWeek,
+    xpEarned,
+    lessonsCompleted: thisWeek.length,
+    topDialect,
+    currentStreak:    stats.currentStreak,
+  };
+}
+
+// Mark the wrapped as shown for the current week (prevents re-showing).
+export async function markWeeklyWrappedShown(week: string): Promise<void> {
+  await AsyncStorage.setItem(WRAPPED_LAST_WEEK_KEY, week);
+}
+
 // ── Lesson attempt history ────────────────────────────────────────────────────
 export type LessonAttempt = {
   lessonId:   string;

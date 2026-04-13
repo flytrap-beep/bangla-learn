@@ -136,7 +136,8 @@ export type Character = {
 
 export type GrammarPoint = {
   title: string;
-  explanation: string;
+  explanation?: string; // standard grammar explanation
+  rule?: string;        // alternate explanation field used by dialect content
   examples: { bangla: string; romanization: string; english: string }[];
 };
 
@@ -152,7 +153,7 @@ export type Flashcard = {
 export type UnitPrep = {
   characters: Character[];
   grammar: GrammarPoint[];
-  flashcards: Flashcard[];
+  flashcards?: Flashcard[];
 };
 
 export type Unit = {
@@ -160,7 +161,7 @@ export type Unit = {
   title: string;
   description: string;
   order: number;
-  color: string; // hex color for unit theming
+  color?: string; // hex color for unit theming (optional — falls back to dialect color)
   lessons: Lesson[];
   prep?: UnitPrep;
 };

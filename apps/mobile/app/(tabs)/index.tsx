@@ -13,10 +13,12 @@ import type { Dialect, Lesson } from "@bangla-learn/types";
 import {
   getActiveDialect, getCompletedLessons, setActiveDialect,
   getStats, getDailyProgress, nextHeartRegenMs, checkAndResetBrokenStreak,
-  checkStreakMilestone,
+  checkStreakMilestone, checkWeeklyWrapped, markWeeklyWrappedShown,
 } from "@/lib/storage";
+import type { WeeklyWrappedData } from "@/lib/storage";
 import StreakBrokenModal from "@/components/StreakBrokenModal";
 import StreakMilestoneModal, { type StreakMilestone } from "@/components/StreakMilestoneModal";
+import WeeklyWrappedModal from "@/components/WeeklyWrappedModal";
 import SpeakButton from "@/components/SpeakButton";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView, trackDialectSelect } from "@/lib/analytics";
@@ -418,6 +420,7 @@ export default function HomeScreen() {
   const [regenMs,   setRegenMs]   = useState<number | null>(null);
   const [brokenStreak,    setBrokenStreak]    = useState<number | null>(null);
   const [streakMilestone, setStreakMilestone] = useState<StreakMilestone | null>(null);
+  const [weeklyWrapped,   setWeeklyWrapped]   = useState<WeeklyWrappedData | null>(null);
 
   const headerY     = useRef(new Animated.Value(-80)).current;
   const contentFade = useRef(new Animated.Value(0)).current;
@@ -447,7 +450,13 @@ export default function HomeScreen() {
         } else {
           // Only check milestones if streak is intact (not broken)
           const milestone = await checkStreakMilestone(stats.currentStreak);
-          if (milestone) setStreakMilestone(milestone);
+          if (milestone) {
+            setStreakMilestone(milestone);
+          } else {
+            // Only show weekly wrapped if no higher-priority modal triggered
+            const wrapped = await checkWeeklyWrapped();
+            if (wrapped) setWeeklyWrapped(wrapped);
+          }
         }
       })();
       // Only animate on true first mount (values already at 0)
@@ -653,7 +662,7 @@ export default function HomeScreen() {
                         isCompleted={isCompleted}
                         isCurrent={isCurrent}
                         isLocked={isLocked}
-                        unitColor={unit.color}
+                        unitColor={unit.color ?? T.green}
                         dialect={dialect}
                         router={router}
                         index={idx}
@@ -707,6 +716,14 @@ export default function HomeScreen() {
         visible={streakMilestone !== null}
         milestone={streakMilestone}
         onDismiss={() => setStreakMilestone(null)}
+      />
+      <WeeklyWrappedModal
+        visible={weeklyWrapped !== null}
+        data={weeklyWrapped}
+        onDismiss={async () => {
+          if (weeklyWrapped) await markWeeklyWrappedShown(weeklyWrapped.week);
+          setWeeklyWrapped(null);
+        }}
       />
     </SafeAreaView>
   );
