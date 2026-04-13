@@ -41,3 +41,11 @@ prisma/dev.db
 # IDE
 .vscode/
 .idea/
+
+# Firebase
+.firebase/
+functions/lib/
+
+# Local MCP config (may contain API credentials)
+.mcp.json
+mcp-wordpress/
