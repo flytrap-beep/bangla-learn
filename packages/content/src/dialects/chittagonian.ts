@@ -1018,7 +1018,7 @@ export const chittagonianCurriculum: DialectCurriculum = {
       ],
     },
     {
-      id: "cgt-4",
+      id: "cgt-unit-4",
       title: "Numbers & Counting",
       description: "Count from 1 to 1000 in Chittagonian Bengali",
       order: 4,

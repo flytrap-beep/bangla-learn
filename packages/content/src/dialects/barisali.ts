@@ -1018,7 +1018,7 @@ export const barisaliCurriculum: DialectCurriculum = {
       ],
     },
     {
-      id: "bar-4",
+      id: "bar-unit-4",
       title: "Numbers & Counting",
       description: "Count from 1 to 1000 in Barisali Bengali",
       order: 4,

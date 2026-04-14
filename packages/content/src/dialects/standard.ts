@@ -1077,6 +1077,7 @@ export const standardCurriculum: DialectCurriculum = {
               id: "std-2-7-mc-1",
               prompt: "What does 'মাথা' mean?",
               promptBangla: "মাথা",
+              romanization: "matha",
               options: ["Hand", "Leg", "Head", "Eye"],
               correct: 2,
               xp: 2,

@@ -685,6 +685,131 @@ const WAYPOINTS: Record<string, { px: number; py: number; n: string }[]> = {
   ],
 };
 
+// ── Letter join / connection guide ───────────────────────────────────────────
+// Shows students how each letter connects with others before they trace.
+// `diacritic` = the কার form vowels take when attached to a consonant
+// `withKa`    = example: the letter combined with ক
+// `rule`      = one-sentence joining rule
+type LetterGuide = { diacritic?: string; withKa?: string; rule: string };
+
+const LETTER_GUIDE: Record<string, LetterGuide> = {
+  // ── Vowels ──────────────────────────────────────────────────────────────────
+  "অ": { rule: "অ is the inherent vowel. Every consonant has অ built in: ক = 'ko'. No diacritic needed when অ follows a consonant naturally." },
+  "আ": { diacritic: "া", withKa: "কা", rule: "আ adds the vertical bar (আ-কার: া) to the right of a consonant. কা = 'kaa'." },
+  "ই": { diacritic: "ি", withKa: "কি", rule: "ই uses ি (ইকার) which is written BEFORE the consonant it belongs to, even though it is pronounced after. কি = 'ki'." },
+  "ঈ": { diacritic: "ী", withKa: "কী", rule: "ঈ adds ী (দীর্ঘ ই-কার) to the right of a consonant. কী = 'kii' (long i sound)." },
+  "উ": { diacritic: "ু", withKa: "কু", rule: "উ adds ু (উ-কার) below-right of a consonant. কু = 'ku'." },
+  "ঊ": { diacritic: "ূ", withKa: "কূ", rule: "ঊ adds ূ (দীর্ঘ উ-কার) below-right of a consonant. কূ = 'kuu' (long u sound)." },
+  "ঋ": { diacritic: "ৃ", withKa: "কৃ", rule: "ঋ adds ৃ (ঋ-কার) curling below a consonant. কৃ = 'kri'." },
+  "এ": { diacritic: "ে", withKa: "কে", rule: "এ adds ে (এ-কার) to the LEFT of a consonant. কে = 'ke'. Written before but spoken after." },
+  "ঐ": { diacritic: "ৈ", withKa: "কৈ", rule: "ঐ adds ৈ (ঐ-কার) to the left of a consonant. কৈ = 'koi'." },
+  "ও": { diacritic: "ো", withKa: "কো", rule: "ও splits into two parts: ে on the left + া on the right of a consonant. কো = 'ko'." },
+  "ঔ": { diacritic: "ৌ", withKa: "কৌ", rule: "ঔ splits into ে on the left + ৌ on the right of a consonant. কৌ = 'kou'." },
+  // ── Consonants ──────────────────────────────────────────────────────────────
+  "ক": { withKa: "কক", rule: "ক connects to the next letter via the মাত্রা (horizontal top bar). In clusters: ক্ক (kk), ক্ষ (ksha)." },
+  "খ": { withKa: "খক", rule: "খ joins via মাত্রা. Example cluster: খ্য (khya) in words like মুখ্য." },
+  "গ": { withKa: "গক", rule: "গ joins via মাত্রা. Cluster: গ্র (gra) in words like গ্রাম (village)." },
+  "ঘ": { withKa: "ঘক", rule: "ঘ joins via মাত্রা. Cluster: ঘ্র (ghra)." },
+  "ঙ": { rule: "ঙ is the nasal sound (as in 'ng'). It rarely starts words. Common in: বাংলা, রঙ (color)." },
+  "চ": { withKa: "চক", rule: "চ joins via মাত্রা. Cluster: চ্চ (cca), চ্ছ (ccha)." },
+  "ছ": { rule: "ছ joins via মাত্রা. Aspirated form of চ." },
+  "জ": { withKa: "জক", rule: "জ joins via মাত্রা. Cluster: জ্ঞ (gya/jña) in words like জ্ঞান (knowledge)." },
+  "ঝ": { rule: "ঝ joins via মাত্রা. Aspirated form of জ." },
+  "ঞ": { rule: "ঞ is a nasal consonant appearing mostly in clusters like জ্ঞ, ঞ্চ." },
+  "ট": { withKa: "টক", rule: "ট (retroflex 't') joins via মাত্রা. Cluster: ট্ট (ṭṭa), ষ্ট (shṭa)." },
+  "ঠ": { rule: "ঠ joins via মাত্রা. Aspirated retroflex." },
+  "ড": { rule: "ড joins via মাত্রা. Cluster: ড্ড (ḍḍa). Modified form: ড় (ra-sound)." },
+  "ঢ": { rule: "ঢ joins via মাত্রা. Modified form: ঢ় (sound like 'rha')." },
+  "ণ": { rule: "ণ (retroflex n) joins via মাত্রা. Common in clusters: ণ্ড, ষ্ণ." },
+  "ত": { withKa: "তক", rule: "ত joins via মাত্রা. Common clusters: ত্ব (tva), ত্র (tra), স্ত (sta)." },
+  "থ": { rule: "থ joins via মাত্রা. Aspirated form of ত." },
+  "দ": { withKa: "দক", rule: "দ joins via মাত্রা. Clusters: দ্র (dra), ন্দ (nda)." },
+  "ধ": { rule: "ধ joins via মাত্রা. Aspirated form of দ. Cluster: ধ্য (dhya)." },
+  "ন": { withKa: "নক", rule: "ন joins via মাত্রা. Common clusters: ন্ত (nta), ন্দ (nda), ন্ব (nba)." },
+  "প": { withKa: "পক", rule: "প joins via মাত্রা. Cluster: প্র (pra), ষ্প (shpa)." },
+  "ফ": { rule: "ফ joins via মাত্রা. Aspirated form of প." },
+  "ব": { withKa: "বক", rule: "ব joins via মাত্রা. As a cluster connector: ব (ba-fola) hangs below: ক্ব." },
+  "ভ": { rule: "ভ joins via মাত্রা. Aspirated form of ব. Cluster: ভ্র (bhra)." },
+  "ম": { withKa: "মক", rule: "ম joins via মাত্রা. As a cluster component: ম (ma-fola) hangs below: ক্ম." },
+  "য": { withKa: "যক", rule: "য joins via মাত্রা. য-ফলা: a modified য hangs below or after consonants — ক্য = 'kya'." },
+  "র": { withKa: "রক", rule: "র joins via মাত্রা. র-ফলা: a modified র hangs below — ক্র = 'kra'. রেফ: র above — র্ক = 'rka'." },
+  "ল": { withKa: "লক", rule: "ল joins via মাত্রা. Cluster: ল্ল (lla), ল্প (lpa)." },
+  "শ": { withKa: "শক", rule: "শ joins via মাত্রা. Cluster: শ্র (shra), শ্ব (shba)." },
+  "ষ": { withKa: "ষক", rule: "ষ (retroflex sha) joins via মাত্রা. Clusters: ষ্ট (shṭa), ষ্ণ (shna), ষ্ঠ." },
+  "স": { withKa: "সক", rule: "স joins via মাত্রা. Clusters: স্ত (sta), স্থ (stha), স্ন (sna), স্প (spa)." },
+  "হ": { withKa: "হক", rule: "হ joins via মাত্রা. হসন্ত (্) removes the inherent অ vowel to create a pure consonant cluster." },
+  "ড়": { rule: "ড় is a modified ড with a dot (নুক্তা). It makes an 'r' sound. Common in: পড়া (to read), বড় (big)." },
+  "ঢ়": { rule: "ঢ় is a modified ঢ with a নুক্তা dot. Used in words like ঢেঁকি." },
+  "য়": { rule: "য় (অন্তস্থ য) makes a 'y' sound at the end of words: যাওয়া, খাওয়া." },
+  "ৎ": { rule: "ৎ (খণ্ড-ত) is a word-final consonant. It never starts a word. Example: উৎস (source)." },
+  "ং": { rule: "ং (অনুস্বার) adds an 'ng' nasal sound after a vowel. Example: বাংলা, রং." },
+  "ঃ": { rule: "ঃ (বিসর্গ) adds a soft 'h' echo after a vowel. Used in formal/Sanskrit words: দুঃখ (sorrow)." },
+  "ঁ": { rule: "ঁ (চন্দ্রবিন্দু) nasalizes the vowel above which it sits. Example: চাঁদ (moon), মাঁ (mother)." },
+};
+
+// ── LetterStudyGuide sub-component ───────────────────────────────────────────
+function LetterStudyGuide({ char, guide }: { char: string; guide: LetterGuide }) {
+  const [open, setOpen] = useState(true);
+  return (
+    <View style={sg.wrapper}>
+      <TouchableOpacity
+        style={sg.header}
+        onPress={() => setOpen((o) => !o)}
+        activeOpacity={0.75}
+      >
+        <View style={sg.headerLeft}>
+          <Ionicons name="library-outline" size={14} color={BD_GREEN} />
+          <Text style={sg.headerText}>How to use this letter</Text>
+        </View>
+        <Ionicons name={open ? "chevron-up" : "chevron-down"} size={14} color="#9ca3af" />
+      </TouchableOpacity>
+
+      {open && (
+        <View style={sg.body}>
+          {/* Joining example row */}
+          {guide.diacritic && (
+            <View style={sg.row}>
+              <View style={sg.exBox}>
+                <Text style={sg.exLabel}>Independent</Text>
+                <Text style={sg.exChar}>{char}</Text>
+              </View>
+              <Ionicons name="arrow-forward" size={16} color="#9ca3af" style={{ marginTop: 14 }} />
+              <View style={sg.exBox}>
+                <Text style={sg.exLabel}>As diacritic</Text>
+                <Text style={sg.exChar}>{guide.diacritic}</Text>
+              </View>
+              {guide.withKa && (
+                <>
+                  <Ionicons name="arrow-forward" size={16} color="#9ca3af" style={{ marginTop: 14 }} />
+                  <View style={[sg.exBox, sg.exBoxHighlight]}>
+                    <Text style={sg.exLabel}>On ক</Text>
+                    <Text style={sg.exChar}>{guide.withKa}</Text>
+                  </View>
+                </>
+              )}
+            </View>
+          )}
+          {!guide.diacritic && guide.withKa && (
+            <View style={sg.row}>
+              <View style={sg.exBox}>
+                <Text style={sg.exLabel}>Alone</Text>
+                <Text style={sg.exChar}>{char}</Text>
+              </View>
+              <Ionicons name="add" size={16} color="#9ca3af" style={{ marginTop: 14 }} />
+              <View style={sg.exBox}>
+                <Text style={sg.exLabel}>In cluster</Text>
+                <Text style={sg.exChar}>{guide.withKa}</Text>
+              </View>
+            </View>
+          )}
+          {/* Rule text */}
+          <Text style={sg.rule}>{guide.rule}</Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
 type Props = { exercise: LetterTraceExercise; onComplete: () => void };
 
 export default function LetterTrace({ exercise, onComplete }: Props) {
@@ -833,6 +958,11 @@ export default function LetterTrace({ exercise, onComplete }: Props) {
           )}
         </View>
       </View>
+
+      {/* ── Study guide: joining / connection rules ────────────────────────── */}
+      {LETTER_GUIDE[exercise.character] && (
+        <LetterStudyGuide char={exercise.character} guide={LETTER_GUIDE[exercise.character]} />
+      )}
 
       {/* Hint text */}
       <Text style={[styles.hint, done && styles.hintDone]}>{hintText}</Text>
@@ -1101,4 +1231,48 @@ const styles = StyleSheet.create({
   wordBoxLabel:  { fontSize: 11, fontWeight: "700", color: BD_GREEN, textTransform: "uppercase", letterSpacing: 0.8 },
   wordBoxWord:   { fontSize: 26, fontWeight: "900", color: "#1f2937", marginBottom: 6 },
   wordBoxHint:   { fontSize: 12, color: "#6b7280", lineHeight: 18, flexWrap: "wrap" },
+});
+
+// ── Study guide styles ────────────────────────────────────────────────────────
+const sg = StyleSheet.create({
+  wrapper: {
+    width: "100%", marginBottom: 10,
+    backgroundColor: "#eff6ff", borderRadius: 14,
+    borderWidth: 1.5, borderColor: "#bfdbfe",
+    overflow: "hidden",
+  },
+  header: {
+    flexDirection: "row", alignItems: "center", justifyContent: "space-between",
+    paddingHorizontal: 14, paddingVertical: 10,
+  },
+  headerLeft: { flexDirection: "row", alignItems: "center", gap: 7 },
+  headerText: { fontSize: 12, fontWeight: "800", color: BD_GREEN, letterSpacing: 0.4 },
+  body: {
+    paddingHorizontal: 14, paddingBottom: 14, gap: 10,
+  },
+  row: {
+    flexDirection: "row", alignItems: "center", gap: 10,
+    flexWrap: "wrap",
+  },
+  exBox: {
+    alignItems: "center", backgroundColor: "#fff",
+    borderRadius: 10, paddingVertical: 6, paddingHorizontal: 12,
+    borderWidth: 1.5, borderColor: "#dbeafe",
+    minWidth: 56,
+  },
+  exBoxHighlight: {
+    borderColor: BD_GREEN, backgroundColor: "#f0fdf4",
+  },
+  exLabel: {
+    fontSize: 9, fontWeight: "700", color: "#9ca3af",
+    textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 2,
+  },
+  exChar: {
+    fontSize: 22, fontWeight: "900", color: "#1f2937",
+  },
+  rule: {
+    fontSize: 12, color: "#374151", lineHeight: 18,
+    backgroundColor: "#fff", borderRadius: 10,
+    padding: 10, borderLeftWidth: 3, borderLeftColor: BD_GREEN,
+  },
 });

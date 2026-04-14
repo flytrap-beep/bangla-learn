@@ -31,27 +31,82 @@ type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
 // ── Icon map ──────────────────────────────────────────────────────────────────
 const WORD_ICONS: Record<string, { icon: IoniconsName; bg: string; color: string }> = {
-  greeting:  { icon: "hand-right-outline",   bg: "#e6f7ee", color: BD_GREEN   },
-  goodbye:   { icon: "log-out-outline",       bg: "#e8eaf6", color: "#5c6bc0" },
-  thankyou:  { icon: "heart-outline",         bg: "#fff3e0", color: "#DC2626" },
-  morning:   { icon: "sunny-outline",         bg: "#fffde7", color: "#D97706" },
-  howareyou: { icon: "help-circle-outline",   bg: "#e3f2fd", color: "#1976D2" },
-  imfine:    { icon: "happy-outline",         bg: "#f1f8e9", color: "#388E3C" },
-  self:      { icon: "person-outline",        bg: "#f3e5f5", color: "#7B1FA2" },
-  you:       { icon: "person-circle-outline", bg: "#e8eaf6", color: "#5c6bc0" },
-  good:      { icon: "thumbs-up-outline",     bg: "#e8f5e9", color: "#388E3C" },
-  mother:    { icon: "woman-outline",         bg: "#fce4ec", color: "#C2185B" },
-  father:    { icon: "man-outline",           bg: "#e3f2fd", color: "#1976D2" },
-  brother:   { icon: "people-outline",        bg: "#fff3e0", color: "#E65100" },
-  sister:    { icon: "people-outline",        bg: "#fce4ec", color: "#C2185B" },
-  rickshaw:  { icon: "bicycle-outline",       bg: "#e6f7ee", color: BD_GREEN  },
-  fish:      { icon: "fish-outline",          bg: "#e3f2fd", color: "#1976D2" },
-  tiger:     { icon: "flash-outline",         bg: "#fff3e0", color: "#E65100" },
-  rice:      { icon: "restaurant-outline",    bg: "#e8f5e9", color: "#388E3C" },
-  boat:      { icon: "boat-outline",          bg: "#e3f2fd", color: "#1976D2" },
-  lotus:     { icon: "leaf-outline",          bg: "#fce4ec", color: "#C2185B" },
-  cow:       { icon: "leaf-outline",          bg: "#fffde7", color: "#D97706" },
-  banana:    { icon: "nutrition-outline",     bg: "#fffde7", color: "#D97706" },
+  // ── Greetings & phrases ───────────────────────────────────────────────────
+  greeting:  { icon: "hand-right-outline",    bg: "#e6f7ee", color: BD_GREEN   },
+  goodbye:   { icon: "log-out-outline",        bg: "#e8eaf6", color: "#5c6bc0" },
+  thankyou:  { icon: "heart-outline",          bg: "#fff3e0", color: "#DC2626" },
+  morning:   { icon: "sunny-outline",          bg: "#fffde7", color: "#D97706" },
+  howareyou: { icon: "help-circle-outline",    bg: "#e3f2fd", color: "#1976D2" },
+  imfine:    { icon: "happy-outline",          bg: "#f1f8e9", color: "#388E3C" },
+  // ── People & family ───────────────────────────────────────────────────────
+  self:      { icon: "person-outline",         bg: "#f3e5f5", color: "#7B1FA2" },
+  you:       { icon: "person-circle-outline",  bg: "#e8eaf6", color: "#5c6bc0" },
+  good:      { icon: "thumbs-up-outline",      bg: "#e8f5e9", color: "#388E3C" },
+  mother:    { icon: "woman-outline",          bg: "#fce4ec", color: "#C2185B" },
+  father:    { icon: "man-outline",            bg: "#e3f2fd", color: "#1976D2" },
+  brother:   { icon: "people-outline",         bg: "#fff3e0", color: "#E65100" },
+  sister:    { icon: "people-outline",         bg: "#fce4ec", color: "#C2185B" },
+  child:     { icon: "happy-outline",          bg: "#e8f5e9", color: "#388E3C" },
+  friend:    { icon: "person-add-outline",     bg: "#e8eaf6", color: "#5c6bc0" },
+  // ── Animals ───────────────────────────────────────────────────────────────
+  fish:      { icon: "fish-outline",           bg: "#e3f2fd", color: "#1976D2" },
+  tiger:     { icon: "paw-outline",            bg: "#fff3e0", color: "#E65100" },
+  cow:       { icon: "paw-outline",            bg: "#fffde7", color: "#D97706" },
+  bird:      { icon: "paper-plane-outline", bg: "#e6f7ee", color: BD_GREEN },
+  dog:       { icon: "paw-outline",            bg: "#fff3e0", color: "#E65100" },
+  cat:       { icon: "paw-outline",            bg: "#e8eaf6", color: "#5c6bc0" },
+  // ── Fruits ────────────────────────────────────────────────────────────────
+  banana:    { icon: "color-fill-outline",     bg: "#fffde7", color: "#D97706" },
+  apple:     { icon: "color-fill-outline",     bg: "#fce4ec", color: "#C2185B" },
+  mango:     { icon: "color-fill-outline",     bg: "#fff3e0", color: "#E65100" },
+  fruit:     { icon: "color-fill-outline",     bg: "#e8f5e9", color: "#388E3C" },
+  // ── Food & drink ─────────────────────────────────────────────────────────
+  rice:      { icon: "restaurant-outline",     bg: "#e8f5e9", color: "#388E3C" },
+  water:     { icon: "water-outline",          bg: "#e3f2fd", color: "#1976D2" },
+  milk:      { icon: "beaker-outline",             bg: "#f1f8e9", color: "#388E3C" },
+  food:      { icon: "restaurant-outline",     bg: "#e8f5e9", color: "#388E3C" },
+  tea:       { icon: "cafe-outline",           bg: "#fff3e0", color: "#E65100" },
+  // ── Colors ────────────────────────────────────────────────────────────────
+  red:       { icon: "ellipse",                bg: "#fce4ec", color: "#DC2626" },
+  blue:      { icon: "ellipse",                bg: "#e3f2fd", color: "#1976D2" },
+  green:     { icon: "ellipse",                bg: "#e8f5e9", color: "#388E3C" },
+  yellow:    { icon: "ellipse",                bg: "#fffde7", color: "#D97706" },
+  white:     { icon: "ellipse-outline",        bg: "#f5f5f5", color: "#9E9E9E" },
+  black:     { icon: "ellipse",                bg: "#e8eaf6", color: "#212121" },
+  orange:    { icon: "ellipse",                bg: "#fff3e0", color: "#E65100" },
+  pink:      { icon: "ellipse",                bg: "#fce4ec", color: "#E91E63" },
+  purple:    { icon: "ellipse",                bg: "#f3e5f5", color: "#7B1FA2" },
+  brown:     { icon: "ellipse",                bg: "#efebe9", color: "#795548" },
+  color:     { icon: "color-palette-outline",  bg: "#e8eaf6", color: "#5c6bc0" },
+  // ── Objects & household ──────────────────────────────────────────────────
+  book:      { icon: "book-outline",           bg: "#e3f2fd", color: "#1976D2" },
+  chair:     { icon: "easel-outline",          bg: "#e8eaf6", color: "#5c6bc0" },
+  table:     { icon: "grid-outline",           bg: "#fff3e0", color: "#E65100" },
+  door:      { icon: "enter-outline",          bg: "#e8f5e9", color: "#388E3C" },
+  window:    { icon: "browsers-outline",       bg: "#e3f2fd", color: "#1976D2" },
+  pen:       { icon: "pencil-outline",         bg: "#fce4ec", color: "#C2185B" },
+  bag:       { icon: "bag-outline",            bg: "#e8eaf6", color: "#5c6bc0" },
+  phone:     { icon: "phone-portrait-outline", bg: "#e3f2fd", color: "#1976D2" },
+  house:     { icon: "home-outline",           bg: "#e8f5e9", color: "#388E3C" },
+  // ── Transport ────────────────────────────────────────────────────────────
+  rickshaw:  { icon: "bicycle-outline",        bg: "#e6f7ee", color: BD_GREEN  },
+  boat:      { icon: "boat-outline",           bg: "#e3f2fd", color: "#1976D2" },
+  bus:       { icon: "bus-outline",            bg: "#e8eaf6", color: "#5c6bc0" },
+  car:       { icon: "car-outline",            bg: "#fff3e0", color: "#E65100" },
+  // ── Nature ───────────────────────────────────────────────────────────────
+  lotus:     { icon: "flower-outline",             bg: "#fce4ec", color: "#C2185B" },
+  flower:    { icon: "flower-outline",             bg: "#fce4ec", color: "#C2185B" },
+  tree:      { icon: "leaf-outline",           bg: "#e8f5e9", color: "#388E3C" },
+  sun:       { icon: "sunny-outline",          bg: "#fffde7", color: "#D97706" },
+  moon:      { icon: "moon-outline",           bg: "#e8eaf6", color: "#5c6bc0" },
+  rain:      { icon: "rainy-outline",          bg: "#e3f2fd", color: "#1976D2" },
+  // ── Numbers ──────────────────────────────────────────────────────────────
+  number:    { icon: "calculator-outline",     bg: "#e8eaf6", color: "#5c6bc0" },
+  one:       { icon: "hand-right-outline",     bg: "#e6f7ee", color: BD_GREEN  },
+  // ── Places ───────────────────────────────────────────────────────────────
+  school:    { icon: "school-outline",         bg: "#e3f2fd", color: "#1976D2" },
+  market:    { icon: "storefront-outline",     bg: "#fff3e0", color: "#E65100" },
+  hospital:  { icon: "medkit-outline",         bg: "#fce4ec", color: "#DC2626" },
 };
 
 const GREETING_KEYS = new Set(["greeting","goodbye","morning","howareyou","imfine","thankyou"]);
@@ -599,7 +654,7 @@ function ExerciseView({ exercise, state, selected, hideRomanization, onMC, onMat
   }
 
   if (exercise.type === "match_pairs") {
-    return <MatchPairsGame exercise={exercise} onComplete={onMatchDone} hideRomanization={hideRomanization} />;
+    return <MatchPairsGame key={exercise.id} exercise={exercise} onComplete={onMatchDone} hideRomanization={hideRomanization} />;
   }
 
   if (exercise.type === "translate_to_english") {
