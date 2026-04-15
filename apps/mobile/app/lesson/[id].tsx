@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View, Text, TouchableOpacity, StyleSheet, TextInput, Keyboard,
-  SafeAreaView, ScrollView, Animated, Platform, Share,
+  SafeAreaView, ScrollView, Animated, Platform, Share, Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -25,9 +25,83 @@ import LetterTrace from "@/components/LetterTrace";
 import GreetingScene from "@/components/GreetingScene";
 import SpeakButton from "@/components/SpeakButton";
 import { T } from "@/lib/theme";
+import { useSound } from "@/lib/useSound";
 
 const BD_GREEN = T.green;
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
+
+// ── Confetti ──────────────────────────────────────────────────────────────────
+const CONFETTI_COLORS = ["#16a34a","#D97706","#ef4444","#0284c7","#7c3aed","#f59e0b","#ec4899"];
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
+
+type ConfettiParticle = {
+  x: number; color: string; size: number;
+  y: Animated.Value; x2: Animated.Value;
+  rot: Animated.Value; op: Animated.Value;
+};
+
+function makeParticles(): ConfettiParticle[] {
+  return Array.from({ length: 28 }, (_, i) => ({
+    x: (SCREEN_W / 28) * i + (SCREEN_W / 56),
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    size: 8 + (i % 4) * 2,
+    y:   new Animated.Value(-20),
+    x2:  new Animated.Value(0),
+    rot: new Animated.Value(0),
+    op:  new Animated.Value(1),
+  }));
+}
+
+function ConfettiOverlay({ active }: { active: boolean }) {
+  const particles = useRef<ConfettiParticle[]>(makeParticles()).current;
+
+  useEffect(() => {
+    if (!active) return;
+    particles.forEach((p, i) => {
+      p.y.setValue(-20); p.x2.setValue(0); p.rot.setValue(0); p.op.setValue(1);
+      const drift = (Math.random() - 0.5) * 100;
+      Animated.sequence([
+        Animated.delay(i * 55),
+        Animated.parallel([
+          Animated.timing(p.y,   { toValue: SCREEN_H + 50, duration: 2200, useNativeDriver: true }),
+          Animated.timing(p.x2,  { toValue: drift,         duration: 2200, useNativeDriver: true }),
+          Animated.timing(p.rot, { toValue: 8,             duration: 2200, useNativeDriver: true }),
+          Animated.sequence([
+            Animated.delay(1500),
+            Animated.timing(p.op, { toValue: 0, duration: 700, useNativeDriver: true }),
+          ]),
+        ]),
+      ]).start();
+    });
+  }, [active]);
+
+  if (!active) return null;
+
+  return (
+    <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
+      {particles.map((p, i) => (
+        <Animated.View
+          key={i}
+          style={{
+            position: "absolute",
+            left: p.x,
+            top: 0,
+            width: p.size,
+            height: p.size,
+            borderRadius: p.size / 4,
+            backgroundColor: p.color,
+            opacity: p.op,
+            transform: [
+              { translateY: p.y },
+              { translateX: p.x2 },
+              { rotate: p.rot.interpolate({ inputRange: [0, 8], outputRange: ["0deg", "960deg"] }) },
+            ],
+          }}
+        />
+      ))}
+    </View>
+  );
+}
 
 // ── Icon map ──────────────────────────────────────────────────────────────────
 const WORD_ICONS: Record<string, { icon: IoniconsName; bg: string; color: string }> = {
@@ -703,6 +777,14 @@ export default function LessonScreen() {
   const fadeAnim       = useRef(new Animated.Value(0)).current;
   const lessonStartRef = useRef<number | null>(null);
 
+  // Play audio clip when an exercise has one (field is set in content but currently unused)
+  const currentExercise = lesson?.exercises[currentIndex];
+  const exerciseAudio =
+    currentExercise && phase === "quiz" && !finished
+      ? ("audio" in currentExercise ? (currentExercise as { audio?: string }).audio : undefined)
+      : undefined;
+  useSound(exerciseAudio);
+
   // Load starting hearts + check for saved resume state on mount
   useEffect(() => {
     getStats().then((s) => setStartingHearts(s.hearts));
@@ -844,6 +926,7 @@ export default function LessonScreen() {
     const dailyPct = dailyInfo ? Math.min(100, (dailyInfo.xpToday / dailyInfo.goal) * 100) : 0;
     return (
       <SafeAreaView style={styles.container}>
+        <ConfettiOverlay active={finished} />
         <View style={styles.finishedContainer}>
           <Animated.View style={{ transform: [{ scale: trophyScale }] }}>
             <Ionicons name="trophy" size={88} color="#D97706" />
