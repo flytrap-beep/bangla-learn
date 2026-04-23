@@ -34,7 +34,7 @@ export default async function HomePage() {
       <nav className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto">
         <div className="flex items-center gap-2">
           <span className="text-3xl">🇧🇩</span>
-          <span className="text-xl font-extrabold text-green-500">BanglaLearn</span>
+          <span className="text-xl font-extrabold text-green-500">BhashaLoop</span>
         </div>
         <div className="flex gap-3">
           {session ? (

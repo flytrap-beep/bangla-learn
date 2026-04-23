@@ -41,7 +41,7 @@ export default async function LearnPage({ searchParams }: { searchParams: Search
         <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-2xl">🇧🇩</span>
-            <span className="text-lg font-extrabold text-green-500">BanglaLearn</span>
+            <span className="text-lg font-extrabold text-green-500">BhashaLoop</span>
           </Link>
           <StatsBar
             streak={streak?.current ?? 0}

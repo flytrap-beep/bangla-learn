@@ -1,7 +1,7 @@
 import IntroSlides from "./IntroSlides";
 
 export const metadata = {
-  title: "Learn the Bengali Alphabet — BanglaLearn",
+  title: "Learn the Bengali Alphabet — BhashaLoop",
   description: "A step-by-step intro to the Bengali script. Learn every character before your first lesson.",
 };
 

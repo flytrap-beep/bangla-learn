@@ -2,7 +2,7 @@ import LetterBowl from "./LetterBowl";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Letter Bowl — BanglaLearn",
+  title: "Letter Bowl — BhashaLoop",
   description: "Practice Bengali characters and numbers with a quick-fire quiz game.",
 };
 

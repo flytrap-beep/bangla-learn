@@ -1,5 +1,5 @@
 /**
- * BanglaLearn Custom Icon Set
+ * BhashaLoop Custom Icon Set
  * Inspired by Nakshi Kantha embroidery, Bengali script curves, and Bangladeshi culture.
  * All icons are SVG components using stroke-based design with rounded ends.
  */

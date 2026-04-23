@@ -11,7 +11,7 @@ export default async function LoginPage() {
       <div className="text-center mb-10">
         <span className="text-6xl">🇧🇩</span>
         <h1 className="text-3xl font-extrabold text-gray-900 mt-4">
-          Join BanglaLearn
+          Join BhashaLoop
         </h1>
         <p className="text-gray-500 mt-2">
           Sign in to save your progress and streaks
