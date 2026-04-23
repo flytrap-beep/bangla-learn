@@ -10,6 +10,7 @@ import {
   activateStreakFreeze, isStreakFreezeActive,
   activateXpBoost, isXpBoostActive, xpBoostRemainingMs,
 } from "@/lib/storage";
+import { purchaseProduct, restorePurchases } from "@/lib/iap";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView, trackBazaarOpen } from "@/lib/analytics";
 
@@ -100,13 +101,12 @@ export default function BazaarScreen() {
       buy: async (method) => {
         if (hearts >= 5) return { ok: false, msg: "Your hearts are already full!" };
         if (method === "iap") {
-          return { ok: false, msg: "In-app purchases coming soon!" };
-        }
-        if (method === "xp") {
+          const result = await purchaseProduct("com.bhashaloop.app.heart_refill");
+          if (!result.ok) return result;
+        } else if (method === "xp") {
           const ok = await spendXp(100);
           if (!ok) return { ok: false, msg: `Need 100 XP — you have ${totalXp}.` };
-        }
-        if (method === "coins") {
+        } else if (method === "coins") {
           const ok = await spendCoins(50);
           if (!ok) return { ok: false, msg: `Need 50 coins — you have ${coins}.` };
         }
@@ -127,13 +127,12 @@ export default function BazaarScreen() {
       buy: async (method) => {
         if (freezeOn) return { ok: false, msg: "You already have a Streak Freeze active!" };
         if (method === "iap") {
-          return { ok: false, msg: "In-app purchases coming soon!" };
-        }
-        if (method === "xp") {
+          const result = await purchaseProduct("com.bhashaloop.app.streak_freeze");
+          if (!result.ok) return result;
+        } else if (method === "xp") {
           const ok = await spendXp(200);
           if (!ok) return { ok: false, msg: `Need 200 XP — you have ${totalXp}.` };
-        }
-        if (method === "coins") {
+        } else if (method === "coins") {
           const ok = await spendCoins(100);
           if (!ok) return { ok: false, msg: `Need 100 coins — you have ${coins}.` };
         }
@@ -154,12 +153,11 @@ export default function BazaarScreen() {
       buy: async (method) => {
         if (boostOn) return { ok: false, msg: "XP Boost is already active!" };
         if (method === "iap") {
-          return { ok: false, msg: "In-app purchases coming soon!" };
-        }
-        if (method === "xp") {
+          const result = await purchaseProduct("com.bhashaloop.app.xp_boost_2h");
+          if (!result.ok) return result;
+        } else if (method === "xp") {
           return { ok: false, msg: "XP Boost can't be bought with XP." };
-        }
-        if (method === "coins") {
+        } else if (method === "coins") {
           const ok = await spendCoins(75);
           if (!ok) return { ok: false, msg: `Need 75 coins — you have ${coins}.` };
         }
@@ -173,7 +171,8 @@ export default function BazaarScreen() {
   // ── Buy handler ────────────────────────────────────────────────────────────
   async function handleBuy(product: Product, method: "iap" | "xp" | "coins") {
     const { ok, msg } = await product.buy(method);
-    showToast(msg, ok);
+    // Empty msg = user cancelled the native payment sheet — don't show a toast
+    if (msg) showToast(msg, ok);
   }
 
   function confirmBuy(product: Product, method: "iap" | "xp" | "coins") {
@@ -328,6 +327,18 @@ export default function BazaarScreen() {
           </View>
         </View>
 
+        {/* ── Restore purchases (App Store requirement) ── */}
+        <TouchableOpacity
+          style={s.restoreBtn}
+          onPress={async () => {
+            const result = await restorePurchases();
+            if (result.msg) showToast(result.msg, result.ok);
+          }}
+          activeOpacity={0.6}
+        >
+          <Text style={s.restoreBtnText}>Restore Purchases</Text>
+        </TouchableOpacity>
+
         <View style={{ height: 40 }} />
       </Animated.ScrollView>
 
@@ -448,6 +459,19 @@ const s = StyleSheet.create({
   legendTitle: { ...(MICRO as any), color: T.textMid as string, marginBottom: 2 },
   legendRow:   { flexDirection: "row", alignItems: "center", gap: 8 },
   legendText:  { fontFamily: FONT.regular, fontSize: 12, color: T.text as string, flex: 1, lineHeight: 17 },
+
+  // Restore purchases
+  restoreBtn: {
+    alignSelf: "center",
+    marginTop: 16,
+    paddingVertical: 8, paddingHorizontal: 20,
+  },
+  restoreBtnText: {
+    fontFamily: FONT.medium,
+    fontSize: 12,
+    color: T.textMuted as string,
+    textDecorationLine: "underline",
+  },
 
   // Toast
   toast: {

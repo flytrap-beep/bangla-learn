@@ -3,6 +3,7 @@ import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AuthProvider } from "@/lib/AuthContext";
 import { isOnboardingDone } from "@/lib/storage";
+import { initIAP } from "@/lib/iap";
 import {
   useFonts,
   SpaceGrotesk_300Light,
@@ -11,6 +12,9 @@ import {
   SpaceGrotesk_600SemiBold,
   SpaceGrotesk_700Bold,
 } from "@expo-google-fonts/space-grotesk";
+
+// Initialise RevenueCat as early as possible — safe to call before user is known
+initIAP();
 
 function RootNavigator() {
   const router = useRouter();

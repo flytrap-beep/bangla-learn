@@ -46,6 +46,12 @@ prisma/dev.db
 .firebase/
 functions/lib/
 
+# EAS / App Store credentials (never commit these)
+google-play-service-account.json
+*.p8
+*.p12
+*.mobileprovision
+
 # Local MCP config (may contain API credentials)
 .mcp.json
 mcp-wordpress/

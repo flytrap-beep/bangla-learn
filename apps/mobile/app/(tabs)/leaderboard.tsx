@@ -99,8 +99,8 @@ export default function LeaderboardScreen() {
       >
         {/* ── Header ── */}
         <View style={s.header}>
-          <Text style={s.headerEyebrow}>The Academy of</Text>
-          <Text style={s.headerTitle}>EXCELLENCE</Text>
+          <Text style={s.headerEyebrow}>BhashaLoop</Text>
+          <Text style={s.headerTitle}>LEADERBOARD</Text>
           {loading && <ActivityIndicator size="small" color={T.textMuted as string} style={{ marginTop: 8 }} />}
           {!loading && (
             <View style={s.livePill}>

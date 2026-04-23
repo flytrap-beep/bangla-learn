@@ -37,8 +37,8 @@ function buildShareText(data: WeeklyWrappedData): string {
     data.currentStreak > 0 ? `🔥 ${data.currentStreak}-day streak` : null,
     data.topDialect ? `🗺️  Top dialect: ${DIALECT_NAMES[data.topDialect] ?? data.topDialect}` : null,
     `${"─".repeat(24)}`,
-    "Learning Bengali with The Academy of Bengali Letters! 🇧🇩",
-    "#AcademyOfBengaliLetters",
+    "Learning Bengali with BhashaLoop! 🇧🇩",
+    "#BhashaLoop",
   ].filter(Boolean);
   return parts.join("\n");
 }

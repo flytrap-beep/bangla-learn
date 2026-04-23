@@ -1,8 +1,8 @@
-# BanglaLearn 🇧🇩
+# BhashaLoop 🇧🇩
 
 > Learn Bengali (Bangla) for free — the app Duolingo never built.
 
-A full-stack language learning app with **4 Bengali dialects**, Duolingo-style lessons, XP tracking, streaks, and hearts. Built as a Turborepo monorepo with a Next.js web app and Expo mobile app.
+A full-stack language learning app with **5 Bengali dialects**, Duolingo-style lessons, XP tracking, streaks, hearts, and an in-app Bazaar. Built as a Turborepo monorepo with a Next.js web app and Expo mobile app.
 
 ---
 
@@ -14,17 +14,22 @@ A full-stack language learning app with **4 Bengali dialects**, Duolingo-style l
 | Sylheti | সিলটি | Sylhet, UK diaspora |
 | Barisali | বরিশালি | Barisal Division |
 | Chittagonian | চাটগাঁইয়া | Chittagong Division |
+| Rajshahi | রাজশাহী | Rajshahi Division |
+| Khulna | খুলনা | Khulna Division |
 
 ---
 
 ## Features
 
-- **5 exercise types**: Multiple choice, translate to English/Bengali, match pairs, fill in the blank
-- **XP system**: Earn XP per correct answer
-- **Daily streaks**: Tracked server-side with timezone awareness
-- **Hearts**: Lose a heart per wrong answer, refill over time
-- **Lesson map**: Duolingo-style path with locked/unlocked lessons
-- **4 dialects**: Switch dialect anytime, separate progress per dialect
+- **6 exercise types**: Multiple choice, translate to English/Bengali, match pairs, fill in the blank, letter trace
+- **12 units per dialect**: Greetings, Introductions, Numbers, Daily Life, Food, Family, Travel, Shopping, Work, Emotions, and more
+- **XP system**: Earn XP per correct answer, with 2× boost available in the Bazaar
+- **Daily streaks**: With streak-freeze protection and milestone celebrations
+- **Hearts**: Lose a heart per wrong answer, refill passively over time or via the Bazaar
+- **Bazaar**: Spend XP, coins, or real money (IAP) on hearts, streak freezes, and XP boosts
+- **Leaderboard**: Live Firestore rankings
+- **Social sharing**: Share streaks and report cards to earn coins
+- **Push notifications**: Daily streak reminders
 - **Web + Mobile**: Next.js web app and Expo React Native app
 
 ---
@@ -38,9 +43,7 @@ bangla-learn/
 │   └── mobile/       # Expo 51 (React Native)
 ├── packages/
 │   ├── types/        # Shared TypeScript types
-│   └── content/      # All lesson data (4 dialects)
-└── .github/
-    └── workflows/    # CI/CD
+│   └── content/      # All lesson data (5 dialects × 12 units)
 ```
 
 ---
@@ -92,6 +95,8 @@ npm run dev -- --filter=@bangla-learn/mobile
 
 Scan the QR code with **Expo Go** on your phone.
 
+> **Note:** In-app purchases (Bazaar IAP) require a custom dev client built with `eas build --profile development`. They won't work in Expo Go.
+
 ### Run Everything
 
 ```bash
@@ -108,6 +113,8 @@ All lesson content lives in `packages/content/src/dialects/`:
 - `sylheti.ts` — Sylheti
 - `barisali.ts` — Barisali
 - `chittagonian.ts` — Chittagonian
+- `rajshahi.ts` — Rajshahi
+- `khulna.ts` — Khulna
 
 Each file exports a `DialectCurriculum` with units → lessons → exercises.
 
@@ -128,6 +135,9 @@ Each file exports a `DialectCurriculum` with units → lessons → exercises.
 
 // Fill in the blank
 { type: "fill_blank", sentence: "আমি ___ আছি", blank: "ভালো", options: ["ভালো", "খারাপ"] }
+
+// Letter trace
+{ type: "letter_trace", character: "অ", romanization: "o" }
 ```
 
 ---
@@ -145,18 +155,6 @@ Each file exports a `DialectCurriculum` with units → lessons → exercises.
 cd apps/mobile
 npx eas build --platform all
 ```
-
----
-
-## Contributing
-
-PRs welcome! Please open an issue first to discuss what you'd like to change.
-
-Areas to contribute:
-- More lessons and vocabulary
-- Audio recordings for Bengali words
-- More dialects (Noakhali, Rajbangsi)
-- Gamification features (leaderboards, achievements)
 
 ---
 

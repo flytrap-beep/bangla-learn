@@ -684,25 +684,6 @@ export default function HomeScreen() {
             );
           })}
 
-          {/* ── Coming Soon card (non-standard dialects have 3 units; standard has 6) ── */}
-          {dialect !== "standard" && (
-            <View style={s.comingSoonCard}>
-              <View style={s.comingSoonIconWrap}>
-                <Ionicons name="construct-outline" size={28} color={T.textMuted as string} />
-              </View>
-              <Text style={s.comingSoonTitle}>More units coming soon</Text>
-              <Text style={s.comingSoonSub}>
-                We're crafting Units 4–6 for the {DIALECT_INFO[dialect]?.nameBn ?? dialect} dialect.
-                Keep practising — new content drops soon!
-              </Text>
-              <View style={s.comingSoonPills}>
-                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Numbers</Text></View>
-                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Travel</Text></View>
-                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Family</Text></View>
-                <View style={s.comingSoonPill}><Text style={s.comingSoonPillText}>Culture</Text></View>
-              </View>
-            </View>
-          )}
 
         </ScrollView>
       </Animated.View>
@@ -889,22 +870,4 @@ const s = StyleSheet.create({
   },
   completeBannerTitle: { fontFamily: FONT.bold, fontSize: 16 },
   completeBannerSub:   { fontFamily: FONT.medium, fontSize: 12, color: T.textMid as string, marginTop: 2 },
-
-  // ── Coming Soon ──
-  comingSoonCard: {
-    marginHorizontal: 16, marginTop: 8, marginBottom: 24,
-    backgroundColor: T.card, borderRadius: 16, borderWidth: 2,
-    borderColor: T.border, borderStyle: "dashed" as const,
-    padding: 24, alignItems: "center", gap: 8,
-  },
-  comingSoonIconWrap: {
-    width: 56, height: 56, borderRadius: 28,
-    backgroundColor: T.bg, alignItems: "center", justifyContent: "center",
-    marginBottom: 4,
-  },
-  comingSoonTitle: { fontFamily: FONT.bold, fontSize: 16, color: T.text as string, textAlign: "center" },
-  comingSoonSub:   { fontFamily: FONT.regular, fontSize: 13, color: T.textMuted as string, textAlign: "center", lineHeight: 19 },
-  comingSoonPills: { flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 4 },
-  comingSoonPill:  { backgroundColor: T.bg, borderRadius: 20, paddingVertical: 4, paddingHorizontal: 12, borderWidth: 1, borderColor: T.border },
-  comingSoonPillText: { fontFamily: FONT.medium, fontSize: 12, color: T.textMid as string },
 });

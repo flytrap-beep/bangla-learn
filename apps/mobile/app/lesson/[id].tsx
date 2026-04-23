@@ -777,13 +777,34 @@ export default function LessonScreen() {
   const fadeAnim       = useRef(new Animated.Value(0)).current;
   const lessonStartRef = useRef<number | null>(null);
 
-  // Play audio clip when an exercise has one (field is set in content but currently unused)
+  // Auto-play pronunciation when each exercise loads.
+  // Priority: pre-recorded audio URL → TTS fallback using the bangla text.
   const currentExercise = lesson?.exercises[currentIndex];
-  const exerciseAudio =
-    currentExercise && phase === "quiz" && !finished
-      ? ("audio" in currentExercise ? (currentExercise as { audio?: string }).audio : undefined)
-      : undefined;
-  useSound(exerciseAudio);
+  const isActiveQuiz = !!(currentExercise && phase === "quiz" && !finished);
+
+  const exerciseAudio = isActiveQuiz
+    ? ("audio" in currentExercise ? (currentExercise as { audio?: string }).audio : undefined)
+    : undefined;
+
+  // Extract the bangla text to speak for exercise types where it makes sense.
+  // translate_to_bangla and match_pairs are intentionally excluded —
+  // the user should work those out before hearing the answer.
+  const exerciseBangla = isActiveQuiz
+    ? (() => {
+        switch (currentExercise.type) {
+          case "translate_to_english":
+            return currentExercise.bangla;
+          case "multiple_choice":
+            return currentExercise.promptBangla ?? undefined;
+          case "letter_trace":
+            return currentExercise.character;
+          default:
+            return undefined;
+        }
+      })()
+    : undefined;
+
+  useSound(exerciseAudio, exerciseBangla);
 
   // Load starting hearts + check for saved resume state on mount
   useEffect(() => {
@@ -1006,8 +1027,8 @@ export default function LessonScreen() {
                 ? Math.round((correct / lesson.exercises.length) * 100)
                 : 100;
               const msg = lesson.isQuiz
-                ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in The Academy of Bengali Letters. Shekho Bengali with me!`
-                : `📚 Just completed "${lesson.title}" in The Academy of Bengali Letters — earned +${totalXp} XP with ${accuracy}% accuracy! #AcademyOfBengaliLetters`;
+                ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in BhashaLoop. Shekho Bengali with me!`
+                : `📚 Just completed "${lesson.title}" in BhashaLoop — earned +${totalXp} XP with ${accuracy}% accuracy! #BhashaLoop`;
               try {
                 const result = await Share.share({ message: msg });
                 if (result.action === Share.sharedAction) {

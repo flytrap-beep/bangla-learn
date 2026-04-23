@@ -21,8 +21,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
   return {
     ...config,
-    name: config.name ?? "Academy of Bengali Letters",
-    slug: config.slug ?? "bangla-learn",
+    name: config.name ?? "BhashaLoop",
+    slug: config.slug ?? "bhashaloop",
     ios: {
       ...config.ios,
       infoPlist: {

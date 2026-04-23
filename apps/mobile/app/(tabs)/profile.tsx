@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   View, Text, StyleSheet, SafeAreaView, ScrollView,
-  StatusBar, Animated, TouchableOpacity, Share, Alert,
+  StatusBar, Animated, TouchableOpacity, Share, Alert, Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -15,6 +15,10 @@ import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView } from "@/lib/analytics";
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
+
+// ── Legal ─────────────────────────────────────────────────────────────────────
+// Replace with your hosted privacy policy URL before submitting to the App Store.
+const PRIVACY_POLICY_URL = "https://bhashaloop.com/privacy";
 
 // ── Level system ───────────────────────────────────────────────────────────────
 const LEVELS = [
@@ -291,9 +295,9 @@ export default function ProfileScreen() {
       return;
     }
     const MESSAGES: Record<string, string> = {
-      streak:      `🔥 I'm on a ${stats.currentStreak}-day Bengali learning streak on The Academy of Bengali Letters! Join me and learn Bangla today.`,
-      invite:      "📚 I've been learning Bengali with The Academy of Bengali Letters — a Duolingo-style app for all 6 Bangladeshi dialects. Try it free!",
-      report_card: `🎓 My Academy of Bengali Letters report: ${stats.totalXp} XP earned, ${totalLessons} lessons done, ${stats.currentStreak}-day streak! Learning Bengali one day at a time.`,
+      streak:      `🔥 I'm on a ${stats.currentStreak}-day Bengali learning streak on BhashaLoop! Join me and learn Bangla today.`,
+      invite:      "📚 I've been learning Bengali with BhashaLoop — a Duolingo-style app for all 6 Bangladeshi dialects. Try it free!",
+      report_card: `🎓 My BhashaLoop report: ${stats.totalXp} XP earned, ${totalLessons} lessons done, ${stats.currentStreak}-day streak! Learning Bengali one day at a time.`,
     };
     const COIN_LABELS: Record<string, string> = {
       streak: "5 coins", invite: "15 coins", report_card: "3 coins",
@@ -515,6 +519,24 @@ export default function ProfileScreen() {
             </View>
           )}
 
+          {/* ── Legal ── */}
+          <View style={[s.card, SHADOW.soft]}>
+            <TouchableOpacity
+              style={s.legalRow}
+              onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="shield-checkmark-outline" size={16} color={T.textMid as string} />
+              <Text style={s.legalText}>Privacy Policy</Text>
+              <Ionicons name="chevron-forward" size={14} color={T.textMuted as string} style={{ marginLeft: "auto" }} />
+            </TouchableOpacity>
+            <View style={s.legalDivider} />
+            <View style={s.legalRow}>
+              <Ionicons name="information-circle-outline" size={16} color={T.textMid as string} />
+              <Text style={s.legalText}>BhashaLoop · Version 1.0.0</Text>
+            </View>
+          </View>
+
           {/* ── Footer quote ── */}
           <View style={[s.footerCard, SHADOW.green]}>
             <Text style={s.footerBn}>আমরা বাংলা ভালোবাসি</Text>
@@ -687,4 +709,9 @@ const s = StyleSheet.create({
   shareBtnLabel:  { fontFamily: FONT.bold, fontSize: 11, color: T.text as string, textAlign: "center" },
   shareLabelUsed: { color: T.textMuted as string },
   shareBtnCoins:  { fontFamily: FONT.medium, fontSize: 11, color: T.gold },
+
+  // Legal
+  legalRow:     { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 4 },
+  legalText:    { fontFamily: FONT.medium, fontSize: 14, color: T.textMid as string },
+  legalDivider: { height: 1, backgroundColor: T.border, marginVertical: 8 },
 });

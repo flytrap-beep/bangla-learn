@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Academy of Bengali Letters",
-    "slug": "bangla-learn",
+    "name": "BhashaLoop",
+    "slug": "bhashaloop",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "banglalearn",
+    "scheme": "bhashaloop",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -15,14 +15,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.banglalearn.app"
+      "bundleIdentifier": "com.bhashaloop.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#58CC02"
       },
-      "package": "com.banglalearn.app"
+      "package": "com.bhashaloop.app"
     },
     "web": {
       "bundler": "metro"
@@ -37,7 +37,8 @@
           "color": "#58CC02",
           "sounds": []
         }
-      ]
+      ],
+      "react-native-purchases"
     ],
     "experiments": {
       "typedRoutes": true
