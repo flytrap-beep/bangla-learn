@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, SafeAreaView, StatusBar, Animated, Dimensions,
+  StyleSheet, SafeAreaView, StatusBar, Animated, Dimensions, Image,
 } from "react-native";
 import Svg, { Path, Circle } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
@@ -535,8 +535,11 @@ export default function HomeScreen() {
 
         {/* Centered branding */}
         <View style={s.headerCenter}>
-          <Text style={s.headerEyebrow}>LEARN BENGALI YOUR WAY</Text>
-          <Text style={s.headerTitle}>BhashaLoop</Text>
+          <Image
+            source={require("../../assets/logo.png")}
+            style={s.headerLogo}
+            resizeMode="contain"
+          />
         </View>
 
         {/* XP pill (right) */}
@@ -754,16 +757,8 @@ const s = StyleSheet.create({
     fontFamily: FONT.bold, fontSize: 9, color: T.red,
     textTransform: "uppercase", letterSpacing: 0.5, marginLeft: 2,
   },
-  headerCenter:   { alignItems: "center" },
-  headerEyebrow: {
-    fontFamily: FONT.bold, fontSize: 9,
-    color: T.textMid as string,
-    textTransform: "uppercase", letterSpacing: 2,
-  },
-  headerTitle: {
-    fontFamily: FONT.bold, fontSize: 16,
-    color: T.green, letterSpacing: 0.5,
-  },
+  headerCenter: { alignItems: "center", justifyContent: "center" },
+  headerLogo:   { width: 52, height: 52 },
 
   // ── Map section ──
   mapSection: {
