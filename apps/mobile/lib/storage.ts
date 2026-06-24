@@ -164,7 +164,7 @@ export async function getStats() {
   };
 }
 
-export async function loseHeart(): Promise<void> {
+export async function loseHeart(): Promise<number> {
   await applyHeartRegen();
   const current = parseInt((await AsyncStorage.getItem(KEYS.hearts)) ?? String(MAX_HEARTS));
   const next = Math.max(0, current - 1);
@@ -173,6 +173,7 @@ export async function loseHeart(): Promise<void> {
     ops.push([KEYS.lastHeartLostAt, String(Date.now())]);
   }
   await AsyncStorage.multiSet(ops);
+  return next;
 }
 
 export async function addHearts(n: number): Promise<void> {

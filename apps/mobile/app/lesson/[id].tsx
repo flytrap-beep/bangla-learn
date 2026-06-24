@@ -19,9 +19,12 @@ import { pushProgressToFirestore } from "@/lib/sync";
 import {
   trackLessonStart, trackLessonComplete, trackLessonAbandon,
 } from "@/lib/analytics";
-import { cancelStreakReminder, scheduleStreakReminder } from "@/lib/notifications";
+import {
+  cancelStreakReminder, scheduleStreakReminder,
+  scheduleHeartRefillNotification, cancelHeartRefillNotification,
+} from "@/lib/notifications";
 import * as Haptics from "expo-haptics";
-import LetterTrace from "@/components/LetterTrace";
+import LetterStudy from "@/components/LetterStudy";
 import GreetingScene from "@/components/GreetingScene";
 import SpeakButton from "@/components/SpeakButton";
 import { T } from "@/lib/theme";
@@ -678,7 +681,7 @@ function ExerciseView({ exercise, state, selected, hideRomanization, onMC, onMat
   onTranslateAnswer: (correct: boolean) => void;
 }) {
   if (exercise.type === "letter_trace") {
-    return <LetterTrace key={exercise.character} exercise={exercise} onComplete={onTraceDone} />;
+    return <LetterStudy key={exercise.character} exercise={exercise} onComplete={onTraceDone} />;
   }
 
   if (exercise.type === "multiple_choice") {
@@ -875,7 +878,8 @@ export default function LessonScreen() {
     } else {
       const newLost = heartsLost + 1;
       setHeartsLost(newLost);
-      await loseHeart();
+      const newHearts = await loseHeart(); // returns actual post-regen count
+      scheduleHeartRefillNotification(newHearts).catch(() => {});
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => {});
       if (newLost >= startingHearts) {
         trackLessonAbandon(lesson!.id, (dialect ?? "standard") as Dialect, progress);
@@ -1094,8 +1098,14 @@ export default function LessonScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.btnPrimary, { flex: 1 }]}
-              onPress={() => {
+              onPress={async () => {
+                const s = await getStats();
+                if (s.hearts === 0) {
+                  router.replace("/(tabs)/bazaar" as any);
+                  return;
+                }
                 clearLessonResume(lesson!.id).catch(() => {});
+                setStartingHearts(s.hearts);
                 setGameOver(false);
                 setHeartsLost(0);
                 setCurrentIndex(0);
@@ -1103,7 +1113,6 @@ export default function LessonScreen() {
                 setSelected(null);
                 setTotalXp(0);
                 setCorrect(0);
-                getStats().then((s) => setStartingHearts(s.hearts));
               }}
               activeOpacity={0.85}
             >

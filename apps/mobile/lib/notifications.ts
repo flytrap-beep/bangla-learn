@@ -13,16 +13,53 @@ import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const NOTIF_ID_KEY  = "streak_reminder_notif_id";  // persists scheduled notification id
-const PERM_ASKED_KEY = "notif_permission_asked";    // only ask once
+const NOTIF_ID_KEY   = "streak_reminder_notif_id";
+const HEART_NOTIF_KEY = "heart_refill_notif_id";
+const PERM_ASKED_KEY  = "notif_permission_asked";
 
-// How far from now to schedule the reminder (23 h — just under a day)
-const REMINDER_DELAY_MS = 23 * 60 * 60 * 1000;
+const REMINDER_DELAY_MS    = 23 * 60 * 60 * 1000;
+const MAX_HEARTS_CONST     = 5;
+const REGEN_PER_HEART_MS   = 30 * 60 * 1000; // must match storage.ts
+
+// ── Streak reminder messages (random selection each time) ─────────────────────
+const STREAK_MESSAGES = [
+  {
+    title: "আপনার streak ভুলবেন না! 🔥",
+    body:  "A few minutes of Bangla keeps your streak alive. Come back!",
+  },
+  {
+    title: "আজকে Bangla শিখেছেন? 📚",
+    body:  "Your streak is waiting. Even one quick lesson counts!",
+  },
+  {
+    title: "Your streak is at risk! 🔥",
+    body:  "Don't let your Bengali journey stop today. Open BhashaLoop!",
+  },
+  {
+    title: "চলুন, আজ একটু বাংলা শিখি! ✨",
+    body:  "Just 5 minutes keeps your flame alive. You've got this!",
+  },
+  {
+    title: "Missing you in BhashaLoop 💚",
+    body:  "Your streak doesn't wait forever — come learn some Bangla!",
+  },
+  {
+    title: "একটু অপেক্ষা করুন! 🌙",
+    body:  "Before the day ends — do one lesson and keep your streak alive.",
+  },
+  {
+    title: "Language learning is a daily habit 🧠",
+    body:  "Open BhashaLoop and keep that streak going strong!",
+  },
+  {
+    title: "দিনটা শেষ হওয়ার আগে... 🌅",
+    body:  "One lesson. That's all it takes to protect your streak today.",
+  },
+] as const;
 
 // ── Permission ────────────────────────────────────────────────────────────────
 
 export async function requestNotificationPermission(): Promise<boolean> {
-  // Only ask once per install
   const asked = await AsyncStorage.getItem(PERM_ASKED_KEY);
   if (asked) {
     const { status } = await Notifications.getPermissionsAsync();
@@ -31,12 +68,15 @@ export async function requestNotificationPermission(): Promise<boolean> {
 
   await AsyncStorage.setItem(PERM_ASKED_KEY, "1");
 
-  // Android 13+ requires explicit permission
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("streak", {
-      name: "Streak Reminders",
-      importance: Notifications.AndroidImportance.DEFAULT,
+      name:             "Streak Reminders",
+      importance:       Notifications.AndroidImportance.DEFAULT,
       vibrationPattern: [0, 250, 250, 250],
+    });
+    await Notifications.setNotificationChannelAsync("hearts", {
+      name:       "Heart Regeneration",
+      importance: Notifications.AndroidImportance.LOW,
     });
   }
 
@@ -44,37 +84,34 @@ export async function requestNotificationPermission(): Promise<boolean> {
   return status === "granted";
 }
 
-// ── Schedule the daily streak reminder ───────────────────────────────────────
+// ── Streak reminder ───────────────────────────────────────────────────────────
 
 export async function scheduleStreakReminder(): Promise<void> {
   try {
     const { status } = await Notifications.getPermissionsAsync();
     if (status !== "granted") return;
 
-    // Cancel any existing reminder first
     await cancelStreakReminder();
 
+    const msg    = STREAK_MESSAGES[Math.floor(Math.random() * STREAK_MESSAGES.length)];
     const fireAt = new Date(Date.now() + REMINDER_DELAY_MS);
 
     const id = await Notifications.scheduleNotificationAsync({
       content: {
-        title: "আপনার streak ভুলবেন না! 🔥",
-        body: "A few minutes of Bangla keeps your streak alive. Come back!",
+        title: msg.title,
+        body:  msg.body,
         sound: true,
-        data: { type: "streak_reminder" },
+        data:  { type: "streak_reminder" },
       },
-      trigger: {
-        date: fireAt,
-      },
+      trigger: { date: fireAt },
     });
 
     await AsyncStorage.setItem(NOTIF_ID_KEY, id);
   } catch {
-    // Notifications are non-critical — fail silently
+    // non-critical
   }
 }
 
-// Cancel the currently scheduled streak reminder (call after lesson, or on foreground)
 export async function cancelStreakReminder(): Promise<void> {
   try {
     const id = await AsyncStorage.getItem(NOTIF_ID_KEY);
@@ -82,18 +119,58 @@ export async function cancelStreakReminder(): Promise<void> {
       await Notifications.cancelScheduledNotificationAsync(id);
       await AsyncStorage.removeItem(NOTIF_ID_KEY);
     }
-  } catch {
-    // ignore
-  }
+  } catch {}
 }
 
-// Call once at app startup to set the default notification handler
+// ── Heart refill notification ─────────────────────────────────────────────────
+// Schedule a notification to fire when all hearts are fully restored.
+// Call after every loseHeart(), passing in the new (post-loss) heart count.
+// Call cancelHeartRefillNotification() when hearts are restored early (Bazaar / ad).
+
+export async function scheduleHeartRefillNotification(heartsAfterLoss: number): Promise<void> {
+  try {
+    const { status } = await Notifications.getPermissionsAsync();
+    if (status !== "granted") return;
+
+    await cancelHeartRefillNotification();
+
+    if (heartsAfterLoss >= MAX_HEARTS_CONST) return;
+
+    const heartsToFill = MAX_HEARTS_CONST - heartsAfterLoss;
+    const fireAt       = new Date(Date.now() + heartsToFill * REGEN_PER_HEART_MS);
+
+    const id = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "হৃদয় পূর্ণ হয়েছে! ❤️",
+        body:  "All 5 hearts are back — jump into a lesson!",
+        sound: true,
+        data:  { type: "heart_refill" },
+      },
+      trigger: { date: fireAt },
+    });
+
+    await AsyncStorage.setItem(HEART_NOTIF_KEY, id);
+  } catch {}
+}
+
+export async function cancelHeartRefillNotification(): Promise<void> {
+  try {
+    const id = await AsyncStorage.getItem(HEART_NOTIF_KEY);
+    if (id) {
+      await Notifications.cancelScheduledNotificationAsync(id);
+      await AsyncStorage.removeItem(HEART_NOTIF_KEY);
+    }
+  } catch {}
+}
+
+// ── Notification handler (call once at startup) ───────────────────────────────
+
 export function configureNotificationHandler(): void {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
       shouldPlaySound: false,
-      shouldSetBadge: false,
+      shouldSetBadge:  false,
     }),
   });
 }

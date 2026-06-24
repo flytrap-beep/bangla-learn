@@ -6,7 +6,7 @@ import { SessionProvider } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bangla Learn — Learn Bengali Your Way",
+  title: "BhashaLoop — Learn Bengali Your Way",
   description:
     "Learn Bengali (Bangla) for free with 4 dialects: Standard, Sylheti, Barisali, and Chittagonian. Duolingo-style lessons for beginners.",
   keywords: ["Bengali", "Bangla", "learn Bengali", "Sylheti", "Barisali", "Chittagonian", "language learning"],

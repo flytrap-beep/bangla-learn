@@ -11,6 +11,8 @@ import {
   activateXpBoost, isXpBoostActive, xpBoostRemainingMs,
 } from "@/lib/storage";
 import { purchaseProduct, restorePurchases } from "@/lib/iap";
+import { nextHeartRegenMs } from "@/lib/storage";
+import { cancelHeartRefillNotification } from "@/lib/notifications";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView, trackBazaarOpen } from "@/lib/analytics";
 
@@ -44,6 +46,7 @@ export default function BazaarScreen() {
   const [freezeOn,    setFreezeOn]    = useState(false);
   const [boostOn,     setBoostOn]     = useState(false);
   const [boostMs,     setBoostMs]     = useState<number | null>(null);
+  const [regenMs,     setRegenMs]     = useState<number | null>(null);
   const [toast,       setToast]       = useState<{ msg: string; ok: boolean } | null>(null);
 
   const fadeAnim  = useRef(new Animated.Value(0)).current;
@@ -66,6 +69,22 @@ export default function BazaarScreen() {
 
   // Refresh every time tab is focused
   useFocusEffect(useCallback(() => { refresh(); }, []));
+
+  // Live countdown for next heart regen — ticks every second, also syncs hearts
+  // when passive regen happens (applyHeartRegen runs inside nextHeartRegenMs).
+  useEffect(() => {
+    let active = true;
+    async function tick() {
+      const [ms, s] = await Promise.all([nextHeartRegenMs(), getStats()]);
+      if (!active) return;
+      setRegenMs(ms);
+      setHearts(s.hearts);   // pick up any hearts that regened since last tick
+      setTotalXp(s.totalXp); // keep XP in sync too
+    }
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => { active = false; clearInterval(interval); };
+  }, []);
 
   useEffect(() => {
     trackScreenView("bazaar");
@@ -111,6 +130,7 @@ export default function BazaarScreen() {
           if (!ok) return { ok: false, msg: `Need 50 coins — you have ${coins}.` };
         }
         await addHearts(5);
+        cancelHeartRefillNotification().catch(() => {});
         await refresh();
         return { ok: true, msg: "Hearts fully restored! Keep going!" };
       },
@@ -216,9 +236,14 @@ export default function BazaarScreen() {
 
           {/* Currency row */}
           <View style={s.currencyRow}>
-            <View style={s.currencyPill}>
-              <Ionicons name="heart" size={16} color={T.red} />
-              <Text style={[s.currencyVal, { color: T.red }]}>{hearts}/5</Text>
+            <View style={{ alignItems: "center", gap: 4 }}>
+              <View style={s.currencyPill}>
+                <Ionicons name="heart" size={16} color={T.red} />
+                <Text style={[s.currencyVal, { color: T.red }]}>{hearts}/5</Text>
+              </View>
+              {hearts < 5 && regenMs !== null && (
+                <Text style={s.regenCountdown}>+1 in {formatCountdown(regenMs)}</Text>
+              )}
             </View>
             <View style={s.currencyPill}>
               <Ionicons name="flash" size={16} color={T.gold} />
@@ -398,7 +423,8 @@ const s = StyleSheet.create({
     backgroundColor: T.white, borderWidth: 1.5, borderColor: T.border,
     borderRadius: 20, paddingHorizontal: 12, paddingVertical: 6,
   },
-  currencyVal: { fontFamily: FONT.bold, fontSize: 13 },
+  currencyVal:     { fontFamily: FONT.bold, fontSize: 13 },
+  regenCountdown:  { fontFamily: FONT.medium, fontSize: 10, color: T.textMuted as string },
 
   // Freeze badge
   freezeBadge: {

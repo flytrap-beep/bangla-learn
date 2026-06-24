@@ -49,6 +49,10 @@ export const rajshahiCurriculum: DialectCurriculum = {
           { id: "fc-raj-14", bangla: "বাবা",        romanization: "baba",      english: "Father",              category: "family"    },
           { id: "fc-raj-15", bangla: "বোন",         romanization: "bon",       english: "Sister",              category: "family"    },
           { id: "fc-raj-16", bangla: "ভাই",         romanization: "bhai",      english: "Brother",             category: "family"    },
+          // Lesson 1-2 vocab
+          { id: "fc-raj-17", bangla: "শিখছি",      romanization: "shikhchi",  english: "Am learning",         category: "phrases"   },
+          { id: "fc-raj-18", bangla: "তোমার",       romanization: "tomar",     english: "Your (familiar)",     category: "pronouns"  },
+          { id: "fc-raj-19", bangla: "থেকে",        romanization: "theke",     english: "From",                category: "phrases"   },
         ],
         grammar: [
           {
@@ -1048,6 +1052,20 @@ export const rajshahiCurriculum: DialectCurriculum = {
             ],
           },
         ],
+        flashcards: [
+          { id: "fc-raj-4-1",  bangla: "এক",      romanization: "Ek",       english: "One",          emoji: "1️⃣",  category: "numbers" },
+          { id: "fc-raj-4-2",  bangla: "দুই",     romanization: "Dui",      english: "Two",          emoji: "2️⃣",  category: "numbers" },
+          { id: "fc-raj-4-3",  bangla: "তিন",     romanization: "Tin",      english: "Three",        emoji: "3️⃣",  category: "numbers" },
+          { id: "fc-raj-4-4",  bangla: "চার",     romanization: "Char",     english: "Four",         emoji: "4️⃣",  category: "numbers" },
+          { id: "fc-raj-4-5",  bangla: "পাঁচ",   romanization: "Panch",    english: "Five",         emoji: "5️⃣",  category: "numbers" },
+          { id: "fc-raj-4-6",  bangla: "দশ",      romanization: "Dosh",     english: "Ten",          emoji: "🔟",  category: "numbers" },
+          { id: "fc-raj-4-7",  bangla: "বিশ",     romanization: "Bish",     english: "Twenty",       emoji: "2️⃣0️⃣", category: "numbers" },
+          { id: "fc-raj-4-8",  bangla: "পঞ্চাশ", romanization: "Ponchash", english: "Fifty",        emoji: "5️⃣0️⃣", category: "numbers" },
+          { id: "fc-raj-4-9",  bangla: "একশো",    romanization: "Eksho",    english: "One hundred",  emoji: "💯",  category: "numbers" },
+          { id: "fc-raj-4-10", bangla: "টাকা",    romanization: "Taka",     english: "Taka (money)", emoji: "💵",  category: "numbers" },
+          { id: "fc-raj-4-11", bangla: "দাম কত?", romanization: "Dam koto?", english: "How much?",  emoji: "🏷️", category: "questions" },
+          { id: "fc-raj-4-12", bangla: "মোট",     romanization: "Mot",      english: "Total",        emoji: "🧮",  category: "numbers" },
+        ],
       },
       lessons: [
         {
@@ -1360,6 +1378,20 @@ export const rajshahiCurriculum: DialectCurriculum = {
             ],
           },
         ],
+        flashcards: [
+          { id: "fc-raj-5-1",  bangla: "রিকশা",    romanization: "Riksha",   english: "Rickshaw",           emoji: "🛺", category: "transport"  },
+          { id: "fc-raj-5-2",  bangla: "বাস",       romanization: "Bas",      english: "Bus",                emoji: "🚌", category: "transport"  },
+          { id: "fc-raj-5-3",  bangla: "ট্রেন",    romanization: "Tren",     english: "Train",              emoji: "🚂", category: "transport"  },
+          { id: "fc-raj-5-4",  bangla: "নৌকা",     romanization: "Nouka",    english: "Boat",               emoji: "⛵", category: "transport"  },
+          { id: "fc-raj-5-5",  bangla: "বাম দিকে", romanization: "Bam dike", english: "To the left",        emoji: "⬅️", category: "directions" },
+          { id: "fc-raj-5-6",  bangla: "ডান দিকে", romanization: "Dan dike", english: "To the right",       emoji: "➡️", category: "directions" },
+          { id: "fc-raj-5-7",  bangla: "সোজা",      romanization: "Shoja",    english: "Straight ahead",     emoji: "⬆️", category: "directions" },
+          { id: "fc-raj-5-8",  bangla: "পিছনে",     romanization: "Pishone",  english: "Behind",             emoji: "🔙", category: "directions" },
+          { id: "fc-raj-5-9",  bangla: "কতদূর?",   romanization: "Kotodur?", english: "How far?",           emoji: "📏", category: "questions"  },
+          { id: "fc-raj-5-10", bangla: "কাছে",      romanization: "Kache",    english: "Nearby",             emoji: "📍", category: "directions" },
+          { id: "fc-raj-5-11", bangla: "স্টেশন",   romanization: "Station",  english: "Station",            emoji: "🚉", category: "transport"  },
+          { id: "fc-raj-5-12", bangla: "বাজার",     romanization: "Bazar",    english: "Market / Bazar",     emoji: "🛒", category: "places"     },
+        ],
       },
       lessons: [
         {
@@ -1663,6 +1695,22 @@ export const rajshahiCurriculum: DialectCurriculum = {
               { bangla: "ওষুধ খান।", romanization: "oshud khan.", english: "Take the medicine." },
             ],
           },
+        ],
+        flashcards: [
+          { id: "fc-raj-6-1",  bangla: "মাথা",      romanization: "Matha",    english: "Head",           emoji: "🧠", category: "body"   },
+          { id: "fc-raj-6-2",  bangla: "হাত",        romanization: "Hat",      english: "Hand / Arm",     emoji: "🤚", category: "body"   },
+          { id: "fc-raj-6-3",  bangla: "পা",         romanization: "Pa",       english: "Foot / Leg",     emoji: "🦶", category: "body"   },
+          { id: "fc-raj-6-4",  bangla: "চোখ",        romanization: "Chokh",    english: "Eye",            emoji: "👁️", category: "body"   },
+          { id: "fc-raj-6-5",  bangla: "পেট",        romanization: "Pet",      english: "Stomach",        emoji: "🫃", category: "body"   },
+          { id: "fc-raj-6-6",  bangla: "নাক",        romanization: "Nak",      english: "Nose",           emoji: "👃", category: "body"   },
+          { id: "fc-raj-6-7",  bangla: "কান",        romanization: "Kan",      english: "Ear",            emoji: "👂", category: "body"   },
+          { id: "fc-raj-6-8",  bangla: "জ্বর",       romanization: "Jor",      english: "Fever",          emoji: "🤒", category: "health" },
+          { id: "fc-raj-6-9",  bangla: "ব্যথা",      romanization: "Betha",    english: "Pain / Ache",    emoji: "🤕", category: "health" },
+          { id: "fc-raj-6-10", bangla: "অসুস্থ",     romanization: "Osustho",  english: "Sick / Unwell",  emoji: "😷", category: "health" },
+          { id: "fc-raj-6-11", bangla: "ডাক্তার",    romanization: "Daktar",   english: "Doctor",         emoji: "👨‍⚕️", category: "health" },
+          { id: "fc-raj-6-12", bangla: "ওষুধ",       romanization: "Oshud",    english: "Medicine",       emoji: "💊", category: "health" },
+          { id: "fc-raj-6-13", bangla: "হাসপাতাল",  romanization: "Haspatal", english: "Hospital",       emoji: "🏥", category: "health" },
+          { id: "fc-raj-6-14", bangla: "ঠান্ডা",     romanization: "Thanda",   english: "Cold",           emoji: "🥶", category: "health" },
         ],
       },
       lessons: [

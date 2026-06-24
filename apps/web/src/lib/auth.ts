@@ -16,7 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     Resend({
-      from: process.env.EMAIL_FROM ?? "noreply@bangla-learn.com",
+      from: process.env.EMAIL_FROM ?? "noreply@bhashaloop.com",
     }),
     ...(isDev
       ? [
@@ -26,12 +26,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             credentials: {},
             async authorize() {
               let user = await db.user.findUnique({
-                where: { email: "dev@bangla-learn.local" },
+                where: { email: "dev@bhashaloop.local" },
               });
               if (!user) {
                 user = await db.user.create({
                   data: {
-                    email: "dev@bangla-learn.local",
+                    email: "dev@bhashaloop.local",
                     name: "Dev User",
                     emailVerified: new Date(),
                   },

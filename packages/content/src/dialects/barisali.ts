@@ -48,6 +48,10 @@ export const barisaliCurriculum: DialectCurriculum = {
           { id: "fc-bar-13", bangla: "চাইর",        romanization: "Chair",      english: "Four (Barisali for চার)",  category: "numbers"   },
           { id: "fc-bar-14", bangla: "জাই",         romanization: "Jai",        english: "Let's go",                  category: "phrases"   },
           { id: "fc-bar-15", bangla: "হের",         romanization: "Her",        english: "His / Her (Barisali)",      category: "pronouns"  },
+          // Lesson 1-2 vocab
+          { id: "fc-bar-16", bangla: "থেইকা",       romanization: "Theika",     english: "From (Barisali)",           category: "phrases"   },
+          { id: "fc-bar-17", bangla: "শিখতাছি",    romanization: "Shikhtasi",  english: "I am learning",             category: "phrases"   },
+          { id: "fc-bar-18", bangla: "আইছি",        romanization: "Aisi",       english: "I have come (Barisali)",    category: "verbs"     },
         ],
         grammar: [
           {
@@ -132,9 +136,9 @@ export const barisaliCurriculum: DialectCurriculum = {
             {
               type: "multiple_choice",
               id: "bar-1-1-mc-1",
-              prompt: "Barisali Bangla is spoken in which region?",
-              options: ["Sylhet", "Chittagong", "Barisal Division", "Rajshahi"],
-              correct: 2,
+              prompt: "In Barisali, 'কেমুন আছ?' means:",
+              options: ["What's your name?", "How are you?", "Where are you going?", "I am well"],
+              correct: 1,
               xp: 3,
             },
           ],
@@ -147,6 +151,17 @@ export const barisaliCurriculum: DialectCurriculum = {
           order: 2,
           xpReward: 15,
           exercises: [
+            {
+              type: "match_pairs",
+              id: "bar-1-2-mp-0",
+              pairs: [
+                { bangla: "থেইকা",    english: "From (Barisali)",     romanization: "Theika"    },
+                { bangla: "শিখতাছি", english: "I am learning",        romanization: "Shikhtasi" },
+                { bangla: "আইছি",     english: "I have come",         romanization: "Aisi"      },
+                { bangla: "নাম",      english: "Name",                 romanization: "Nam"       },
+              ],
+              xp: 4,
+            },
             {
               type: "translate_to_english",
               id: "bar-1-2-tte-1",
@@ -1426,6 +1441,20 @@ export const barisaliCurriculum: DialectCurriculum = {
             ],
           },
         ],
+        flashcards: [
+          { id: "fc-bar-5-1",  bangla: "নৌকা",      romanization: "Nouka",    english: "Boat",               emoji: "⛵", category: "transport" },
+          { id: "fc-bar-5-2",  bangla: "ঘাট",        romanization: "Ghat",     english: "Ferry terminal",     emoji: "⚓", category: "places"    },
+          { id: "fc-bar-5-3",  bangla: "রিকশা",      romanization: "Riksha",   english: "Rickshaw",           emoji: "🛺", category: "transport" },
+          { id: "fc-bar-5-4",  bangla: "বাস",         romanization: "Bas",      english: "Bus",                emoji: "🚌", category: "transport" },
+          { id: "fc-bar-5-5",  bangla: "বাম দিকে",   romanization: "Bam dike", english: "To the left",        emoji: "⬅️", category: "directions" },
+          { id: "fc-bar-5-6",  bangla: "ডান দিকে",   romanization: "Dan dike", english: "To the right",       emoji: "➡️", category: "directions" },
+          { id: "fc-bar-5-7",  bangla: "সোজা",        romanization: "Shoja",    english: "Straight ahead",     emoji: "⬆️", category: "directions" },
+          { id: "fc-bar-5-8",  bangla: "কতদূর?",     romanization: "Koto dur?", english: "How far?",          emoji: "📏", category: "questions"  },
+          { id: "fc-bar-5-9",  bangla: "কাছে",        romanization: "Kache",    english: "Nearby",             emoji: "📍", category: "directions" },
+          { id: "fc-bar-5-10", bangla: "দূরে",        romanization: "Dure",     english: "Far away",           emoji: "🔭", category: "directions" },
+          { id: "fc-bar-5-11", bangla: "স্টেশন",     romanization: "Station",  english: "Station",            emoji: "🚉", category: "places"    },
+          { id: "fc-bar-5-12", bangla: "টিকেট",       romanization: "Tiket",    english: "Ticket",             emoji: "🎫", category: "transport" },
+        ],
       },
       lessons: [
         {
@@ -1729,6 +1758,22 @@ export const barisaliCurriculum: DialectCurriculum = {
               { bangla: "ওষুধ খাও।", romanization: "oshud khao.", english: "Take the medicine." },
             ],
           },
+        ],
+        flashcards: [
+          { id: "fc-bar-6-1",  bangla: "মাথা",    romanization: "Matha",    english: "Head",             emoji: "👤", category: "body"    },
+          { id: "fc-bar-6-2",  bangla: "হাত",     romanization: "Hat",      english: "Hand / Arm",       emoji: "✋", category: "body"    },
+          { id: "fc-bar-6-3",  bangla: "পা",      romanization: "Pa",       english: "Leg / Foot",       emoji: "🦶", category: "body"    },
+          { id: "fc-bar-6-4",  bangla: "চোখ",     romanization: "Chokh",    english: "Eye",              emoji: "👁️", category: "body"    },
+          { id: "fc-bar-6-5",  bangla: "পেট",     romanization: "Pet",      english: "Stomach",          emoji: "🫁", category: "body"    },
+          { id: "fc-bar-6-6",  bangla: "নাক",     romanization: "Nak",      english: "Nose",             emoji: "👃", category: "body"    },
+          { id: "fc-bar-6-7",  bangla: "কান",     romanization: "Kan",      english: "Ear",              emoji: "👂", category: "body"    },
+          { id: "fc-bar-6-8",  bangla: "জ্বর",    romanization: "Jor",      english: "Fever",            emoji: "🤒", category: "health"  },
+          { id: "fc-bar-6-9",  bangla: "ব্যথা",   romanization: "Betha",    english: "Pain / Hurt",      emoji: "🤕", category: "health"  },
+          { id: "fc-bar-6-10", bangla: "অসুস্থ",  romanization: "Oshustho", english: "Unwell / Sick",    emoji: "🤧", category: "health"  },
+          { id: "fc-bar-6-11", bangla: "ডাক্তার", romanization: "Daktar",   english: "Doctor",           emoji: "👨‍⚕️", category: "health"  },
+          { id: "fc-bar-6-12", bangla: "ওষুধ",    romanization: "Oshud",    english: "Medicine",         emoji: "💊", category: "health"  },
+          { id: "fc-bar-6-13", bangla: "হাসপাতাল",romanization: "Hashpatal",english: "Hospital",         emoji: "🏥", category: "places"  },
+          { id: "fc-bar-6-14", bangla: "ঠান্ডা",  romanization: "Thanda",   english: "Cold",             emoji: "🥶", category: "health"  },
         ],
       },
       lessons: [

@@ -535,8 +535,8 @@ export default function HomeScreen() {
 
         {/* Centered branding */}
         <View style={s.headerCenter}>
-          <Text style={s.headerEyebrow}>THE ACADEMY OF</Text>
-          <Text style={s.headerTitle}>BENGALI LETTERS</Text>
+          <Text style={s.headerEyebrow}>LEARN BENGALI YOUR WAY</Text>
+          <Text style={s.headerTitle}>BhashaLoop</Text>
         </View>
 
         {/* XP pill (right) */}
@@ -684,6 +684,24 @@ export default function HomeScreen() {
             );
           })}
 
+          {/* ── Coming Soon trailing card — only for non-standard dialects ── */}
+          {dialect !== "standard" && (
+            <View style={{ paddingHorizontal: 16, paddingTop: 4, paddingBottom: 32 }}>
+              <View style={[s.lessonCard, { opacity: 0.55, borderStyle: "dashed" }]}>
+                <View style={[s.lessonAccent, { backgroundColor: T.border }]} />
+                <View style={[s.lessonIconWrap, { backgroundColor: "#f3f4f6" }]}>
+                  <Ionicons name="sparkles-outline" size={22} color={T.textMuted as string} />
+                </View>
+                <View style={{ flex: 1, paddingVertical: 14 }}>
+                  <Text style={[s.lessonTitle, { color: T.textMid as string }]}>More lessons coming soon</Text>
+                  <Text style={s.lessonXp}>New content added regularly — check back soon!</Text>
+                </View>
+                <View style={{ paddingRight: 16 }}>
+                  <Ionicons name="lock-closed" size={18} color={T.border as string} />
+                </View>
+              </View>
+            </View>
+          )}
 
         </ScrollView>
       </Animated.View>

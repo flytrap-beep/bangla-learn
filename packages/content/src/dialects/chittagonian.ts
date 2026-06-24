@@ -49,6 +49,10 @@ export const chittagonianCurriculum: DialectCurriculum = {
           { id: "fc-cgt-14", bangla: "আঁই যাই",       romanization: "Ai jai",      english: "I am going",                   category: "phrases"   },
           { id: "fc-cgt-15", bangla: "কেড্ডা আস?",   romanization: "Kedda as?",   english: "How are you?",                 category: "greetings" },
           { id: "fc-cgt-16", bangla: "ভালা আই",       romanization: "Bhala ai",    english: "I am fine",                    category: "greetings" },
+          // Lesson 1-2 vocab
+          { id: "fc-cgt-17", bangla: "আঁর",           romanization: "Ar",          english: "My (Chittagonian)",             category: "pronouns"  },
+          { id: "fc-cgt-18", bangla: "তুঁয়ার",        romanization: "Tuar",        english: "Your (Chittagonian)",           category: "pronouns"  },
+          { id: "fc-cgt-19", bangla: "শিখতাসি",      romanization: "Shikhtasi",   english: "I am learning (Chittagonian)",  category: "phrases"   },
         ],
         grammar: [
           {
@@ -148,6 +152,17 @@ export const chittagonianCurriculum: DialectCurriculum = {
           order: 2,
           xpReward: 15,
           exercises: [
+            {
+              type: "match_pairs",
+              id: "cgt-1-2-mp-0",
+              pairs: [
+                { bangla: "আঁর",      english: "My (Chittagonian)",  romanization: "Ar"       },
+                { bangla: "তুঁয়ার",   english: "Your (Chittagonian)", romanization: "Tuar"     },
+                { bangla: "শিখতাসি", english: "I am learning",       romanization: "Shikhtasi" },
+                { bangla: "নাম",      english: "Name",                romanization: "Nam"      },
+              ],
+              xp: 4,
+            },
             {
               type: "translate_to_english",
               id: "cgt-1-2-tte-1",
@@ -1426,6 +1441,22 @@ export const chittagonianCurriculum: DialectCurriculum = {
             ],
           },
         ],
+        flashcards: [
+          { id: "fc-cgt-5-1",  bangla: "রিকশা",     romanization: "Riksha",    english: "Rickshaw",          emoji: "🛺", category: "transport"  },
+          { id: "fc-cgt-5-2",  bangla: "সিএনজি",    romanization: "CNG",       english: "CNG auto",          emoji: "🚗", category: "transport"  },
+          { id: "fc-cgt-5-3",  bangla: "জাহাজ",     romanization: "Jahaj",     english: "Ship",              emoji: "🚢", category: "transport"  },
+          { id: "fc-cgt-5-4",  bangla: "নৌকা",      romanization: "Nouka",     english: "Boat",              emoji: "⛵", category: "transport"  },
+          { id: "fc-cgt-5-5",  bangla: "বাস",        romanization: "Bas",       english: "Bus",               emoji: "🚌", category: "transport"  },
+          { id: "fc-cgt-5-6",  bangla: "বাম দিগে",  romanization: "Bam dige",  english: "To the left",       emoji: "⬅️", category: "directions" },
+          { id: "fc-cgt-5-7",  bangla: "ডাইন দিগে", romanization: "Dain dige", english: "To the right",      emoji: "➡️", category: "directions" },
+          { id: "fc-cgt-5-8",  bangla: "আগে",        romanization: "Age",       english: "Ahead / Forward",   emoji: "⬆️", category: "directions" },
+          { id: "fc-cgt-5-9",  bangla: "পিছনে",      romanization: "Pishone",   english: "Behind",            emoji: "🔙", category: "directions" },
+          { id: "fc-cgt-5-10", bangla: "কতদূর?",    romanization: "Kotodur?",  english: "How far?",          emoji: "📏", category: "questions"  },
+          { id: "fc-cgt-5-11", bangla: "কাছে",       romanization: "Kache",     english: "Nearby",            emoji: "📍", category: "directions" },
+          { id: "fc-cgt-5-12", bangla: "দূরে",       romanization: "Dure",      english: "Far",               emoji: "🗺️", category: "directions" },
+          { id: "fc-cgt-5-13", bangla: "স্টেশন",    romanization: "Station",   english: "Station",           emoji: "🚉", category: "transport"  },
+          { id: "fc-cgt-5-14", bangla: "বন্দর",      romanization: "Bondor",    english: "Port / Harbour",    emoji: "⚓", category: "places"     },
+        ],
       },
       lessons: [
         {
@@ -1729,6 +1760,22 @@ export const chittagonianCurriculum: DialectCurriculum = {
               { bangla: "ওষুধ খান।", romanization: "oshud khan.", english: "Take the medicine." },
             ],
           },
+        ],
+        flashcards: [
+          { id: "fc-cgt-6-1",  bangla: "মাথা",      romanization: "Matha",    english: "Head",           emoji: "🧠", category: "body"   },
+          { id: "fc-cgt-6-2",  bangla: "হাত",        romanization: "Hat",      english: "Hand / Arm",     emoji: "🤚", category: "body"   },
+          { id: "fc-cgt-6-3",  bangla: "পা",         romanization: "Pa",       english: "Foot / Leg",     emoji: "🦶", category: "body"   },
+          { id: "fc-cgt-6-4",  bangla: "চোখ",        romanization: "Chokh",    english: "Eye",            emoji: "👁️", category: "body"   },
+          { id: "fc-cgt-6-5",  bangla: "পেট",        romanization: "Pet",      english: "Stomach",        emoji: "🫃", category: "body"   },
+          { id: "fc-cgt-6-6",  bangla: "নাক",        romanization: "Nak",      english: "Nose",           emoji: "👃", category: "body"   },
+          { id: "fc-cgt-6-7",  bangla: "কান",        romanization: "Kan",      english: "Ear",            emoji: "👂", category: "body"   },
+          { id: "fc-cgt-6-8",  bangla: "জ্বর",       romanization: "Jor",      english: "Fever",          emoji: "🤒", category: "health" },
+          { id: "fc-cgt-6-9",  bangla: "ব্যথা",      romanization: "Betha",    english: "Pain / Ache",    emoji: "🤕", category: "health" },
+          { id: "fc-cgt-6-10", bangla: "অসুস্থ",     romanization: "Osustho",  english: "Sick / Unwell",  emoji: "😷", category: "health" },
+          { id: "fc-cgt-6-11", bangla: "ডাক্তার",    romanization: "Daktar",   english: "Doctor",         emoji: "👨‍⚕️", category: "health" },
+          { id: "fc-cgt-6-12", bangla: "ওষুধ",       romanization: "Oshud",    english: "Medicine",       emoji: "💊", category: "health" },
+          { id: "fc-cgt-6-13", bangla: "হাসপাতাল",  romanization: "Haspatal", english: "Hospital",       emoji: "🏥", category: "health" },
+          { id: "fc-cgt-6-14", bangla: "ঠান্ডা",     romanization: "Thanda",   english: "Cold",           emoji: "🥶", category: "health" },
         ],
       },
       lessons: [

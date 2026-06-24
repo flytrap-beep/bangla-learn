@@ -52,6 +52,10 @@ export const sylhetiCurriculum: DialectCurriculum = {
           { id: "fc-syl-14", bangla: "গেলাম",       romanization: "Gelam",      english: "I went / Goodbye (casual)",category: "phrases"   },
           { id: "fc-syl-15", bangla: "চাইর",        romanization: "Chair",      english: "Four (Sylheti for চার)",   category: "numbers"   },
           { id: "fc-syl-16", bangla: "ফুরা",        romanization: "Fura",       english: "All / Finished",            category: "adjectives"},
+          // Lesson 1-2 vocab
+          { id: "fc-syl-17", bangla: "থেইকা",       romanization: "Theika",     english: "From (Sylheti)",            category: "phrases"   },
+          { id: "fc-syl-18", bangla: "শিখতাছি",    romanization: "Shikhtasi",  english: "I am learning",             category: "phrases"   },
+          { id: "fc-syl-19", bangla: "তুমার",       romanization: "Tumar",      english: "Your (Sylheti)",            category: "pronouns"  },
         ],
         grammar: [
           {
@@ -151,6 +155,17 @@ export const sylhetiCurriculum: DialectCurriculum = {
           order: 2,
           xpReward: 15,
           exercises: [
+            {
+              type: "match_pairs",
+              id: "syl-1-2-mp-0",
+              pairs: [
+                { bangla: "থেইকা",    english: "From",          romanization: "Theika"   },
+                { bangla: "শিখতাছি", english: "I am learning", romanization: "Shikhtasi" },
+                { bangla: "তুমার",    english: "Your (Sylheti)", romanization: "Tumar"    },
+                { bangla: "নাম",      english: "Name",           romanization: "Nam"      },
+              ],
+              xp: 4,
+            },
             {
               type: "translate_to_english",
               id: "syl-1-2-tte-1",
@@ -1502,6 +1517,20 @@ export const sylhetiCurriculum: DialectCurriculum = {
             ],
           },
         ],
+        flashcards: [
+          { id: "fc-syl-5-1",  bangla: "রিকশা",     romanization: "Riksha",   english: "Rickshaw",           emoji: "🛺", category: "transport" },
+          { id: "fc-syl-5-2",  bangla: "বাস",        romanization: "Bas",      english: "Bus",                emoji: "🚌", category: "transport" },
+          { id: "fc-syl-5-3",  bangla: "নৌকা",       romanization: "Nouka",    english: "Boat",               emoji: "⛵", category: "transport" },
+          { id: "fc-syl-5-4",  bangla: "ট্রেন",      romanization: "Tren",     english: "Train",              emoji: "🚂", category: "transport" },
+          { id: "fc-syl-5-5",  bangla: "বাম দিকে",  romanization: "Bam dike", english: "To the left",        emoji: "⬅️", category: "directions" },
+          { id: "fc-syl-5-6",  bangla: "ডান দিকে",  romanization: "Dan dike", english: "To the right",       emoji: "➡️", category: "directions" },
+          { id: "fc-syl-5-7",  bangla: "সোজা",       romanization: "Shoja",    english: "Straight ahead",     emoji: "⬆️", category: "directions" },
+          { id: "fc-syl-5-8",  bangla: "পিছনে",      romanization: "Pishone",  english: "Behind",             emoji: "🔙", category: "directions" },
+          { id: "fc-syl-5-9",  bangla: "কতদূর?",    romanization: "Koto dur?", english: "How far?",          emoji: "📏", category: "questions"  },
+          { id: "fc-syl-5-10", bangla: "টিকেট",      romanization: "Tiket",    english: "Ticket",             emoji: "🎫", category: "transport" },
+          { id: "fc-syl-5-11", bangla: "স্টেশন",    romanization: "Station",  english: "Station",            emoji: "🚉", category: "transport" },
+          { id: "fc-syl-5-12", bangla: "বাজার",      romanization: "Bazar",    english: "Market / Bazar",     emoji: "🛒", category: "places"    },
+        ],
       },
       lessons: [
         {
@@ -1803,6 +1832,22 @@ export const sylhetiCurriculum: DialectCurriculum = {
               { bangla: "ওষুধ খাও।", romanization: "oshud khao.", english: "Take the medicine." },
             ],
           },
+        ],
+        flashcards: [
+          { id: "fc-syl-6-1",  bangla: "মাথা",    romanization: "Matha",    english: "Head",             emoji: "👤", category: "body"    },
+          { id: "fc-syl-6-2",  bangla: "হাত",     romanization: "Hat",      english: "Hand / Arm",       emoji: "✋", category: "body"    },
+          { id: "fc-syl-6-3",  bangla: "পা",      romanization: "Pa",       english: "Leg / Foot",       emoji: "🦶", category: "body"    },
+          { id: "fc-syl-6-4",  bangla: "চোখ",     romanization: "Chokh",    english: "Eye",              emoji: "👁️", category: "body"    },
+          { id: "fc-syl-6-5",  bangla: "পেট",     romanization: "Pet",      english: "Stomach",          emoji: "🫁", category: "body"    },
+          { id: "fc-syl-6-6",  bangla: "নাক",     romanization: "Nak",      english: "Nose",             emoji: "👃", category: "body"    },
+          { id: "fc-syl-6-7",  bangla: "কান",     romanization: "Kan",      english: "Ear",              emoji: "👂", category: "body"    },
+          { id: "fc-syl-6-8",  bangla: "জ্বর",    romanization: "Jor",      english: "Fever",            emoji: "🤒", category: "health"  },
+          { id: "fc-syl-6-9",  bangla: "ব্যথা",   romanization: "Betha",    english: "Pain / Hurt",      emoji: "🤕", category: "health"  },
+          { id: "fc-syl-6-10", bangla: "অসুস্থ",  romanization: "Oshustho", english: "Unwell / Sick",    emoji: "🤧", category: "health"  },
+          { id: "fc-syl-6-11", bangla: "ডাক্তার", romanization: "Daktar",   english: "Doctor",           emoji: "👨‍⚕️", category: "health"  },
+          { id: "fc-syl-6-12", bangla: "ওষুধ",    romanization: "Oshud",    english: "Medicine",         emoji: "💊", category: "health"  },
+          { id: "fc-syl-6-13", bangla: "হাসপাতাল",romanization: "Hashpatal",english: "Hospital",         emoji: "🏥", category: "places"  },
+          { id: "fc-syl-6-14", bangla: "ঠান্ডা",  romanization: "Thanda",   english: "Cold",             emoji: "🥶", category: "health"  },
         ],
       },
       lessons: [
