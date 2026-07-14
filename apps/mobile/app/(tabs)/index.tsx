@@ -540,6 +540,7 @@ export default function HomeScreen() {
             style={s.headerLogo}
             resizeMode="contain"
           />
+          <Text style={s.headerWordmark}>BhashaLoop</Text>
         </View>
 
         {/* XP pill (right) */}
@@ -757,8 +758,14 @@ const s = StyleSheet.create({
     fontFamily: FONT.bold, fontSize: 9, color: T.red,
     textTransform: "uppercase", letterSpacing: 0.5, marginLeft: 2,
   },
-  headerCenter: { alignItems: "center", justifyContent: "center" },
-  headerLogo:   { width: 52, height: 52 },
+  headerCenter: { flexDirection: "row", alignItems: "center", gap: 6 },
+  headerLogo:   { width: 36, height: 36 },
+  headerWordmark: {
+    fontFamily: FONT.bold,
+    fontSize: 18,
+    color: T.green,
+    letterSpacing: 0.3,
+  },
 
   // ── Map section ──
   mapSection: {
