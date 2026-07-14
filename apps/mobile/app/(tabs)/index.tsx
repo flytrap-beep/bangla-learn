@@ -422,7 +422,7 @@ export default function HomeScreen() {
   const [streakMilestone, setStreakMilestone] = useState<StreakMilestone | null>(null);
   const [weeklyWrapped,   setWeeklyWrapped]   = useState<WeeklyWrappedData | null>(null);
 
-  const headerY     = useRef(new Animated.Value(-80)).current;
+  const headerY     = useRef(new Animated.Value(-130)).current;
   const contentFade = useRef(new Animated.Value(0)).current;
 
   useFocusEffect(
@@ -512,41 +512,42 @@ export default function HomeScreen() {
     <SafeAreaView style={s.root}>
       <StatusBar barStyle="dark-content" backgroundColor={T.bg} />
 
-      {/* ── Bhasha Academy header ── */}
+      {/* ── BhashaLoop header ── */}
       <Animated.View style={[s.header, { transform: [{ translateY: headerY }] }]}>
-        {/* Left: hearts + streak */}
-        <View style={{ flexDirection: "column", gap: 4 }}>
-          <View style={{ flexDirection: "row", gap: 6 }}>
-            <View style={s.headerPill}>
-              <Ionicons name="heart" size={16} color={T.red} />
-              <Text style={[s.headerPillText, { color: T.red }]}>{hearts}</Text>
-            </View>
-            <View style={[s.headerPill, { backgroundColor: "#fff7ed" }]}>
-              <Text style={{ fontSize: 14 }}>🔥</Text>
-              <Text style={[s.headerPillText, { color: "#d97706" }]}>{streak}</Text>
-            </View>
+        {/* Row 1: circular logo + wordmark, centered */}
+        <View style={s.brandRow}>
+          <View style={s.logoRing}>
+            <Image
+              source={require("../../assets/logo.png")}
+              style={s.headerLogo}
+              resizeMode="cover"
+            />
           </View>
-          {hearts < 5 && regenMs !== null && (
-            <Text style={s.regenLabel}>
-              +❤️ {Math.ceil(regenMs / 60000)}m {String(Math.ceil((regenMs % 60000) / 1000)).padStart(2, "0")}s
-            </Text>
-          )}
+          <View>
+            <Text style={s.headerWordmark}>BhashaLoop</Text>
+            <Text style={s.headerTagline}>Learn Bengali your way</Text>
+          </View>
         </View>
 
-        {/* Centered branding */}
-        <View style={s.headerCenter}>
-          <Image
-            source={require("../../assets/logo.png")}
-            style={s.headerLogo}
-            resizeMode="contain"
-          />
-          <Text style={s.headerWordmark}>BhashaLoop</Text>
-        </View>
-
-        {/* XP pill (right) */}
-        <View style={[s.headerPill, s.headerPillGold]}>
-          <Ionicons name="flash" size={16} color={T.gold} />
-          <Text style={[s.headerPillText, { color: T.green }]}>{totalXp}</Text>
+        {/* Row 2: stats pills */}
+        <View style={s.statsRow}>
+          <View style={s.headerPill}>
+            <Ionicons name="heart" size={16} color={T.red} />
+            <Text style={[s.headerPillText, { color: T.red }]}>{hearts}</Text>
+            {hearts < 5 && regenMs !== null && (
+              <Text style={s.regenLabel}>
+                {Math.ceil(regenMs / 60000)}m {String(Math.ceil((regenMs % 60000) / 1000)).padStart(2, "0")}s
+              </Text>
+            )}
+          </View>
+          <View style={[s.headerPill, { backgroundColor: "#fff7ed", borderColor: "#f59e0b" }]}>
+            <Text style={{ fontSize: 14 }}>🔥</Text>
+            <Text style={[s.headerPillText, { color: "#d97706" }]}>{streak}</Text>
+          </View>
+          <View style={[s.headerPill, s.headerPillGold]}>
+            <Ionicons name="flash" size={16} color={T.gold} />
+            <Text style={[s.headerPillText, { color: T.green }]}>{totalXp}</Text>
+          </View>
         </View>
       </Animated.View>
 
@@ -740,31 +741,52 @@ const s = StyleSheet.create({
     backgroundColor:    T.bg,
     borderBottomWidth:  2,
     borderBottomColor:  T.border,
-    flexDirection:      "row",
-    alignItems:         "center",
-    justifyContent:     "space-between",
     paddingHorizontal:  16,
-    paddingVertical:    12,
+    paddingTop:         10,
+    paddingBottom:      12,
+    gap:                10,
+  },
+  brandRow: {
+    flexDirection:  "row",
+    alignItems:     "center",
+    justifyContent: "center",
+    gap:            10,
+  },
+  logoRing: {
+    width: 46, height: 46, borderRadius: 23,
+    borderWidth: 2, borderColor: T.green,
+    overflow: "hidden",
+    backgroundColor: T.white,
+  },
+  headerLogo: { width: "100%", height: "100%" },
+  headerWordmark: {
+    fontFamily: FONT.bold,
+    fontSize: 20,
+    color: T.green,
+    letterSpacing: 0.3,
+  },
+  headerTagline: {
+    fontFamily: FONT.bold, fontSize: 9,
+    color: T.textMid as string,
+    textTransform: "uppercase", letterSpacing: 1.5,
+    marginTop: 1,
+  },
+  statsRow: {
+    flexDirection:  "row",
+    justifyContent: "center",
+    gap:            8,
   },
   headerPill: {
     flexDirection: "row", alignItems: "center", gap: 5,
     borderWidth: 2, borderColor: T.green,
-    borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5,
+    borderRadius: 20, paddingHorizontal: 12, paddingVertical: 5,
     backgroundColor: T.white,
   },
   headerPillGold: { borderColor: T.gold, backgroundColor: T.gold + "20" },
   headerPillText: { fontFamily: FONT.bold, fontSize: 14 },
   regenLabel: {
     fontFamily: FONT.bold, fontSize: 9, color: T.red,
-    textTransform: "uppercase", letterSpacing: 0.5, marginLeft: 2,
-  },
-  headerCenter: { flexDirection: "row", alignItems: "center", gap: 6 },
-  headerLogo:   { width: 36, height: 36 },
-  headerWordmark: {
-    fontFamily: FONT.bold,
-    fontSize: 18,
-    color: T.green,
-    letterSpacing: 0.3,
+    letterSpacing: 0.5, marginLeft: 2,
   },
 
   // ── Map section ──
