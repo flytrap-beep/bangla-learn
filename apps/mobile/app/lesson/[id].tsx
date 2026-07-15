@@ -201,6 +201,37 @@ const SCENE_TYPES: Record<string, "greeting"|"farewell"|"question"|"response"> =
 // ── Flash-card type ───────────────────────────────────────────────────────────
 type FlashCard = { bangla: string; romanization: string; english: string; imageKey?: string };
 
+// Infer an illustration for cards whose exercise didn't set an imageKey.
+// Numbers map to "num-<Bengali numeral>", everything else to a WORD_ICONS key.
+const BN_NUMERALS: Record<string, string> = {
+  "এক": "১", "দুই": "২", "তিন": "৩", "চার": "৪", "পাঁচ": "৫",
+  "ছয়": "৬", "সাত": "৭", "আট": "৮", "নয়": "৯", "দশ": "১০",
+  "এগারো": "১১", "বারো": "১২", "তেরো": "১৩", "চৌদ্দ": "১৪", "চোদ্দো": "১৪",
+  "পনেরো": "১৫", "ষোল": "১৬", "ষোলো": "১৬", "সতেরো": "১৭", "আঠারো": "১৮",
+  "উনিশ": "১৯", "বিশ": "২০", "কুড়ি": "২০", "ত্রিশ": "৩০", "তিরিশ": "৩০",
+  "চল্লিশ": "৪০", "পঞ্চাশ": "৫০", "ষাট": "৬০", "সত্তর": "৭০", "আশি": "৮০",
+  "নব্বই": "৯০", "একশো": "১০০", "একশ": "১০০",
+};
+const WORD_TO_KEY: Record<string, string> = {
+  "লাল": "red", "নীল": "blue", "সবুজ": "green", "হলুদ": "yellow", "সাদা": "white",
+  "কালো": "black", "কমলা": "orange", "গোলাপি": "pink", "বেগুনি": "purple", "বাদামি": "brown",
+  "রং": "color", "রঙ": "color",
+  "মাছ": "fish", "বাঘ": "tiger", "গরু": "cow", "পাখি": "bird", "কুকুর": "dog", "বিড়াল": "cat",
+  "কলা": "banana", "আম": "mango", "আপেল": "apple", "ফল": "fruit",
+  "ভাত": "rice", "পানি": "water", "দুধ": "milk", "খাবার": "food", "চা": "tea",
+  "বই": "book", "চেয়ার": "chair", "টেবিল": "table", "দরজা": "door", "জানালা": "window",
+  "কলম": "pen", "ব্যাগ": "bag", "ফোন": "phone", "বাড়ি": "house", "ঘর": "house",
+  "রিকশা": "rickshaw", "নৌকা": "boat", "বাস": "bus", "গাড়ি": "car",
+  "ফুল": "flower", "গাছ": "tree", "সূর্য": "sun", "চাঁদ": "moon", "বৃষ্টি": "rain",
+  "মা": "mother", "বাবা": "father", "ভাই": "brother", "বোন": "sister", "বন্ধু": "friend",
+  "স্কুল": "school", "বাজার": "market", "হাসপাতাল": "hospital",
+};
+function inferImageKey(bangla: string): string | undefined {
+  const w = bangla.trim().replace(/[?।!,.]+$/, "");
+  if (BN_NUMERALS[w]) return `num-${BN_NUMERALS[w]}`;
+  return WORD_TO_KEY[w];
+}
+
 function extractFlashCards(exercises: Exercise[]): FlashCard[] {
   const seen  = new Set<string>();
   const cards: FlashCard[] = [];
@@ -209,19 +240,19 @@ function extractFlashCards(exercises: Exercise[]): FlashCard[] {
     if (ex.type === "multiple_choice" && ex.promptBangla) {
       if (!seen.has(ex.promptBangla)) {
         seen.add(ex.promptBangla);
-        cards.push({ bangla: ex.promptBangla, romanization: ex.romanization ?? "", english: ex.options[ex.correct], imageKey: ex.imageKey });
+        cards.push({ bangla: ex.promptBangla, romanization: ex.romanization ?? "", english: ex.options[ex.correct], imageKey: ex.imageKey ?? inferImageKey(ex.promptBangla) });
       }
     } else if (ex.type === "match_pairs") {
       for (const p of ex.pairs) {
         if (!seen.has(p.bangla)) {
           seen.add(p.bangla);
-          cards.push({ bangla: p.bangla, romanization: p.romanization, english: p.english });
+          cards.push({ bangla: p.bangla, romanization: p.romanization, english: p.english, imageKey: inferImageKey(p.bangla) });
         }
       }
     } else if (ex.type === "translate_to_english") {
       if (!seen.has(ex.bangla)) {
         seen.add(ex.bangla);
-        cards.push({ bangla: ex.bangla, romanization: ex.romanization, english: ex.answer });
+        cards.push({ bangla: ex.bangla, romanization: ex.romanization, english: ex.answer, imageKey: inferImageKey(ex.bangla) });
       }
     } else if (ex.type === "translate_to_bangla") {
       if (!seen.has(ex.answer)) {
