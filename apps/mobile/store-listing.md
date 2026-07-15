@@ -69,9 +69,9 @@ Initial release. 6 dialects, 12 units each, 6 exercise types. Build your streak 
 ---
 
 ## Privacy Policy URL
-(Host the PRIVACY_POLICY.md content from this repo at a public URL and paste it here before submitting.)
 
-Suggested free options:
-- GitHub Pages (create a public repo or use your existing one with /docs)
-- Notion public page
-- privacypolicygenerator.info (quick alternative)
+**https://flytrap-beep.github.io/bangla-learn/privacy**
+
+(Hosted via GitHub Pages from `docs/privacy.md` — auto-updates on push to main.
+The marketing site also has a general privacy page at
+https://1108514.us6.myftpupload.com/privacy-policy/.)

@@ -34,3 +34,17 @@ jobs:
         run: npm ci
       - name: Lint web app
         run: cd apps/web && npm run lint
+
+  content-validation:
+    name: Curriculum Content Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate curriculum (ids, flashcards, letter cards, vocab order)
+        run: cd packages/content && npm run validate
