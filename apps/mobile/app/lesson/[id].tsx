@@ -273,11 +273,15 @@ function FlipCard({ card, onFlipped, unitColor }: {
       <Animated.View style={[styles.flipCard, { borderColor: unitColor, transform: [{ scaleX }] }]}>
         {!flipped ? (
           <View style={styles.flipFace}>
-            {pic && (
+            {card.imageKey?.startsWith("num-") ? (
+              <View style={[styles.flipIcon, { backgroundColor: "#e6f7ee" }]}>
+                <Text style={styles.flipNumeral}>{card.imageKey.slice(4)}</Text>
+              </View>
+            ) : pic ? (
               <View style={[styles.flipIcon, { backgroundColor: pic.bg }]}>
                 <Ionicons name={pic.icon} size={42} color={pic.color} />
               </View>
-            )}
+            ) : null}
             <Text style={[styles.flipEnglish, { color: "#1f2937" }]}>{card.english}</Text>
             <View style={styles.flipHint}>
               <Ionicons name="sync-outline" size={14} color="#9ca3af" />
@@ -482,6 +486,21 @@ function IllustrationCard({ imageKey, promptBangla, romanization, question, hide
   }, [imageKey]);
 
   const pic = WORD_ICONS[imageKey] ?? { icon: "help-circle-outline" as IoniconsName, bg: "#f3f4f6", color: "#9ca3af" };
+
+  // "num-১" style keys render the Bengali numeral itself as the visual
+  if (imageKey.startsWith("num-")) {
+    const numeral = imageKey.slice(4);
+    return (
+      <Animated.View style={[styles.illustrationCard, { opacity, transform: [{ scale }] }]}>
+        <View style={[styles.illustrationRing, { backgroundColor: "#e6f7ee" }]}>
+          <Text style={styles.numeralGlyph}>{numeral}</Text>
+        </View>
+        {promptBangla && <Text style={styles.banglaWord}>{promptBangla}</Text>}
+        {!hideRomanization && romanization && <Text style={styles.romanization}>({romanization})</Text>}
+        <Text style={styles.questionText}>{question}</Text>
+      </Animated.View>
+    );
+  }
 
   if (GREETING_KEYS.has(imageKey)) {
     return (
@@ -1372,6 +1391,8 @@ const styles = StyleSheet.create({
   },
   flipFace:      { padding: 28, alignItems: "center", justifyContent: "center", minHeight: 240, gap: 8 },
   flipIcon:      { width: 80, height: 80, borderRadius: 20, alignItems: "center", justifyContent: "center", marginBottom: 8 },
+  flipNumeral:   { fontSize: 44, fontWeight: "800", color: BD_GREEN, includeFontPadding: false },
+  numeralGlyph:  { fontSize: 72, fontWeight: "800", color: BD_GREEN, includeFontPadding: false },
   flipBangla:    { fontSize: 44, fontWeight: "900", textAlign: "center" },
   flipRoman:     { fontSize: 16, fontStyle: "italic", marginTop: 4, textAlign: "center" },
   flipEnglish:   { fontSize: 30, fontWeight: "900", textAlign: "center" },
