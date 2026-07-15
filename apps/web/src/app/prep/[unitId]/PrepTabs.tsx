@@ -66,7 +66,7 @@ export default function PrepTabs({
       )}
 
       {tab === "flashcards" && (
-        <FlashcardDeck flashcards={prep.flashcards} />
+        <FlashcardDeck flashcards={prep.flashcards ?? []} />
       )}
     </div>
   );

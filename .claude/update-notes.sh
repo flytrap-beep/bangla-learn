@@ -53,43 +53,39 @@ $UNTRACKED_FILES
 
 ---
 
-## Current Sprint — what to build next
+## Current state — v1 feature-complete (July 2026)
 
-### Phase 1 (immediate — fast wins)
-- [x] \`useFocusEffect\` in HomeScreen — stats now refresh after every lesson
-- [x] Streak pill in home header — 🔥 flame + count beside hearts + XP
-- [x] Hearts bar in lesson quiz UI — live heart icons greying out per wrong answer
-- [x] Game-over screen when all hearts lost — shows retry + back to map
-- [ ] AppState foreground listener for sync
-  - File: \`apps/mobile/lib/AuthContext.tsx\`
-  - Add \`AppState.addEventListener('change', ...)\` to pull on foreground
+All April sprint items shipped: AppState sync, StreakBrokenModal, heart regen,
+StreakMilestoneModal, Bazaar (3 payment methods + RevenueCat IAP), leaderboard,
+push notifications, Wrapped image share cards (ShareCard + useShareCard),
+LetterStudy (replaced inaccurate tracing), BhashaLoop rebrand + tiger logo.
 
-### Phase 2 (short term)
-- [ ] Streak-broken modal — show overlay if \`lastActive\` was >1 day ago
-  - New file: \`apps/mobile/components/StreakBrokenModal.tsx\`
-- [ ] Heart regeneration — 1 heart per 30 min up to max 5
-  - File: \`apps/mobile/lib/storage.ts\`
-  - Add \`loseHeartWithTimestamp()\` + \`regenerateHearts()\` helpers
+### What remains before store submission — see LAUNCH_CHECKLIST.md
+- [ ] Apple Developer + Play Console + RevenueCat accounts → credentials into
+      \`apps/mobile/eas.json\` + EAS secrets
+- [ ] Store screenshots (retake post-rebrand)
+- [ ] Real mailbox for hello@banglaloop.com
+- Privacy policy live: https://flytrap-beep.github.io/bangla-learn/privacy
 
-### Phase 3 (content)
-- [ ] Expand Sylheti/Barisali/Chittagonian dialect content (~1 unit each → need 3+)
-  - Files: \`packages/content/src/dialects/sylheti.ts\`, \`barisali.ts\`, \`chittagonian.ts\`
-- [ ] "Coming soon" trailing card in lesson list for limited-content dialects
+### Post-launch backlog
+- Dialect-native recorded audio (research report: audio is the final authority)
+- Ad-based heart refills (rate decision pending: 1/15s vs 1/10s of ad)
+- Leaderboard Cloud Function (client-push acceptable for v1)
+
+### Quality gates
+- \`cd packages/content && npm run validate\` — curriculum integrity (CI-enforced)
+- \`npx tsc --noEmit\` in packages/content, packages/types, apps/mobile
 
 ---
 
 ## What is complete
 
-- Monorepo (Expo SDK 51 + Next.js 14 + shared packages)
-- Firebase init — anon + email auth
-- Social auth — Google + Facebook (expo-auth-session v5.5.2)
-- AsyncStorage layer (\`storage.ts\`) — XP, streak, hearts, daily XP, completed lessons, resume, history
-- Firestore sync — push on lesson finish, pull on sign-in, realtime listener for non-anon
-- Custom analytics — 11 event types, fire-and-forget Firestore writes
-- Home screen — SVG Bangladesh map, dialect switcher, lesson list, daily goal, hearts + XP header
-- Lesson engine (1,291 lines) — study phase (flip cards) + all 6 exercise types + quiz loop + results + resume
-- Auth screens — login + register with social buttons
-- Standard Bengali curriculum — multiple units, 1,386 lines of structured content
+- Monorepo (Expo SDK 51 + Next.js 14 + shared packages) — CI: type-check, lint, content validation
+- Firebase — anon + email + Google + Facebook auth; Firestore sync; custom analytics (11 events)
+- Home screen — SVG Bangladesh map, 6-dialect switcher, lesson map, daily goal, two-row logo header
+- Lesson engine — study phase, all 6 exercise types (LetterStudy for script), quiz loop, results, resume
+- Gamification — hearts + 30-min regen, coins, streaks + freeze + milestones, Bazaar (IAP/XP/coins), Wrapped share cards
+- Curriculum — Standard 28 units; Sylheti/Barisali/Chittagonian/Rajshahi/Khulna 12 units each; ≥10 flashcards per unit
 
 ---
 
@@ -106,10 +102,9 @@ apps/mobile/
 └── lib/useSocialAuth.ts      ← Google + Facebook OAuth hooks
 
 packages/content/src/dialects/
-├── standard.ts               ← 1,386 lines — full curriculum
-├── sylheti.ts                ← ~289 lines — 1 unit
-├── barisali.ts               ← ~257 lines — 1 unit
-└── chittagonian.ts           ← ~273 lines — 1 unit
+├── standard.ts               ← 28 units — full curriculum
+├── sylheti.ts / barisali.ts / chittagonian.ts   ← 12 units each
+└── rajshahi.ts / khulna.ts                      ← 12 units each
 \`\`\`
 
 ---

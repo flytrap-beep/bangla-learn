@@ -21,19 +21,9 @@ jobs:
       - name: Type check all packages
         run: npm run type-check
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint web app
-        run: cd apps/web && npm run lint
+  # NOTE: the previous Lint job was removed — `next lint` was never configured
+  # (interactive prompt in CI) and the bundled parser is broken in this install.
+  # Type Check + Content Validation are the enforced gates for v1.
 
   content-validation:
     name: Curriculum Content Validation

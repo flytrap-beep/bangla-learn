@@ -31,6 +31,7 @@ export function LessonMap({ curriculum, completedLessonIds, dialect }: Props) {
   return (
     <div className="space-y-10">
       {curriculum.units.map((unit) => {
+        const unitColor = unit.color ?? "#1b4d3e"; // fall back to brand green
         const completedInUnit = unit.lessons.filter((l) =>
           completedLessonIds.has(l.id)
         ).length;
@@ -41,7 +42,7 @@ export function LessonMap({ curriculum, completedLessonIds, dialect }: Props) {
             {/* Unit header */}
             <div
               className="rounded-3xl p-5 mb-4 text-white relative overflow-hidden"
-              style={{ backgroundColor: unit.color }}
+              style={{ backgroundColor: unitColor }}
             >
               {/* Subtle pattern */}
               <div className="absolute right-4 top-4 text-white opacity-10 text-8xl font-bold bangla select-none">
@@ -85,12 +86,12 @@ export function LessonMap({ curriculum, completedLessonIds, dialect }: Props) {
               <Link
                 href={`/prep/${unit.id}?dialect=${dialect}`}
                 className="flex items-center justify-between w-full bg-white border-2 rounded-2xl px-4 py-3 mb-6 shadow-sm hover:shadow-md transition-all duration-200 group"
-                style={{ borderColor: unit.color + "60" }}
+                style={{ borderColor: unitColor + "60" }}
               >
                 <div className="flex items-center gap-3">
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                    style={{ backgroundColor: unit.color + "20" }}
+                    style={{ backgroundColor: unitColor + "20" }}
                   >
                     📚
                   </div>
@@ -142,15 +143,15 @@ export function LessonMap({ curriculum, completedLessonIds, dialect }: Props) {
                             }`}
                             style={
                               isCompleted
-                                ? { backgroundColor: unit.color, borderColor: unit.color + "cc", boxShadow: `0 5px 0 ${unit.color}88` }
+                                ? { backgroundColor: unitColor, borderColor: unitColor + "cc", boxShadow: `0 5px 0 ${unitColor}88` }
                                 : {}
                             }
                           >
                             {isCompleted
                               ? <StarIcon size={26} color="white" />
-                              : <LessonIconComponent title={lesson.title} color={unit.color} />
+                              : <LessonIconComponent title={lesson.title} color={unitColor} />
                             }
-                            <span className="text-xs mt-0.5 font-bold" style={{ color: isCompleted ? "white" : unit.color }}>
+                            <span className="text-xs mt-0.5 font-bold" style={{ color: isCompleted ? "white" : unitColor }}>
                               {isCompleted ? `+${lesson.xpReward}` : `L${lesson.order}`}
                             </span>
                           </button>
@@ -175,7 +176,7 @@ export function LessonMap({ curriculum, completedLessonIds, dialect }: Props) {
               {unitComplete && (
                 <div
                   className="mt-2 flex items-center gap-3 px-5 py-3 rounded-2xl text-white text-sm font-bold shadow-md"
-                  style={{ backgroundColor: unit.color }}
+                  style={{ backgroundColor: unitColor }}
                 >
                   <TrophyIcon size={28} color="white" />
                   <div>

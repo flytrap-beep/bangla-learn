@@ -51,7 +51,7 @@ export default async function PrepPage({ params, searchParams }: Props) {
       </div>
 
       {/* Tabs content */}
-      <PrepTabs prep={unit.prep} unitColor={unit.color} />
+      <PrepTabs prep={unit.prep} unitColor={unit.color ?? "#1b4d3e"} />
 
       {/* Start Unit CTA */}
       <div className="max-w-lg mx-auto px-6 pb-12 pt-6">
