@@ -2,10 +2,13 @@
 // Shown when the user hits a 7, 14, or 30-day streak.
 // Awards bonus coins and celebrates with animation.
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { T, SHADOW, FONT } from "@/lib/theme";
+import { addCoinsForShare, getStats } from "@/lib/storage";
+import ShareCard from "@/components/ShareCard";
+import { useShareCard } from "@/lib/useShareCard";
 
 export const STREAK_MILESTONES = [7, 14, 30] as const;
 export type StreakMilestone = typeof STREAK_MILESTONES[number];
@@ -48,8 +51,28 @@ export default function StreakMilestoneModal({ visible, milestone, onDismiss }: 
     }
   }, [visible]);
 
+  const [totalXp, setTotalXp]   = useState(0);
+  const [hasShared, setHasShared] = useState(false);
+  const { cardRef, shareCardAsImage } = useShareCard();
+
+  useEffect(() => {
+    if (visible) {
+      setHasShared(false);
+      getStats().then((st) => setTotalXp(st.totalXp));
+    }
+  }, [visible]);
+
   if (!milestone) return null;
   const data = MILESTONE_DATA[milestone];
+
+  async function handleShare() {
+    const text = `🔥 ${milestone}-day Bengali learning streak on BhashaLoop! Join me and learn Bangla — 6 dialects, free. #BhashaLoop`;
+    const shared = await shareCardAsImage(text);
+    if (shared && !hasShared) {
+      setHasShared(true);
+      await addCoinsForShare("streak");
+    }
+  }
 
   return (
     <Modal visible={visible} transparent animationType="none" onRequestClose={onDismiss}>
@@ -74,6 +97,17 @@ export default function StreakMilestoneModal({ visible, milestone, onDismiss }: 
           {/* Divider */}
           <View style={s.divider} />
 
+          {/* Share for coins */}
+          <TouchableOpacity
+            style={[s.shareBtn, hasShared && { opacity: 0.5 }]}
+            onPress={handleShare}
+            disabled={hasShared}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="share-social-outline" size={16} color={T.green} />
+            <Text style={s.shareText}>{hasShared ? "Shared ✓" : "Share & earn 5 coins"}</Text>
+          </TouchableOpacity>
+
           {/* CTA */}
           <TouchableOpacity
             style={[s.btn, { backgroundColor: data.color }]}
@@ -84,6 +118,11 @@ export default function StreakMilestoneModal({ visible, milestone, onDismiss }: 
             <Ionicons name="flame" size={16} color={T.white} />
           </TouchableOpacity>
         </Animated.View>
+
+        {/* Off-screen capture target for the share image */}
+        <View style={{ position: "absolute", left: -9999, top: 0 }} pointerEvents="none">
+          <ShareCard ref={cardRef} card={{ kind: "streak", streak: milestone, totalXp, milestone: true }} />
+        </View>
       </Animated.View>
     </Modal>
   );
@@ -118,4 +157,10 @@ const s = StyleSheet.create({
     marginTop: 4,
   },
   btnText: { fontFamily: FONT.bold, fontSize: 15, color: T.white },
+  shareBtn: {
+    flexDirection: "row", alignItems: "center", gap: 6,
+    borderWidth: 2, borderColor: T.green, borderRadius: 12,
+    paddingVertical: 10, paddingHorizontal: 20,
+  },
+  shareText: { fontFamily: FONT.bold, fontSize: 13, color: T.green },
 });

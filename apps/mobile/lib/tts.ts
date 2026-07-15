@@ -59,6 +59,8 @@ export async function speakWithDialect(text: string, dialect: string): Promise<v
     sylheti:      0.80, // slightly slower — Sylheti has distinct sounds
     barisali:     0.85,
     chittagonian: 0.78, // slowest — most distinct from standard
+    rajshahi:     0.85, // close to standard
+    khulna:       0.85, // close to standard
   };
   const rate = rates[dialect] ?? 0.85;
   if (_speaking) Speech.stop();

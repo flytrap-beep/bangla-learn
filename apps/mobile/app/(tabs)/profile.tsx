@@ -13,6 +13,9 @@ import { useAuth } from "@/lib/AuthContext";
 import { logOut } from "@/lib/auth";
 import { T, SHADOW, FONT, MICRO } from "@/lib/theme";
 import { trackScreenView } from "@/lib/analytics";
+import ShareCard from "@/components/ShareCard";
+import type { ShareCardData } from "@/components/ShareCard";
+import { useShareCard } from "@/lib/useShareCard";
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
@@ -261,6 +264,8 @@ export default function ProfileScreen() {
   const [history,  setHistory]  = useState<LessonAttempt[]>([]);
   const [coins,    setCoins]    = useState(0);
   const [sharedToday, setSharedToday] = useState<Set<string>>(new Set());
+  const [pendingCard, setPendingCard] = useState<ShareCardData | null>(null);
+  const { cardRef, shareCardAsImage } = useShareCard();
 
   const fadeAnim  = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
@@ -302,15 +307,30 @@ export default function ProfileScreen() {
     const COIN_LABELS: Record<string, string> = {
       streak: "5 coins", invite: "15 coins", report_card: "3 coins",
     };
-    try {
-      const result = await Share.share({ message: MESSAGES[action] });
-      if (result.action === Share.sharedAction) {
-        const earned = await addCoinsForShare(action);
-        setCoins((c) => c + earned);
-        setSharedToday((s) => new Set([...s, action]));
-        Alert.alert("Thanks for sharing! 🎉", `You earned ${COIN_LABELS[action]} for sharing.`);
-      }
-    } catch {}
+    let shared = false;
+    if (action === "invite") {
+      // Invites share better as text — the message carries the pitch/link.
+      try {
+        const result = await Share.share({ message: MESSAGES[action] });
+        shared = result.action === Share.sharedAction;
+      } catch {}
+    } else {
+      // Streak + report card share as branded image cards.
+      const card: ShareCardData = action === "streak"
+        ? { kind: "streak", streak: stats.currentStreak, totalXp: stats.totalXp }
+        : { kind: "profile_report", totalXp: stats.totalXp, lessons: totalLessons,
+            streak: stats.currentStreak, dialects: dialectsStarted };
+      setPendingCard(card);
+      await new Promise((r) => setTimeout(r, 100)); // let the off-screen card mount
+      shared = await shareCardAsImage(MESSAGES[action]);
+      setPendingCard(null);
+    }
+    if (shared) {
+      const earned = await addCoinsForShare(action);
+      setCoins((c) => c + earned);
+      setSharedToday((s) => new Set([...s, action]));
+      Alert.alert("Thanks for sharing! 🎉", `You earned ${COIN_LABELS[action]} for sharing.`);
+    }
   }
 
   return (
@@ -475,6 +495,13 @@ export default function ProfileScreen() {
           </View>
 
           <AccountCard />
+
+          {/* Off-screen capture target for image sharing */}
+          {pendingCard && (
+            <View style={{ position: "absolute", left: -9999, top: 0 }} pointerEvents="none">
+              <ShareCard ref={cardRef} card={pendingCard} />
+            </View>
+          )}
 
           {/* ── Recent activity ── */}
           {history.length > 0 && (

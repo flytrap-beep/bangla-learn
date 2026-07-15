@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View, Text, TouchableOpacity, StyleSheet, TextInput, Keyboard,
-  SafeAreaView, ScrollView, Animated, Platform, Share, Dimensions,
+  SafeAreaView, ScrollView, Animated, Platform, Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -27,6 +27,8 @@ import * as Haptics from "expo-haptics";
 import LetterStudy from "@/components/LetterStudy";
 import GreetingScene from "@/components/GreetingScene";
 import SpeakButton from "@/components/SpeakButton";
+import ShareCard from "@/components/ShareCard";
+import { useShareCard } from "@/lib/useShareCard";
 import { T } from "@/lib/theme";
 import { useSound } from "@/lib/useSound";
 
@@ -771,6 +773,8 @@ export default function LessonScreen() {
   const [correct, setCorrect]           = useState(0);
   const [finished, setFinished]         = useState(false);
   const [hasShared, setHasShared]       = useState(false);
+  const [streakNow, setStreakNow]       = useState(0);
+  const { cardRef, shareCardAsImage }   = useShareCard();
   const [dailyInfo, setDailyInfo]       = useState<{ xpToday: number; goal: number; done: boolean } | null>(null);
   const [resumeBanner, setResumeBanner] = useState(false);
   const trophyScale = useRef(new Animated.Value(0)).current;
@@ -792,6 +796,8 @@ export default function LessonScreen() {
   // Extract the bangla text to speak for exercise types where it makes sense.
   // translate_to_bangla and match_pairs are intentionally excluded —
   // the user should work those out before hearing the answer.
+  // letter_trace is excluded too: LetterStudy auto-plays its own audio,
+  // and speaking here as well would cut it off (double-speak glitch).
   const exerciseBangla = isActiveQuiz
     ? (() => {
         switch (currentExercise.type) {
@@ -799,8 +805,6 @@ export default function LessonScreen() {
             return currentExercise.bangla;
           case "multiple_choice":
             return currentExercise.promptBangla ?? undefined;
-          case "letter_trace":
-            return currentExercise.character;
           default:
             return undefined;
         }
@@ -808,6 +812,11 @@ export default function LessonScreen() {
     : undefined;
 
   useSound(exerciseAudio, exerciseBangla);
+
+  // Refresh streak for the share card once results show (completeLesson may bump it)
+  useEffect(() => {
+    if (finished) getStats().then((s) => setStreakNow(s.currentStreak));
+  }, [finished]);
 
   // Load starting hearts + check for saved resume state on mount
   useEffect(() => {
@@ -1021,7 +1030,7 @@ export default function LessonScreen() {
             </View>
           )}
 
-          {/* Share & Earn coins */}
+          {/* Share & Earn coins — captures the branded ShareCard as a PNG */}
           <TouchableOpacity
             style={[styles.shareBtn, hasShared && { opacity: 0.5 }]}
             activeOpacity={0.8}
@@ -1033,18 +1042,33 @@ export default function LessonScreen() {
               const msg = lesson.isQuiz
                 ? `🏆 Quiz passed! I scored ${accuracy}% on "${lesson.title}" in BhashaLoop. Shekho Bengali with me!`
                 : `📚 Just completed "${lesson.title}" in BhashaLoop — earned +${totalXp} XP with ${accuracy}% accuracy! #BhashaLoop`;
-              try {
-                const result = await Share.share({ message: msg });
-                if (result.action === Share.sharedAction) {
-                  setHasShared(true);
-                  await addCoinsForShare("report_card");
-                }
-              } catch {}
+              const shared = await shareCardAsImage(msg);
+              if (shared) {
+                setHasShared(true);
+                await addCoinsForShare("report_card");
+              }
             }}
           >
             <Ionicons name="share-social-outline" size={16} color="#b45309" />
             <Text style={styles.shareBtnText}>Share result · earn 3 coins</Text>
           </TouchableOpacity>
+
+          {/* Off-screen capture target for the share image */}
+          <View style={{ position: "absolute", left: -9999, top: 0 }} pointerEvents="none">
+            <ShareCard
+              ref={cardRef}
+              card={{
+                kind: "report_card",
+                lessonTitle: lesson.title,
+                accuracy: lesson.exercises.length > 0
+                  ? Math.round((correct / lesson.exercises.length) * 100)
+                  : 100,
+                xp: totalXp,
+                isQuiz: !!lesson.isQuiz,
+                streak: streakNow,
+              }}
+            />
+          </View>
 
           <View style={styles.finishedBtns}>
             <TouchableOpacity

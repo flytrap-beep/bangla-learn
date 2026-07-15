@@ -5,13 +5,14 @@
 
 import React, { useEffect, useRef } from "react";
 import {
-  Modal, View, Text, TouchableOpacity, StyleSheet,
-  Share, Animated,
+  Modal, View, Text, TouchableOpacity, StyleSheet, Animated,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { T, SHADOW, FONT } from "@/lib/theme";
 import { addCoinsForShare } from "@/lib/storage";
 import type { WeeklyWrappedData } from "@/lib/storage";
+import ShareCard from "@/components/ShareCard";
+import { useShareCard } from "@/lib/useShareCard";
 
 type Props = {
   visible:   boolean;
@@ -46,6 +47,7 @@ function buildShareText(data: WeeklyWrappedData): string {
 export default function WeeklyWrappedModal({ visible, data, onDismiss }: Props) {
   const scaleAnim = useRef(new Animated.Value(0.7)).current;
   const opacAnim  = useRef(new Animated.Value(0)).current;
+  const { cardRef, shareCardAsImage } = useShareCard();
 
   useEffect(() => {
     if (visible) {
@@ -62,12 +64,8 @@ export default function WeeklyWrappedModal({ visible, data, onDismiss }: Props) 
   if (!data) return null;
 
   async function handleShare() {
-    try {
-      const result = await Share.share({ message: buildShareText(data!) });
-      if (result.action === Share.sharedAction) {
-        await addCoinsForShare("wrapped");
-      }
-    } catch {}
+    const shared = await shareCardAsImage(buildShareText(data!));
+    if (shared) await addCoinsForShare("wrapped");
     onDismiss();
   }
 
@@ -117,6 +115,11 @@ export default function WeeklyWrappedModal({ visible, data, onDismiss }: Props) 
           </TouchableOpacity>
 
         </Animated.View>
+
+        {/* Off-screen capture target for the share image */}
+        <View style={{ position: "absolute", left: -9999, top: 0 }} pointerEvents="none">
+          <ShareCard ref={cardRef} card={{ kind: "wrapped", data }} />
+        </View>
       </Animated.View>
     </Modal>
   );
