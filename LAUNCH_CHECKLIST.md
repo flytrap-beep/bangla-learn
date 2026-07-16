@@ -93,11 +93,11 @@ npx eas submit --platform android --profile production
 
 ## 6. Store assets (manual)
 
-- [ ] Screenshots: 6.7" iPhone (1290×2796) + 6.5" + iPad if targeting tablets; Android
-      phone + 7"/10" tablets. Capture from Expo Go / simulator: home map, a lesson,
-      LetterStudy card, Bazaar, profile. The old screenshot pack is in
-      `~/Desktop/bangla-learn/banglalearn-screenshot-pack/` but predates the rebrand —
-      retake with the tiger logo header.
+- [x] 6.9" screenshots started — `apps/mobile/store-assets/screenshots-6.9/` at
+      1320×2868 (home dialect map, study card). Captured headlessly with
+      `xcrun simctl io "iPhone 17 Pro Max" screenshot <path>`.
+- [ ] Capture the remaining screens the same way: a quiz question, lesson results +
+      Wrapped share card, the Bazaar. See `store-assets/README.md`.
 - [ ] Feature graphic (Android, 1024×500) — can be derived from the press-kit hero.
 
 ## 7. Known follow-ups (post-launch, not blockers)
