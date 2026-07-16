@@ -20,8 +20,8 @@ import { useShareCard } from "@/lib/useShareCard";
 type IoniconsName = React.ComponentProps<typeof Ionicons>["name"];
 
 // ── Legal ─────────────────────────────────────────────────────────────────────
-// Replace with your hosted privacy policy URL before submitting to the App Store.
-const PRIVACY_POLICY_URL = "https://bhashaloop.com/privacy";
+// Publicly hosted via GitHub Pages (docs/privacy.md) — updates on push to main.
+const PRIVACY_POLICY_URL = "https://flytrap-beep.github.io/bangla-learn/privacy";
 
 // ── Level system ───────────────────────────────────────────────────────────────
 const LEVELS = [
